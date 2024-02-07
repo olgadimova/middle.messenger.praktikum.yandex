@@ -1,7 +1,9 @@
-import { defineConfig } from "vite";
-import handlebars from "vite-plugin-handlebars";
+import { defineConfig } from 'vite'
+import handlebars from 'vite-plugin-handlebars'
+import { resolve } from 'path'
 
 export default defineConfig({
+  root: resolve(__dirname, 'src'),
   server: {
     port: 3000,
   },
@@ -10,4 +12,14 @@ export default defineConfig({
       context: {},
     }),
   ],
-});
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "/styles/style.css";
+          @import "/styles/variables.scss";
+        `,
+      },
+    },
+  },
+})
