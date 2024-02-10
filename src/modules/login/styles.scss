@@ -1,9 +1,11 @@
 .login {
-  min-width: 350px;
+  width: 350px;
   padding: 40px;
   border: 1px solid $border;
   border-radius: 12px;
   background-color: $backgroundLight;
+  margin: auto;
+  text-align: center;
 }
 
 .title {
