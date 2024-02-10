@@ -3,18 +3,15 @@
   width: 50%;
 }
 
-.profileHeader {
-  text-align: center;
+.formInfo {
+  margin: 20px 0 50px 0;
 }
 
-.profileInfoTable {
-  margin: 20px 0 50px 0;
+.submitButton {
+  margin: 30px auto;
+  width: 50%;
 }
 
 .logoutButton {
   color: $error;
-}
-
-.profileAvatar {
-  cursor: pointer;
 }

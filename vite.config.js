@@ -12,6 +12,15 @@ export default defineConfig({
       partialDirectory: resolve(__dirname, 'src/shared/components'),
       context: {
         selectedChatId: 1,
+        user: {
+          id: 1,
+          email: 'pochta@smth.com',
+          login: 'ivanchik',
+          display_name: 'Ваня',
+          first_name: 'Иван',
+          second_name: 'Иванов',
+          phone: '+7 (999) 123-45-67',
+        },
         chats: [
           {
             id: 1,

@@ -80,13 +80,13 @@ input {
 }
 
 input::placeholder {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 img {
-  vertical-align: middle
+  vertical-align: middle;
 }
 
 hr {
-  border: 1px solid #333333
+  border: 1px solid #333333;
 }

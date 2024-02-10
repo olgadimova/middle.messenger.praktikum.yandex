@@ -12,25 +12,18 @@
     <div id="app">
         <main>
             <div class="profile">
-                <div class="profileHeader">
-                    <label for="avatar" class="profileAvatar">
-                        <img src="/assets/avatar.svg" width="100px" height="100px" alt="user avatar image" />
-                        <input id="avatar" name="avatar" type="file" hidden />
-                    </label>
-
-                    <h3 class="title">Иван</h3>
+                {{> profile_header/profile_header userName="Иван"}}
+                <div class="formInfo">
+                    {{> labeled_field/labeled_field title="Почта" value=user.email }}
+                    {{> labeled_field/labeled_field title="Логин" value=user.login}}
+                    {{> labeled_field/labeled_field title="Имя" value=user.first_name}}
+                    {{> labeled_field/labeled_field title="Фамилия" value=user.second_name}}
+                    {{> labeled_field/labeled_field title="Имя в чате" value=user.display_name}}
+                    {{> labeled_field/labeled_field title="Телефон" value=user.phone}}
                 </div>
-                <div class="profileInfoTable">
-                    {{> labeled_field/labeled_field title="Почта" value="pochta@smth.com"}}
-                    {{> labeled_field/labeled_field title="Логин" value="ivanchik"}}
-                    {{> labeled_field/labeled_field title="Имя" value="Иван"}}
-                    {{> labeled_field/labeled_field title="Фамилия" value="Иванов"}}
-                    {{> labeled_field/labeled_field title="Имя в чате" value="Ваня"}}
-                    {{> labeled_field/labeled_field title="Телефон" value="+7 (999) 123-45-67"}}
-                </div>
-                <a href="/profile-change">Изменить данные</a>
+                <a href="/profile-update">Изменить данные</a>
                 <hr />
-                <a href="/password-change">Изменить пароль</a>
+                <a href="/password-update">Изменить пароль</a>
                 <hr />
                 <a href="/" class="logoutButton">Выйти</a>
 
