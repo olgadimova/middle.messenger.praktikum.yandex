@@ -1,0 +1,20 @@
+.profile {
+  margin: auto;
+  width: 50%;
+}
+
+.profileHeader {
+  text-align: center;
+}
+
+.profileInfoTable {
+  margin: 20px 0 50px 0;
+}
+
+.logoutButton {
+  color: $error;
+}
+
+.profileAvatar {
+  cursor: pointer;
+}

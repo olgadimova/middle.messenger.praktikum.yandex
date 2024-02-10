@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Профиль - Module 1</title>
+    <link href="../modules/profile/styles.scss" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <main>
+            <div class="profile">
+                <div class="profileHeader">
+                    <label for="avatar" class="profileAvatar">
+                        <img src="/assets/avatar.svg" width="100px" height="100px" alt="user avatar image" />
+                        <input id="avatar" name="avatar" type="file" hidden />
+                    </label>
+
+                    <h3 class="title">Иван</h3>
+                </div>
+                <div class="profileInfoTable">
+                    {{> labeled_field/labeled_field title="Почта" value="pochta@smth.com"}}
+                    {{> labeled_field/labeled_field title="Логин" value="ivanchik"}}
+                    {{> labeled_field/labeled_field title="Имя" value="Иван"}}
+                    {{> labeled_field/labeled_field title="Фамилия" value="Иванов"}}
+                    {{> labeled_field/labeled_field title="Имя в чате" value="Ваня"}}
+                    {{> labeled_field/labeled_field title="Телефон" value="+7 (999) 123-45-67"}}
+                </div>
+                <a href="/profile-change">Изменить данные</a>
+                <hr />
+                <a href="/password-change">Изменить пароль</a>
+                <hr />
+                <a href="/" class="logoutButton">Выйти</a>
+
+                {{> back_button/back_button to="/chat"}}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
