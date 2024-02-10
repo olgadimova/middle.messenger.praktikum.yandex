@@ -5,14 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Регистрация - Module 1</title>
-  <link href="../modules/register/styles.scss" rel="stylesheet" />
+  <link href="../modules/auth/styles.scss" rel="stylesheet" />
 </head>
 
 <body>
   <div id="app">
     <main>
-      <section class="register">
-        <h1 class="title">Регистрация</h1>
+      <section class="authForm">
+        <h1 class="autTitle">Регистрация</h1>
         <form>
           {{> input/input id="fieldEmail" type="email" name="email" placeholder="Введите почту" label="Почта" }}
           {{> input/input type="text" id="fieldLogin" name="login" placeholder="Введите логин" label="Логин"}}
@@ -26,7 +26,7 @@
           label="Пароль"}}
           {{> input/input type="password" id="fieldCheckPassword" name="check_password"
           placeholder="Введите пароль еще раз" label="Пароль еще раз" error="Пароли не совпадают"}}
-          <div class="formActionButtons">
+          <div class="authActionButtons">
             {{> button/button type="submit" label="Зарегистрироваться"}}
             <a href="/login">Вход</a>
           </div>

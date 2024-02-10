@@ -5,20 +5,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Логин - Module 1</title>
-  <link href="../modules/login/styles.scss" rel="stylesheet" />
+  <link href="../modules/auth/styles.scss" rel="stylesheet" />
 </head>
 
 <body>
   <div id="app">
     <main>
-      <div class="login">
-        <h1 class="title">Вход</h1>
+      <div class="authForm">
+        <h1 class="authTitle">Вход</h1>
         <form>
           {{> input/input type="text" id="fieldLogin" name="login"
           placeholder="Введите логин" label="Логин"}}
           {{> input/input type="password" id="fieldPassword" name="password"
           placeholder="Введите пароль" label="Пароль"}}
-          <div class="formActionButtons">
+          <div class="authActionButtons">
             {{> button/button type="submit" label="Войти"}}
             <a href="/register">Нет аккаунта?</a>
           </div>
