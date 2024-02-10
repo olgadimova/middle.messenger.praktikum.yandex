@@ -9,6 +9,7 @@ export default defineConfig({
   },
   plugins: [
     handlebars({
+      partialDirectory: resolve(__dirname, 'src/shared/components'),
       context: {
         selectedChatId: 1,
         chats: [
@@ -93,8 +94,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @import "/styles/style.css";
-          @import "/styles/variables.scss";
+          @import "/shared/style.css";
+          @import "/shared/variables.scss";
+          @import "/shared/components/index.scss";
         `,
       },
     },

@@ -1,44 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Логин - Module 1</title>
-    <link href="../modules/login/styles.scss" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="app">
-      <main>
-        <div class="login">
-          <h1 class="title">Вход</h1>
-          <form class="loginForm">
-            <div class="formField">
-              <label for="fieldLogin" class="fieldLabel">Логин</label>
-              <input
-                id="fieldLogin"
-                type="text"
-                name="login"
-                class="fieldInput"
-                placeholder="Введите логин"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldPassword" class="fieldLabel">Пароль</label>
-              <input
-                id="fieldPassword"
-                type="password"
-                name="password"
-                class="fieldInput"
-                placeholder="Введите пароль"
-              />
-            </div>
-            <div class="formActionButtons">
-              <button type="submit" class="submitButton">Войти</button>
-              <a href="/register">Нет аккаунта?</a>
-            </div>
-          </form>
-        </div>
-      </main>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Логин - Module 1</title>
+  <link href="../modules/login/styles.scss" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="app">
+    <main>
+      <div class="login">
+        <h1 class="title">Вход</h1>
+        <form>
+          {{> input/input type="text" id="fieldLogin" name="login"
+          placeholder="Введите логин" label="Логин"}}
+          {{> input/input type="password" id="fieldPassword" name="password"
+          placeholder="Введите пароль" label="Пароль"}}
+          <div class="formActionButtons">
+            {{> button/button type="submit" label="Войти"}}
+            <a href="/register">Нет аккаунта?</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+
 </html>

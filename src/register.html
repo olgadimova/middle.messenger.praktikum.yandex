@@ -1,99 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Регистрация - Module 1</title>
-    <link href="../modules/register/styles.scss" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="app">
-      <main>
-        <section class="register">
-          <h1 class="title">Регистрация</h1>
-          <form class="registerForm">
-            <div class="formField">
-              <label for="fieldEmail" class="fieldLabel">Почта</label>
-              <input
-                id="fieldEmail"
-                type="email"
-                name="email"
-                class="fieldInput"
-                placeholder="Введите почту"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldLogin" class="fieldLabel">Логин</label>
-              <input
-                id="fieldLogin"
-                type="text"
-                name="login"
-                class="fieldInput"
-                placeholder="Введите логин"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldFirstName" class="fieldLabel">Имя</label>
-              <input
-                id="fieldFirstName"
-                type="text"
-                name="first_name"
-                class="fieldInput"
-                placeholder="Введите имя"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldSecondaName" class="fieldLabel">Фамилия</label>
-              <input
-                id="fieldSecondaName"
-                type="text"
-                name="second_name"
-                class="fieldInput"
-                placeholder="Введите фамилию"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldPhone" class="fieldLabel">Телефон</label>
-              <input
-                id="fieldPhone"
-                type="text"
-                name="phone"
-                class="fieldInput"
-                placeholder="Введите телефон"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldPassword" class="fieldLabel">Пароль</label>
-              <input
-                id="fieldPassword"
-                type="password"
-                name="password"
-                class="fieldInput"
-                placeholder="Введите пароль"
-              />
-            </div>
-            <div class="formField">
-              <label for="fieldCheckPassword" class="fieldLabel"
-                >Пароль еще раз</label
-              >
-              <input
-                id="fieldCheckPassword"
-                type="password"
-                name="check_password"
-                class="fieldInput"
-                placeholder="Введите пароль еще раз"
-              />
-              <p class="fieldError">Пароли не совпадают</p>
-            </div>
-            <div class="formActionButtons">
-              <button type="submit" class="submitButton">
-                Зарегистрироваться
-              </button>
-              <a href="/login">Вход</a>
-            </div>
-          </form>
-        </section>
-      </main>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Регистрация - Module 1</title>
+  <link href="../modules/register/styles.scss" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="app">
+    <main>
+      <section class="register">
+        <h1 class="title">Регистрация</h1>
+        <form>
+          {{> input/input id="fieldEmail" type="email" name="email" placeholder="Введите почту" label="Почта" }}
+          {{> input/input type="text" id="fieldLogin" name="login" placeholder="Введите логин" label="Логин"}}
+          {{> input/input id="fieldFirstName" type="text" name="first_name" class="fieldInput" placeholder="Введите имя"
+          label="Имя" }}
+          {{> input/input id="fieldSecondaName" type="text" name="second_name" class="fieldInput" label="Фамилия"
+          placeholder="Введите фамилию" }}
+          {{> input/input id="fieldPhone" type="text" name="phone" class="fieldInput" placeholder="Введите телефон"
+          label="Телефон" }}
+          {{> input/input type="password" id="fieldPassword" name="password" placeholder="Введите пароль"
+          label="Пароль"}}
+          {{> input/input type="password" id="fieldCheckPassword" name="check_password"
+          placeholder="Введите пароль еще раз" label="Пароль еще раз" error="Пароли не совпадают"}}
+          <div class="formActionButtons">
+            {{> button/button type="submit" label="Зарегистрироваться"}}
+            <a href="/login">Вход</a>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+
 </html>
