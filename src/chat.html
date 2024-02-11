@@ -27,10 +27,14 @@
             </div>
             <div class="itemInfo">
               <p>{{this.title}}</p>
-              <p class="itemDescription">{{this.lastMessage.title}}</p>
+              <p class="itemDescription">
+                {{this.lastMessage.title}}
+              </p>
             </div>
             <div>
-              <p class="itemStatusTime">{{this.lastMessage.createdAt}}</p>
+              <p class="itemStatusTime">
+                {{this.lastMessage.createdAt}}
+              </p>
               {{#if this.unreadMessages }}
               <div class="itemStatusUnread">
                 <span>{{this.unreadMessages}}</span>
@@ -44,28 +48,36 @@
       <section class="chat">
         <div class="chatHeader">
           <div class="chatTitle">
-            <div class="chatAvatar" style="color: white; fill: white">
+            <div class="chatAvatar">
               <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
             </div>
             <p>Вадим</p>
           </div>
-          <button type="button" class="manageChatButton">
-            <img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />
-          </button>
+          <div class="manageChat">
+            <button type="button" id="toggleManageChatModal" class="manageChatButton">
+              <img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />
+            </button>
+            <div id="manageChatModal" class="manageChatMenu" style="display: none;">
+              {{> button/button type="button" label="Добавить Пользователя" value="addChatUser"
+              class="chatControls"}}
+              {{> button/button type="button" label="Удалить Пользователя" value="deleteChatUser"
+              class="chatControls"}}
+            </div>
+          </div>
         </div>
         <div class="chatBody">
           {{#if selectedChatId}}
-          <div>
-            <p class="chatMessageDate">19 июня</p>
+          <div class="chatNotEmpty">
+            <p class="chatMessageDate">20 июня</p>
             <div class="myMessage">
-              <p>this is my message</p>
+              <p>Мое сообщение</p>
               <div class="chatMessageTime">
                 <img src="/assets/check.svg" width="10px" height="10px" />
                 <span>12:00</span>
               </div>
             </div>
             <div class="otherMessage">
-              <p>other message</p>
+              <p>Сообщение собеседника</p>
               <div class="chatMessageTime">
                 <img src="/assets/check.svg" width="10px" height="10px" />
                 <span>12:00</span>
@@ -91,8 +103,22 @@
           </form>
         </div>
       </section>
+
+      {{#> modal/modal modalId="addChatUser" title="Добавить пользователя"}}
+      {{> input/input type="text" id="modalInput" name="login" label="Логин"
+      placeholder="Введите имя пользователя"}}
+      {{> button/button type="submit" label="Добавить" }}
+      {{/modal/modal}}
+
+      {{#> modal/modal modalId="deleteChatUser" title="Удалить пользователя"}}
+      {{> input/input type="text" id="modalInput" name="login" label="Логин"
+      placeholder="Введите имя пользователя"}}
+      {{> button/button type="submit" label="Удалить" }}
+      {{/modal/modal}}
     </main>
   </div>
+
+  <script src="../modules/chat/index" async></script>
 </body>
 
 </html>

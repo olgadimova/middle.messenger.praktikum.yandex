@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import handlebars from 'vite-plugin-handlebars'
-import { resolve } from 'path'
+import { defineConfig } from 'vite';
+import handlebars from 'vite-plugin-handlebars';
+import { resolve } from 'path';
 
 export default defineConfig({
   root: resolve(__dirname, 'src'),
@@ -103,11 +103,11 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @import "/shared/style.css";
-          @import "/shared/variables.scss";
+          @import "/shared/styles/variables.scss";
+          @import "/shared/styles/base.scss";
           @import "/shared/components/index.scss";
         `,
       },
     },
   },
-})
+});
