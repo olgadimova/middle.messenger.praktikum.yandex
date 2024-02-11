@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "vite build && node server.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -13,5 +14,11 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-handlebars": "^2.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
