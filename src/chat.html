@@ -46,6 +46,7 @@
         </div>
       </section>
       <section class="chat">
+        {{#if selectedChatId}}
         <div class="chatHeader">
           <div class="chatTitle">
             <div class="chatAvatar">
@@ -66,7 +67,6 @@
           </div>
         </div>
         <div class="chatBody">
-          {{#if selectedChatId}}
           <div class="chatNotEmpty">
             <p class="chatMessageDate">20 июня</p>
             <div class="myMessage">
@@ -84,11 +84,6 @@
               </div>
             </div>
           </div>
-          {{else}}
-          <div class="chatEmpty">
-            <p>Выберите чат чтобы оправить сообщение</p>
-          </div>
-          {{/if}}
         </div>
         <div class="chatFooter">
           <label for="send-file">
@@ -102,6 +97,11 @@
             </button>
           </form>
         </div>
+        {{else}}
+        <div class="chatEmpty">
+          <p>Выберите чат чтобы оправить сообщение</p>
+        </div>
+        {{/if}}
       </section>
 
       {{#> modal/modal modalId="addChatUser" title="Добавить пользователя"}}
