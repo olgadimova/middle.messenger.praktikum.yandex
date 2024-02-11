@@ -19,9 +19,9 @@
         <form class="formSearchChat">
           <input type="text" name="search" placeholder="&#128269;  Поиск" class="searchInput" />
         </form>
-        <div class="sidebarChats">
+        <ul>
           {{#each chats}}
-          <div class="sidebarChatItem">
+          <li class="sidebarChatItem">
             <div class="itemAvatar">
               <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
             </div>
@@ -41,13 +41,13 @@
               </div>
               {{/if}}
             </div>
-          </div>
+          </li>
           {{/each}}
-        </div>
+        </ul>
       </section>
       <section class="chat">
         {{#if selectedChatId}}
-        <div class="chatHeader">
+        <nav class="chatHeader">
           <div class="chatTitle">
             <div class="chatAvatar">
               <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
@@ -65,7 +65,7 @@
               class="chatControls"}}
             </div>
           </div>
-        </div>
+        </nav>
         <div class="chatBody">
           <div class="chatNotEmpty">
             <p class="chatMessageDate">20 июня</p>

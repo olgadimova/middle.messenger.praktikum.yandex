@@ -14,10 +14,12 @@
       <div class="authForm">
         <h1 class="authTitle">Вход</h1>
         <form>
-          {{> input/input type="text" id="fieldLogin" name="login"
-          placeholder="Введите логин" label="Логин"}}
-          {{> input/input type="password" id="fieldPassword" name="password"
-          placeholder="Введите пароль" label="Пароль"}}
+          <ul>
+            {{> input/input type="text" id="fieldLogin" name="login"
+            placeholder="Введите логин" label="Логин"}}
+            {{> input/input type="password" id="fieldPassword" name="password"
+            placeholder="Введите пароль" label="Пароль"}}
+          </ul>
           <div class="authActionButtons">
             {{> button/button type="submit" label="Войти"}}
             <a href="/register">Нет аккаунта?</a>

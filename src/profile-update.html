@@ -14,18 +14,20 @@
             <div class="profile">
                 {{> profile_header/profile_header canEditAvatar="true"}}
                 <form class="formInfo">
-                    {{> labeled_input/labeled_input type="text" id="inputEmail" name="email"
-                    placeholder="pochta@smth.com" value=user.email label="Почта"}}
-                    {{> labeled_input/labeled_input type="text" id="inputLogin" name="login"
-                    placeholder="ivanchik" value=user.login label="Логин"}}
-                    {{> labeled_input/labeled_input type="text" id="inputDisplayName" name="display_name"
-                    placeholder="Иван" value=user.display_name label="Имя в чате"}}
-                    {{> labeled_input/labeled_input type="text" id="inputFirstName" name="first_name"
-                    placeholder="Ваня" value=user.first_name label="Имя"}}
-                    {{> labeled_input/labeled_input type="text" id="inputSecondName" name="second_name"
-                    placeholder="Иванов" value=user.second_name label="Фамилия"}}
-                    {{> labeled_input/labeled_input type="text" id="inputPhone" name="phone"
-                    placeholder="+7 (999) 123-45-67" value=user.phone label="Телефон"}}
+                    <ul>
+                        {{> labeled_input/labeled_input type="text" id="inputEmail" name="email"
+                        placeholder="pochta@smth.com" value=user.email label="Почта"}}
+                        {{> labeled_input/labeled_input type="text" id="inputLogin" name="login"
+                        placeholder="ivanchik" value=user.login label="Логин"}}
+                        {{> labeled_input/labeled_input type="text" id="inputDisplayName" name="display_name"
+                        placeholder="Иван" value=user.display_name label="Имя в чате"}}
+                        {{> labeled_input/labeled_input type="text" id="inputFirstName" name="first_name"
+                        placeholder="Ваня" value=user.first_name label="Имя"}}
+                        {{> labeled_input/labeled_input type="text" id="inputSecondName" name="second_name"
+                        placeholder="Иванов" value=user.second_name label="Фамилия"}}
+                        {{> labeled_input/labeled_input type="text" id="inputPhone" name="phone"
+                        placeholder="+7 (999) 123-45-67" value=user.phone label="Телефон"}}
+                    </ul>
                     <div class="submitButton">
                         {{> button/button type="submit" label="Сохранить"}}
                     </div>

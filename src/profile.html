@@ -14,12 +14,14 @@
             <div class="profile">
                 {{> profile_header/profile_header userName="Иван"}}
                 <div class="formInfo">
-                    {{> labeled_field/labeled_field title="Почта" value=user.email }}
-                    {{> labeled_field/labeled_field title="Логин" value=user.login}}
-                    {{> labeled_field/labeled_field title="Имя" value=user.first_name}}
-                    {{> labeled_field/labeled_field title="Фамилия" value=user.second_name}}
-                    {{> labeled_field/labeled_field title="Имя в чате" value=user.display_name}}
-                    {{> labeled_field/labeled_field title="Телефон" value=user.phone}}
+                    <ul>
+                        {{> labeled_field/labeled_field title="Почта" value=user.email }}
+                        {{> labeled_field/labeled_field title="Логин" value=user.login}}
+                        {{> labeled_field/labeled_field title="Имя" value=user.first_name}}
+                        {{> labeled_field/labeled_field title="Фамилия" value=user.second_name}}
+                        {{> labeled_field/labeled_field title="Имя в чате" value=user.display_name}}
+                        {{> labeled_field/labeled_field title="Телефон" value=user.phone}}
+                    </ul>
                 </div>
                 <a href="/profile-update">Изменить данные</a>
                 <hr />
