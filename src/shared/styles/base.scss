@@ -1,0 +1,96 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba($white, 0.87);
+  background-color: $background;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  color: $primary;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+main {
+  height: 100%;
+  min-height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+p {
+  margin: 0.1em 0;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: $textPrimary;
+  }
+  a:hover {
+    color: $primary;
+  }
+}
+
+input {
+  border-radius: 5px;
+  border: 1px solid $border;
+  padding: 5px 10px;
+  min-height: 40px;
+  background-color: $backgroundInput;
+  color: $textPrimary;
+}
+
+input::placeholder {
+  color: $white;
+}
+
+label {
+  cursor: pointer;
+}
+
+img {
+  vertical-align: middle;
+}
+
+hr {
+  border: 1px solid $border;
+}
+
+ul {
+  padding: 0;
+}

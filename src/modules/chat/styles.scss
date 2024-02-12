@@ -1,0 +1,214 @@
+.sidebar {
+  height: 100%;
+  position: fixed;
+  width: 300px;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  border-right: 2px solid $border;
+
+  .sidebarHeader {
+    text-align: right;
+    padding: 15px 10px;
+  }
+
+  .formSearchChat {
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid $border;
+  }
+
+  .searchInput {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebarChatItem {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 2px solid $border;
+    gap: 10px;
+  }
+
+  .itemInfo {
+    flex: 1;
+
+    & * {
+      margin: 0;
+    }
+  }
+
+  .itemDescription {
+    font-size: $fontSm;
+    color: $textSecondary;
+  }
+
+  .itemStatusTime {
+    font-size: $fontBase;
+    color: $textSecondary;
+  }
+
+  .itemStatusUnread {
+    width: 20px;
+    height: 20px;
+    background-color: $primary;
+    border-radius: 20px;
+    text-align: center;
+    font-size: $fontSm;
+    margin: auto;
+
+    * {
+      vertical-align: middle;
+    }
+  }
+}
+
+.chat {
+  height: 100vh;
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  position: relative;
+
+  .chatHeader {
+    height: 60px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border;
+    padding: 0 20px;
+  }
+
+  .chatTitle {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .manageChat {
+    position: relative;
+    overflow: visible;
+  }
+
+  .manageChatButton {
+    background-color: transparent;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .manageChatMenu {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background-color: $backgroundLight;
+    padding: 5px 10px;
+    flex-direction: column;
+    width: 300px;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid $border;
+    z-index: 10;
+  }
+
+  .chatBody {
+    height: calc(100% - 120px);
+    width: 100%;
+    overflow: hidden;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  .chatNotEmpty {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    max-height: 100%;
+  }
+
+  .chatEmpty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .chatFooter {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 0;
+    padding: 5px 20px;
+    border-top: 1px solid $border;
+    gap: 10px;
+  }
+
+  .formMessage {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+  }
+
+  .formMessageInput {
+    width: 100%;
+  }
+
+  .messageSubmitButton {
+    background-color: $primary;
+  }
+
+  .chatMessageDate {
+    text-align: center;
+    color: $textSecondary;
+  }
+
+  .myMessage {
+    margin-left: auto;
+    width: fit-content;
+    max-width: 50%;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border-bottom-right-radius: 0px;
+    text-align: right;
+    background-color: $primary;
+    margin-bottom: 10px;
+  }
+
+  .otherMessage {
+    width: fit-content;
+    max-width: 50%;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    text-align: right;
+    background-color: $textSecondary;
+    margin-bottom: 10px;
+  }
+
+  .chatMessageTime {
+    color: $textPrimary;
+    font-weight: 500;
+    font-size: $fontXs;
+  }
+}
+
+.chatAvatar {
+  background-color: $border;
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+}

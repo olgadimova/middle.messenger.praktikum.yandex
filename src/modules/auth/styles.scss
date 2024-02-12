@@ -1,0 +1,22 @@
+.authForm {
+  width: 400px;
+  padding: 30px;
+  border: 1px solid $border;
+  border-radius: 12px;
+  background-color: $backgroundLight;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.authTitle {
+  font-size: $fontLg;
+}
+
+.authActionButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
