@@ -71,6 +71,8 @@ input {
   border: 1px solid $border;
   padding: 5px 10px;
   min-height: 40px;
+  background-color: $backgroundInput;
+  color: $textPrimary;
 }
 
 input::placeholder {
