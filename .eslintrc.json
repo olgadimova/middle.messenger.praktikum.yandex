@@ -4,11 +4,16 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "max-len": [2, 100],
-    "@typescript-eslint/no-unused-vars": 2
+    "@typescript-eslint/no-unused-vars": 2,
+    "prefer-const": "off",
+    "func-names": "off"
   },
   "settings": {
     "import/resolver": {
       "typescript": {}
     }
+  },
+  "env": {
+    "browser": true
   }
 }

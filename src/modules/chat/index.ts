@@ -1,9 +1,11 @@
 window.onload = function () {
   function toggleModal(modal: HTMLElement) {
-    if (modal.style.display === 'none') {
-      modal.style.display = 'flex';
+    let modalStyle = modal.style;
+
+    if (modalStyle.display === 'none') {
+      modalStyle.display = 'flex';
     } else {
-      modal.style.display = 'none';
+      modalStyle.display = 'none';
     }
   }
 
@@ -12,11 +14,10 @@ window.onload = function () {
   const manageChatModal = document.getElementById('manageChatModal');
 
   toggleChatMenuButton?.addEventListener('click', () => {
-    if(manageChatModal){
-      toggleModal(manageChatModal)
+    if (manageChatModal) {
+      toggleModal(manageChatModal);
     }
-  }
-);
+  });
 
   // Закрытие модального окна через кнопку X в самом окне
   const closeModalButton = document.querySelectorAll('.closeModal');
@@ -25,13 +26,13 @@ window.onload = function () {
     closeModalButton.forEach((button) => {
       button.addEventListener('click', (event) => {
         const dataToggleName = (event.target as HTMLElement)?.getAttribute('data-toggle');
-        
-        if(dataToggleName){
+
+        if (dataToggleName) {
           const modalByCloseButton = document.getElementById(dataToggleName);
- 
-         if(modalByCloseButton){
-           toggleModal(modalByCloseButton);
-         }
+
+          if (modalByCloseButton) {
+            toggleModal(modalByCloseButton);
+          }
         }
       });
     });
@@ -44,11 +45,11 @@ window.onload = function () {
     button.addEventListener('click', () => {
       const chatControlModal = document.getElementById((button as HTMLButtonElement).value);
 
-      if(manageChatModal){
+      if (manageChatModal) {
         toggleModal(manageChatModal);
       }
-      
-      if(chatControlModal){
+
+      if (chatControlModal) {
         toggleModal(chatControlModal);
       }
     });
