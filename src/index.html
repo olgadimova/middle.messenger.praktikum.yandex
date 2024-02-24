@@ -13,7 +13,7 @@
     <main>
       <div class="authForm">
         <h1 class="authTitle">Вход</h1>
-        <form>
+        <form id="loginForm">
           <ul>
             {{> input/input type="text" id="fieldLogin" name="login"
             placeholder="Введите логин" label="Логин"}}
@@ -28,6 +28,8 @@
       </div>
     </main>
   </div>
+
+  <script src="modules/auth/login.ts" type="module"></script>
 </body>
 
 </html>

@@ -13,7 +13,7 @@
         <main>
             <div class="profile">
                 {{> profile_header/profile_header canEditAvatar="true"}}
-                <form class="formInfo">
+                <form id="profileUpdateForm" class="formInfo">
                     <ul>
                         {{> labeled_input/labeled_input type="text" id="inputEmail" name="email"
                         placeholder="pochta@smth.com" value=user.email label="Почта"}}
@@ -37,6 +37,8 @@
             </div>
         </main>
     </div>
+
+    <script src="modules/profile/profileUpdate.ts" type="module"></script>
 </body>
 
 </html>

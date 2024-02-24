@@ -54,4 +54,15 @@ window.onload = function () {
       }
     });
   });
+
+  function handleSendMessage(event: Event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    console.log(formData.values());
+  }
+
+  const sendMessageForm = document.getElementById('sendMessageForm');
+
+  sendMessageForm?.addEventListener('submit', handleSendMessage);
 };

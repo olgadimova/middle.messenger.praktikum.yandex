@@ -6,7 +6,9 @@
     "max-len": [2, 100],
     "@typescript-eslint/no-unused-vars": 2,
     "prefer-const": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "no-trailing-spaces": "off",
+    "no-restricted-syntax": "off"
   },
   "settings": {
     "import/resolver": {

@@ -86,11 +86,11 @@
           </div>
         </div>
         <div class="chatFooter">
-          <label for="send-file">
-            <img src="/assets/paperclip.svg" width="25px" height="25px" alt="send file" />
-            <input id="send-file" type="file" hidden />
-          </label>
-          <form class="formMessage">
+          <form id="sendMessageForm" class="formMessage">
+            <label for="send-file">
+              <img src="/assets/paperclip.svg" width="25px" height="25px" alt="send file" />
+              <input id="send-file" name="messageFile" type="file" hidden />
+            </label>
             <input name="message" placeholder="Написать сообщение" class="formMessageInput" />
             <button type="submit" class="messageSubmitButton">
               <img src="/assets/arrow-right.svg" width="20px" height="20px" alt="send message arrow icon" />

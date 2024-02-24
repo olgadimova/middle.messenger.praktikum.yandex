@@ -13,7 +13,7 @@
     <main>
       <section class="authForm">
         <h1 class="autTitle">Регистрация</h1>
-        <form>
+        <form id="registerForm">
           <ul>
             {{> input/input id="fieldEmail" type="email" name="email" placeholder="Введите почту" label="Почта" }}
             {{> input/input type="text" id="fieldLogin" name="login" placeholder="Введите логин" label="Логин"}}
@@ -36,6 +36,8 @@
       </section>
     </main>
   </div>
+
+  <script src="modules/auth/register.ts" type="module"></script>
 </body>
 
 </html>
