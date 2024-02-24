@@ -35,7 +35,7 @@ export default defineConfig({
           display_name: 'Ваня',
           first_name: 'Иван',
           second_name: 'Иванов',
-          phone: '+7 (999) 123-45-67',
+          phone: '+79991234567',
         },
         chats: [
           {

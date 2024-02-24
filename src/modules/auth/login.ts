@@ -1,12 +1,35 @@
+import { handleValidateInput } from '../../shared/helpers/input_validation';
+
 window.onload = function () {
+  const formId = 'loginForm';
+
+  const loginForm: HTMLElement | null = document.getElementById(formId);
+  const inputs = document.querySelectorAll(`#${formId} input`);
+
   function handleLogin(event: Event) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    console.log(formData.toString());
+
+    let validationResults: boolean[] = [];
+
+    if (inputs) {
+      inputs.forEach((input) => {
+        validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
+      });
+    }
+
+    if (validationResults.every((isValid) => isValid)) {
+      console.log(formData.toString());
+    }
   }
 
-  const loginForm: HTMLElement | null = document.getElementById('loginForm');
-
   loginForm?.addEventListener('submit', handleLogin);
+
+  // Валидация полей формы логина
+  if (inputs) {
+    inputs.forEach((input) => {
+      input.addEventListener('blur', (event) => handleValidateInput(event.target as HTMLInputElement, formId));
+    });
+  }
 };

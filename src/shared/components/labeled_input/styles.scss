@@ -10,7 +10,17 @@
     font-weight: 500;
   }
 
+  .inputContainer {
+    width: 50%;
+  }
+
   .value {
+    width: 100%;
     color: $textSecondary;
+  }
+
+  .error {
+    color: $error;
+    font-size: $fontSm;
   }
 }

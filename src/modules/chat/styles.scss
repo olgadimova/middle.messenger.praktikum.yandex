@@ -119,7 +119,7 @@
   }
 
   .chatBody {
-    height: calc(100% - 120px);
+    height: calc(100% - 140px);
     width: 100%;
     overflow: hidden;
     margin-top: 60px;
@@ -145,7 +145,7 @@
 
   .chatFooter {
     width: 100%;
-    height: 60px;
+    height: 70px;
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -164,7 +164,14 @@
   }
 
   .formMessageInput {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .fieldError {
+    color: $error;
+    font-size: $fontSm;
   }
 
   .messageSubmitButton {

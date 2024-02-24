@@ -91,7 +91,10 @@
               <img src="/assets/paperclip.svg" width="25px" height="25px" alt="send file" />
               <input id="send-file" name="messageFile" type="file" hidden />
             </label>
-            <input name="message" placeholder="Написать сообщение" class="formMessageInput" />
+            <div class="formMessageInput">
+              <input name="message" placeholder="Написать сообщение" />
+              <p id="error-sendMessageForm-message" class="fieldError"></p>
+            </div>
             <button type="submit" class="messageSubmitButton">
               <img src="/assets/arrow-right.svg" width="20px" height="20px" alt="send message arrow icon" />
             </button>

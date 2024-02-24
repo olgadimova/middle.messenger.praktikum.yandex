@@ -15,9 +15,9 @@
         <h1 class="authTitle">Вход</h1>
         <form id="loginForm">
           <ul>
-            {{> input/input type="text" id="fieldLogin" name="login"
+            {{> input/input formId="loginForm" type="text" id="fieldLogin" name="login"
             placeholder="Введите логин" label="Логин"}}
-            {{> input/input type="password" id="fieldPassword" name="password"
+            {{> input/input formId="loginForm" type="password" id="fieldPassword" name="password"
             placeholder="Введите пароль" label="Пароль"}}
           </ul>
           <div class="authActionButtons">
@@ -30,6 +30,7 @@
   </div>
 
   <script src="modules/auth/login.ts" type="module"></script>
+  <script src="shared/helpers/input_validation.ts" type="module"></script>
 </body>
 
 </html>

@@ -17,7 +17,9 @@
   }
 
   .fieldError {
+    margin-top: 4px;
     color: $error;
     font-size: $fontSm;
+    text-align: left;
   }
 }

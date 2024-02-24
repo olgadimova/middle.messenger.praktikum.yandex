@@ -1,3 +1,5 @@
+import { handleValidateInput } from '../../shared/helpers/input_validation';
+
 window.onload = function () {
   function toggleModal(modal: HTMLElement) {
     let modalStyle = modal.style;
@@ -55,14 +57,37 @@ window.onload = function () {
     });
   });
 
+  // Форма отправки сообщений
+  const formId = 'sendMessageForm';
+
+  const sendMessageForm = document.getElementById(formId);
+  const inputs = document.querySelectorAll(`#${formId} input`);
+
+  // Обработчик сабмита формы отправки сообщения
   function handleSendMessage(event: Event) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    console.log(formData.values());
+
+    let validationResults: boolean[] = [];
+
+    if (inputs) {
+      inputs.forEach((input) => {
+        validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
+      });
+    }
+
+    if (validationResults.every((isValid) => isValid)) {
+      console.log(formData.toString());
+    }
   }
 
-  const sendMessageForm = document.getElementById('sendMessageForm');
-
   sendMessageForm?.addEventListener('submit', handleSendMessage);
+
+  // Валидация полей формы отправки сообщения
+  if (inputs) {
+    inputs.forEach((input) => {
+      input.addEventListener('blur', (event) => handleValidateInput(event.target as HTMLInputElement, formId));
+    });
+  }
 };
