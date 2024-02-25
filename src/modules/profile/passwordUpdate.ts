@@ -1,12 +1,12 @@
 import { handleCheckPasswordValidate, handleValidateInput } from '../../shared/helpers/input_validation';
 
 window.onload = function () {
-  const formId = 'registerForm';
+  const formId = 'passwordUpdateForm';
 
-  const registerForm: HTMLElement | null = document.getElementById(formId);
+  const profileUpdateForm: HTMLElement | null = document.getElementById(formId);
   const inputs = document.querySelectorAll(`#${formId} input`);
 
-  function handleRegister(event: Event) {
+  function handleUpdatePassword(event: Event) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
@@ -15,8 +15,8 @@ window.onload = function () {
 
     if (inputs) {
       inputs.forEach((input) => {
-        if ((input as HTMLInputElement).name === 'check_password') {
-          validationResults.push(handleCheckPasswordValidate('password', 'check_password', formId));
+        if ((input as HTMLInputElement).name === 'checkNewPassword') {
+          validationResults.push(handleCheckPasswordValidate('newPassword', 'checkNewPassword', formId));
         } else {
           validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
         }
@@ -28,14 +28,14 @@ window.onload = function () {
     }
   }
 
-  registerForm?.addEventListener('submit', handleRegister);
+  profileUpdateForm?.addEventListener('submit', handleUpdatePassword);
 
-  // Валидация полей формы регистрации
+  // Валидация полей формы обновления профиля
   if (inputs) {
     inputs.forEach((input) => {
       input.addEventListener('blur', (event) => {
-        if ((input as HTMLInputElement).name === 'check_password') {
-          handleCheckPasswordValidate('password', 'check_password', formId);
+        if ((input as HTMLInputElement).name === 'checkNewPassword') {
+          handleCheckPasswordValidate('newPassword', 'checkNewPassword', formId);
         } else {
           handleValidateInput(event.target as HTMLInputElement, formId);
         }
