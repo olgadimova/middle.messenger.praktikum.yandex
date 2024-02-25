@@ -10,7 +10,11 @@
     "no-trailing-spaces": "off",
     "no-restricted-syntax": "off",
     "import/extensions": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "no-shadow": "off"
   },
   "settings": {
     "import/resolver": {
