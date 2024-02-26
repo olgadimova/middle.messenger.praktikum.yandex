@@ -1,3 +1,6 @@
+import { v4 as makeUUID } from 'uuid';
+import Handlebars from 'handlebars';
+
 import EventBus from './event_bus';
 
 type MetaType = {
@@ -5,7 +8,13 @@ type MetaType = {
   props: Object;
 };
 
-export default class Block {
+type ExtendedHTMLElement = HTMLElement & {
+  id?: string;
+  content?: HTMLElement;
+  getContent?: () => HTMLElement;
+};
+
+export default class Component {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -13,13 +22,17 @@ export default class Block {
     FLOW_CDU: 'flow:component-did-update',
   };
 
-  _element: HTMLElement | null = null;
+  _element: ExtendedHTMLElement | null = null;
 
   _meta: MetaType;
 
+  _id: string | null = null;
+
+  _children: { [s: string]: ExtendedHTMLElement } | ArrayLike<ExtendedHTMLElement> = [];
+
   eventBus: () => EventBus;
 
-  props: Object;
+  props: Record<string, unknown>;
 
   /**
    * @param {string} tag
@@ -33,19 +46,20 @@ export default class Block {
       props,
     };
 
-    this.props = this._makePropsProxy(props);
+    this._id = makeUUID();
+    this.props = this._makePropsProxy({ ...props, __id: this._id });
 
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.INIT);
+
+    eventBus.emit(Component.EVENTS.INIT);
   }
 
   _registerEvents(eventBus: EventBus) {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Component.EVENTS.INIT, this.init.bind(this));
+    eventBus.on(Component.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    eventBus.on(Component.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Component.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
   }
 
   _createResources() {
@@ -55,7 +69,7 @@ export default class Block {
 
   init() {
     this._createResources();
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
   }
 
   _componentDidMount() {
@@ -66,14 +80,14 @@ export default class Block {
   componentDidMount() {}
 
   dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    this.eventBus().emit(Component.EVENTS.FLOW_CDM);
   }
 
   _componentDidUpdate(oldProps: Object, newProps: Object) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
-      this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+      this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
     }
   }
 
@@ -88,7 +102,7 @@ export default class Block {
     }
 
     Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    this.eventBus().emit(Component.EVENTS.FLOW_CDU);
   };
 
   get element() {
@@ -131,5 +145,31 @@ export default class Block {
 
   _createDocumentElement(tag: string): HTMLElement {
     return document.createElement(tag);
+  }
+
+  compile(template: string, props?: Object) {
+    if (typeof props === 'undefined') {
+      props = this.props;
+    }
+
+    const propsAndStubs: Record<string, unknown> = { ...props };
+
+    Object.entries(this._children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+    });
+
+    const fragment: ExtendedHTMLElement = this._createDocumentElement('template');
+
+    fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
+
+    Object.values(this._children).forEach((child) => {
+      const stub = fragment.content?.querySelector(`[data-id="${child.id}"]`);
+
+      if (stub && child.getContent) {
+        stub.replaceWith(child.getContent());
+      }
+    });
+
+    return fragment.content;
   }
 }
