@@ -126,4 +126,7 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: [{ find: 'shared', replacement: resolve(__dirname, 'src/shared') }],
+  },
 });

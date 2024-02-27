@@ -1,6 +1,6 @@
-import Component from '../services/component';
+import Component from 'shared/services/component';
 
-export default function renderDOM(query: string, block: Component) {
+export const renderDOM = (query: string, block: Component) => {
   const root = document.querySelector(query);
 
   root?.appendChild(block.getContent() as Node);
@@ -8,4 +8,4 @@ export default function renderDOM(query: string, block: Component) {
   block.dispatchComponentDidMount();
 
   return root;
-}
+};

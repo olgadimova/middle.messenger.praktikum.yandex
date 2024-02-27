@@ -14,6 +14,8 @@ type ExtendedHTMLElement = HTMLElement & {
   getContent?: () => HTMLElement;
 };
 
+type Props = Record<string | symbol, ExtendedHTMLElement>;
+
 export default class Component {
   static EVENTS = {
     INIT: 'init',
@@ -28,18 +30,22 @@ export default class Component {
 
   _id: string | null = null;
 
-  _children: { [s: string]: ExtendedHTMLElement } | ArrayLike<ExtendedHTMLElement> = [];
+  _children: Props = {};
+
+  _lists: Record<string | symbol, ExtendedHTMLElement[]> = {};
+
+  _props: Props = {};
 
   eventBus: () => EventBus;
-
-  props: Record<string, unknown>;
 
   /**
    * @param {string} tag
    * @param {Object} props
    * @returns {void}
    */
-  constructor(tag = 'div', props = {}) {
+  constructor(tag = 'div', propsAndChildren = {}) {
+    const { children, props, lists } = this.getChildren(propsAndChildren);
+
     const eventBus = new EventBus();
     this._meta = {
       tag,
@@ -47,7 +53,9 @@ export default class Component {
     };
 
     this._id = makeUUID();
-    this.props = this._makePropsProxy({ ...props, __id: this._id });
+    this._children = this._makePropsProxy(children);
+    this._lists = this._makePropsProxy(lists);
+    this._props = this._makePropsProxy({ ...props, _id: this._id });
 
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
@@ -101,7 +109,7 @@ export default class Component {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    Object.assign(this._props, nextProps);
     this.eventBus().emit(Component.EVENTS.FLOW_CDU);
   };
 
@@ -115,21 +123,50 @@ export default class Component {
     if (this._element) {
       this._element.innerHTML = '';
       this._element.appendChild(block as Node);
+      this.addAttributes();
     }
   }
 
   // Может переопределять пользователь, необязательно трогать
   render() {}
 
+  addAttributes() {
+    const { attr } = this._props;
+
+    if (attr && typeof attr === 'object') {
+      Object.entries(attr).forEach(([key, value]) => {
+        this._element?.setAttribute(key, value as string);
+      });
+    }
+  }
+
   getContent() {
     return this.element;
   }
 
-  _makePropsProxy(props: Record<string | symbol, unknown>) {
+  getChildren(propsAndChildren: Props) {
+    const children: Props = {};
+    const props: Props = {};
+    const lists: Props = {};
+
+    Object.keys(propsAndChildren).forEach((key) => {
+      if (propsAndChildren[key] instanceof Component) {
+        children[key] = propsAndChildren[key];
+      } else if (Array.isArray(propsAndChildren[key])) {
+        lists[key] = propsAndChildren[key];
+      } else {
+        props[key] = propsAndChildren[key];
+      }
+    });
+
+    return { children, props, lists };
+  }
+
+  _makePropsProxy(props: Props) {
     const proxyData = new Proxy(props, {
       get(target, prop) {
         const value = target[prop];
-        return typeof value === 'function' ? value.bind(target) : value;
+        return typeof value === 'function' ? (value as CallableFunction).bind(target) : value;
       },
       set(target, prop, value) {
         target[prop] = value;
@@ -143,19 +180,23 @@ export default class Component {
     return proxyData;
   }
 
-  _createDocumentElement(tag: string): HTMLElement {
+  _createDocumentElement(tag: string): ExtendedHTMLElement {
     return document.createElement(tag);
   }
 
   compile(template: string, props?: Object) {
     if (typeof props === 'undefined') {
-      props = this.props;
+      props = this._props;
     }
 
     const propsAndStubs: Record<string, unknown> = { ...props };
 
     Object.entries(this._children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
+    });
+
+    Object.entries(this._lists).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id="${key}"></div>`;
     });
 
     const fragment: ExtendedHTMLElement = this._createDocumentElement('template');
@@ -167,6 +208,28 @@ export default class Component {
 
       if (stub && child.getContent) {
         stub.replaceWith(child.getContent());
+      }
+    });
+
+    Object.entries(this._lists).forEach(([key, child]) => {
+      const stub = fragment.content?.querySelector(`[data-id="${key}"]`);
+
+      if (!stub) {
+        return;
+      }
+
+      let listContent = this._createDocumentElement('template');
+
+      child.forEach((item) => {
+        if (item instanceof Component) {
+          listContent.content?.append(item.getContent());
+        } else {
+          listContent.content?.append(`${item}`);
+        }
+      });
+
+      if (listContent.content) {
+        stub.replaceWith(listContent.content);
       }
     });
 
