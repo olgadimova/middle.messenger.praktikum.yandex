@@ -1,4 +1,4 @@
-import { handleCheckPasswordValidate, handleValidateInput } from '../../shared/helpers/input_validation';
+import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers/input_validation';
 
 window.onload = function () {
   const formId = 'passwordUpdateForm';

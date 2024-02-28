@@ -1,12 +1,12 @@
 const tpl = `
 {{{profileHeader}}}
 {{#if isForm}}
-<form class="formInfo">
+<form class="formInfo" id="{{formId}}">
     <ul>
         {{{fields}}}
     </ul>
     <div class="submitButton">
-        {{> button/button type="submit" label="Сохранить"}}
+        {{{submitButton}}}
     </div>
 </form>
 {{else}}

@@ -120,8 +120,6 @@ export default defineConfig({
       scss: {
         additionalData: `
           @import "/shared/styles/variables.scss";
-          @import "/shared/styles/base.scss";
-          @import "/shared/components/index.scss";
         `,
       },
     },

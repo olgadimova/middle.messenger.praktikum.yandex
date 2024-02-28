@@ -5,46 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Обновить Профиль - Module 1</title>
-    <link href="modules/profile/styles.scss" rel="stylesheet" />
+    <link href="shared/styles/index.scss" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="app">
-        <main>
-            <div class="profile">
-                {{> profile_header/profile_header canEditAvatar="true"}}
-                <form id="profileUpdateForm" class="formInfo">
-                    <ul>
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputEmail"
-                        name="email"
-                        placeholder="pochta@smth.com" value=user.email label="Почта"}}
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputLogin"
-                        name="login"
-                        placeholder="ivanchik" value=user.login label="Логин"}}
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputDisplayName"
-                        name="display_name"
-                        placeholder="Иван" value=user.display_name label="Имя в чате"}}
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputFirstName"
-                        name="first_name"
-                        placeholder="Ваня" value=user.first_name label="Имя"}}
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputSecondName"
-                        name="second_name"
-                        placeholder="Иванов" value=user.second_name label="Фамилия"}}
-                        {{> labeled_input/labeled_input formId="profileUpdateForm" type="text" id="inputPhone"
-                        name="phone"
-                        placeholder="+79991234567" value=user.phone label="Телефон"}}
-                    </ul>
-                    <div class="submitButton">
-                        {{> button/button type="submit" label="Сохранить"}}
-                    </div>
-                </form>
-
-                {{> back_button/back_button to="/profile"}}
-            </div>
-        </main>
-    </div>
-
-    <script src="modules/profile/profileUpdate.ts" type="module"></script>
+    <div id="app"></div>
+    <script src="modules/profile_update" type="module"></script>
+    <script src="modules/profile_update/profileUpdate" type="module"></script>
 </body>
 
 </html>
