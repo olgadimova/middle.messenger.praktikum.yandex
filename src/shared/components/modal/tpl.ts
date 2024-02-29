@@ -1,3 +1,4 @@
+const tpl = `
 <div id={{modalId}} class='modal' role="dialog" style="display: none">
     <div class='modalContent'>
         <span class='closeModal' data-toggle={{modalId}}>&times;</span>
@@ -7,3 +8,5 @@
         </form>
     </div>
 </div>
+`;
+export default tpl;

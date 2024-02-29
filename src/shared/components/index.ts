@@ -5,3 +5,6 @@ export * from './profile_layout';
 export * from './page';
 export * from './labeled_input';
 export * from './button';
+export * from './auth_layout';
+export * from './input';
+export * from './modal';
