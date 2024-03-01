@@ -1,93 +1,176 @@
-import { handleValidateInput } from '../../shared/helpers/input_validation';
+import {
+  ChatsHeader,
+  Form,
+  ChatsItem,
+  Sidebar,
+  MessagesHeader,
+  MessagesFooter,
+  Messages,
+  ChatLayout,
+  MessageItem,
+  Modal,
+} from './components';
+import { Input, Page, Button } from 'shared/components';
+import { chats } from 'shared/helpers/demo_data';
+import { renderDOM } from 'shared/helpers/renderDOM';
 
-window.onload = function () {
-  function toggleModal(modal: HTMLElement) {
-    let modalStyle = modal.style;
+import './components/index.scss';
 
-    if (modalStyle.display === 'none') {
-      modalStyle.display = 'flex';
-    } else {
-      modalStyle.display = 'none';
-    }
-  }
+const chatsHeader = new ChatsHeader('div', {
+  form: new Form('form', {
+    attr: {
+      class: 'formSearchChat',
+    },
+    fields: [
+      new Input('div', {
+        type: 'text',
+        name: 'search',
+        placeholder: '&#128269;  Поиск',
+        class: 'searchInput',
+      }),
+    ],
+  }),
+});
 
-  // Тогл меню контроля в шапке чата
-  const toggleChatMenuButton = document.querySelector('#toggleManageChatModal');
-  const manageChatModal = document.getElementById('manageChatModal');
+const sidebarSection = new Sidebar('section', {
+  attr: {
+    class: 'sidebar',
+  },
+  header: chatsHeader,
+  chats: chats.map((chat) => {
+    return new ChatsItem('li', { ...chat, attr: { class: 'sidebarChatItem' } });
+  }),
+});
 
-  toggleChatMenuButton?.addEventListener('click', () => {
-    if (manageChatModal) {
-      toggleModal(manageChatModal);
-    }
-  });
+const messagesHeader = new MessagesHeader('nav', {
+  attr: {
+    class: 'chatHeader',
+  },
+  actions: [
+    new Button('div', { type: 'button', value: 'addChatUser', label: 'Добавить Пользователя', class: 'chatControls' }),
+    new Button('div', {
+      type: 'button',
+      value: 'deleteChatUser',
+      label: 'Удалить Пользователя',
+      class: 'chatControls',
+    }),
+  ],
+});
 
-  // Закрытие модального окна через кнопку X в самом окне
-  const closeModalButton = document.querySelectorAll('.closeModal');
+const messagesFooter = new MessagesFooter('div', {
+  attr: {
+    class: 'chatFooter',
+  },
+  children: new Form('form', {
+    attr: {
+      class: 'formMessage',
+      id: 'sendMessageForm',
+    },
+    fields: [
+      new Input('div', {
+        attr: {
+          class: 'formMessageInput',
+        },
+        name: 'message',
+        placeholder: 'Написать сообщение',
+        id: 'inputMessage',
+      }),
+    ],
+  }),
+});
 
-  if (closeModalButton) {
-    closeModalButton.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        const dataToggleName = (event.target as HTMLElement)?.getAttribute('data-toggle');
+const manageChatModalAdd = new Modal('div', {
+  attr: {
+    class: 'modal',
+    role: 'dialog',
+    style: 'display: none',
+    id: 'addChatUser',
+  },
+  title: 'Добавить пользователя',
+  modalId: 'addChatUser',
+  fields: [
+    new Input('div', {
+      id: 'modalInput',
+      type: 'text',
+      name: 'login',
+      placeholder: 'Введите имя пользователя',
+      label: 'Логин',
+      class: 'searchInput',
+    }),
+    new Button('div', {
+      type: 'submit',
+      label: 'Добавить',
+    }),
+  ],
+});
 
-        if (dataToggleName) {
-          const modalByCloseButton = document.getElementById(dataToggleName);
+const manageChatModalDelete = new Modal('div', {
+  attr: {
+    class: 'modal',
+    role: 'dialog',
+    style: 'display: none',
+    id: 'deleteChatUser',
+  },
+  modalId: 'deleteChatUser',
+  title: 'Удалить пользователя',
+  fields: [
+    new Input('div', {
+      id: 'modalInput',
+      type: 'text',
+      name: 'login',
+      placeholder: 'Введите имя пользователя',
+      label: 'Логин',
+      class: 'searchInput',
+    }),
+    new Button('div', {
+      type: 'submit',
+      label: 'Удалить',
+    }),
+  ],
+});
 
-          if (modalByCloseButton) {
-            toggleModal(modalByCloseButton);
-          }
-        }
-      });
-    });
-  }
+const messagesSection = new Messages('section', {
+  attr: {
+    class: 'messages',
+  },
+  selectedChatId: 1,
+  header: messagesHeader,
+  footer: messagesFooter,
+  messages: [
+    new MessageItem('div', {
+      attr: {
+        class: 'myMessage',
+      },
+      message: {
+        isMine: true,
+        title: 'Привет',
+        createdAt: '10:30',
+      },
+    }),
+    new MessageItem('div', {
+      attr: {
+        class: 'otherMessage',
+      },
+      message: {
+        isMine: false,
+        title: 'И тебе',
+        createdAt: '10:30',
+      },
+    }),
+  ],
+  modal: manageChatModalAdd,
+});
 
-  // Открытие модального окна через меню контроля в шапке чата
-  const chatControlButtons = document.querySelectorAll('.chatControls');
+const layout = new ChatLayout('div', {
+  sidebar: sidebarSection,
+  messages: messagesSection,
+  attr: {
+    style: 'height: 100vh',
+  },
+});
 
-  chatControlButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const chatControlModal = document.getElementById((button as HTMLButtonElement).value);
+const page = new Page('main', {
+  content: layout,
+});
 
-      if (manageChatModal) {
-        toggleModal(manageChatModal);
-      }
-
-      if (chatControlModal) {
-        toggleModal(chatControlModal);
-      }
-    });
-  });
-
-  // Форма отправки сообщений
-  const formId = 'sendMessageForm';
-
-  const sendMessageForm = document.getElementById(formId);
-  const inputs = document.querySelectorAll(`#${formId} input`);
-
-  // Обработчик сабмита формы отправки сообщения
-  function handleSendMessage(event: Event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget as HTMLFormElement);
-
-    let validationResults: boolean[] = [];
-
-    if (inputs) {
-      inputs.forEach((input) => {
-        validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
-      });
-    }
-
-    if (validationResults.every((isValid) => isValid)) {
-      console.log(formData.toString());
-    }
-  }
-
-  sendMessageForm?.addEventListener('submit', handleSendMessage);
-
-  // Валидация полей формы отправки сообщения
-  if (inputs) {
-    inputs.forEach((input) => {
-      input.addEventListener('blur', (event) => handleValidateInput(event.target as HTMLInputElement, formId));
-    });
-  }
-};
+renderDOM('#app', page);

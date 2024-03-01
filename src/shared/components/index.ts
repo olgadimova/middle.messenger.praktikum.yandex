@@ -7,4 +7,3 @@ export * from './labeled_input';
 export * from './button';
 export * from './auth_layout';
 export * from './input';
-export * from './modal';

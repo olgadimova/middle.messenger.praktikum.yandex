@@ -1,0 +1,31 @@
+.messages {
+  height: 100vh;
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  position: relative;
+
+  .chatBody {
+    height: calc(100% - 60px);
+    width: 100%;
+    overflow: hidden;
+    padding-top: 60px;
+    position: relative;
+  }
+
+  .chatNotEmpty {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    max-height: 100%;
+  }
+
+  .chatEmpty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
