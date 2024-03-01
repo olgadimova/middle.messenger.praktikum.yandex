@@ -15,7 +15,7 @@ const tpl = `
 {{/if}}
 
 {{{footer}}}
-{{{modal}}}
+{{{modals}}}
 `;
 
 export default tpl;

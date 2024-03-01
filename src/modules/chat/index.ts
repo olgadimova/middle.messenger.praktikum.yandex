@@ -2,10 +2,10 @@ import {
   ChatsHeader,
   Form,
   ChatsItem,
-  Sidebar,
+  SidebarSection,
   MessagesHeader,
   MessagesFooter,
-  Messages,
+  MessagesSection,
   ChatLayout,
   MessageItem,
   Modal,
@@ -25,14 +25,14 @@ const chatsHeader = new ChatsHeader('div', {
       new Input('div', {
         type: 'text',
         name: 'search',
-        placeholder: '&#128269;  Поиск',
+        placeholder: 'Найти Чат',
         class: 'searchInput',
       }),
     ],
   }),
 });
 
-const sidebarSection = new Sidebar('section', {
+const sidebarSection = new SidebarSection('section', {
   attr: {
     class: 'sidebar',
   },
@@ -88,20 +88,28 @@ const manageChatModalAdd = new Modal('div', {
   },
   title: 'Добавить пользователя',
   modalId: 'addChatUser',
-  fields: [
-    new Input('div', {
-      id: 'modalInput',
-      type: 'text',
-      name: 'login',
-      placeholder: 'Введите имя пользователя',
-      label: 'Логин',
-      class: 'searchInput',
-    }),
-    new Button('div', {
-      type: 'submit',
-      label: 'Добавить',
-    }),
-  ],
+  form: new Form('form', {
+    attr: {
+      class: 'modalForm',
+    },
+    fields: [
+      new Input('div', {
+        attr: {
+          class: 'formField',
+        },
+        id: 'modalInput',
+        type: 'text',
+        name: 'login',
+        placeholder: 'Введите имя пользователя',
+        label: 'Логин',
+        class: 'searchInput',
+      }),
+      new Button('div', {
+        type: 'submit',
+        label: 'Добавить',
+      }),
+    ],
+  }),
 });
 
 const manageChatModalDelete = new Modal('div', {
@@ -113,23 +121,31 @@ const manageChatModalDelete = new Modal('div', {
   },
   modalId: 'deleteChatUser',
   title: 'Удалить пользователя',
-  fields: [
-    new Input('div', {
-      id: 'modalInput',
-      type: 'text',
-      name: 'login',
-      placeholder: 'Введите имя пользователя',
-      label: 'Логин',
-      class: 'searchInput',
-    }),
-    new Button('div', {
-      type: 'submit',
-      label: 'Удалить',
-    }),
-  ],
+  form: new Form('form', {
+    attr: {
+      class: 'modalForm',
+    },
+    fields: [
+      new Input('div', {
+        attr: {
+          class: 'formField',
+        },
+        id: 'modalInput',
+        type: 'text',
+        name: 'login',
+        placeholder: 'Введите имя пользователя',
+        label: 'Логин',
+        class: 'searchInput',
+      }),
+      new Button('div', {
+        type: 'submit',
+        label: 'Удалить',
+      }),
+    ],
+  }),
 });
 
-const messagesSection = new Messages('section', {
+const messagesSection = new MessagesSection('section', {
   attr: {
     class: 'messages',
   },
@@ -158,7 +174,7 @@ const messagesSection = new Messages('section', {
       },
     }),
   ],
-  modal: manageChatModalAdd,
+  modals: [manageChatModalAdd, manageChatModalDelete],
 });
 
 const layout = new ChatLayout('div', {
