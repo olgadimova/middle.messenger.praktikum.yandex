@@ -106,7 +106,7 @@ export default class Component {
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(oldProps: Props, newProps: Props) {
+  componentDidUpdate(_oldProps: Props, _newProps: Props) {
     return true;
   }
 
@@ -242,7 +242,7 @@ export default class Component {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
-    Object.entries(this._lists).forEach(([key, child]) => {
+    Object.entries(this._lists).forEach(([key, _child]) => {
       propsAndStubs[key] = `<div data-id="${key}"></div>`;
     });
 
