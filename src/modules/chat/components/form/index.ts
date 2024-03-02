@@ -16,7 +16,7 @@ export class Form extends Component {
       this._element.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const formData = new FormData(event.currentTarget as HTMLFormElement);
+        const formData = new FormData(event.target as HTMLFormElement);
 
         const inputs = this._element?.querySelectorAll('input');
 

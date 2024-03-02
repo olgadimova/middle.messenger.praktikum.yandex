@@ -40,7 +40,7 @@ export class AuthLayout extends Component {
 
     const authFormId = this._props.formId as string;
 
-    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const formData = new FormData(event.target as HTMLFormElement);
 
     let validationResults: boolean[] = [];
 

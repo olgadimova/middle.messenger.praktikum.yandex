@@ -48,8 +48,30 @@ const sidebarSection = new SidebarSection('section', {
     class: 'sidebar',
   },
   header: chatsHeader,
-  chats: chats.map((chat) => {
-    return new ChatsItem('li', { ...chat, attr: { class: 'sidebarChatItem' } });
+  chats: chats.map((chat, index) => {
+    return new ChatsItem('li', {
+      ...chat,
+      attr: { class: 'sidebarChatItem' },
+      events: {
+        click: () => {
+          messagesSection.setProps({
+            selectedChatId: chats[index].id,
+            messages: chats[index].messages.map((item) => {
+              return new MessageItem('div', {
+                attr: {
+                  class: item.isMine ? 'myMessage' : 'otherMessage',
+                },
+                message: {
+                  isMine: item.isMine,
+                  title: item.title,
+                  createdAt: item.createdAt,
+                },
+              });
+            }),
+          });
+        },
+      },
+    });
   }),
 });
 
@@ -189,17 +211,27 @@ const messagesFooter = new MessagesFooter('div', {
       class: 'formMessage',
       id: 'sendMessageForm',
     },
+    formId: 'messageForm',
     fields: [
       new Input('div', {
         attr: {
           class: 'formMessageInput',
         },
+        formId: 'sendMessageForm',
+        type: 'text',
         name: 'message',
         placeholder: 'Написать сообщение',
         id: 'inputMessage',
         events: {
           blur: (event: Event) => handleValidateInput(event.target as HTMLInputElement, 'sendMessageForm'),
         },
+      }),
+      new ImageButton('button', {
+        attr: {
+          type: 'submit',
+          class: 'primaryButton small',
+        },
+        image: '<img src="/assets/arrow-right.svg" width="25px" height="25px" alt="send" />',
       }),
     ],
   }),
@@ -209,31 +241,10 @@ const messagesSection = new MessagesSection('section', {
   attr: {
     class: 'messages',
   },
-  selectedChatId: 1,
+  selectedChatId: null,
   header: messagesHeader,
   footer: messagesFooter,
-  messages: [
-    new MessageItem('div', {
-      attr: {
-        class: 'myMessage',
-      },
-      message: {
-        isMine: true,
-        title: 'Привет',
-        createdAt: '10:30',
-      },
-    }),
-    new MessageItem('div', {
-      attr: {
-        class: 'otherMessage',
-      },
-      message: {
-        isMine: false,
-        title: 'И тебе',
-        createdAt: '10:30',
-      },
-    }),
-  ],
+  messages: [],
   modal: manageChatModal,
 });
 

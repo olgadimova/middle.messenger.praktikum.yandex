@@ -119,7 +119,7 @@ export default class Component {
 
     const oldProps = { ...this._props };
 
-    const { children, props } = this.getChildren(nextProps);
+    const { children, props, lists } = this.getChildren(nextProps);
 
     if (Object.values(children).length) {
       Object.assign(this._children, children);
@@ -127,6 +127,10 @@ export default class Component {
 
     if (Object.values(props).length) {
       Object.assign(this._props, props);
+    }
+
+    if (Object.values(lists).length) {
+      Object.assign(this._lists, lists);
     }
 
     if (this._setUpdate) {
