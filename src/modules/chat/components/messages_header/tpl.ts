@@ -6,9 +6,7 @@ const tpl = `
 <p>Вадим</p>
 </div>
 <div class="manageChat">
-<button type="button" id="toggleManageChatModal" class="manageChatButton">
-    <img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />
-</button>
+{{{manageChatButton}}}
 <div id="manageChatModal" class="manageChatMenu" style="display: none;">
     {{{actions}}}
 </div>

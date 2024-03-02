@@ -22,16 +22,6 @@
   overflow: visible;
 }
 
-.manageChatButton {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-}
-
 .manageChatMenu {
   position: absolute;
   top: 30px;

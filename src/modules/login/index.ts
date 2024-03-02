@@ -1,8 +1,11 @@
 import { Input, Page, AuthLayout, Button } from 'shared/components';
 import { renderDOM } from 'shared/helpers/renderDOM';
 
-const submitButton = new Button('div', {
-  type: 'submit',
+const submitButton = new Button('button', {
+  attr: {
+    type: 'submit',
+    class: 'primaryButton',
+  },
   label: 'Войти',
 });
 

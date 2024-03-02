@@ -40,6 +40,8 @@ export default class Component {
 
   _props: Props = {};
 
+  _setUpdate: boolean = false;
+
   eventBus: () => EventBus;
 
   /**
@@ -95,7 +97,7 @@ export default class Component {
     this.eventBus().emit(Component.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: Object, newProps: Object) {
+  _componentDidUpdate(oldProps: Props, newProps: Props) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
@@ -104,17 +106,33 @@ export default class Component {
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(oldProps: Object, newProps: Object) {
-    return oldProps === newProps;
+  componentDidUpdate(oldProps: Props, newProps: Props) {
+    return true;
   }
 
-  setProps = (nextProps: Object) => {
+  setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
 
-    Object.assign(this._props, nextProps);
-    this.eventBus().emit(Component.EVENTS.FLOW_CDU);
+    this._setUpdate = false;
+
+    const oldProps = { ...this._props };
+
+    const { children, props } = this.getChildren(nextProps);
+
+    if (Object.values(children).length) {
+      Object.assign(this._children, children);
+    }
+
+    if (Object.values(props).length) {
+      Object.assign(this._props, props);
+    }
+
+    if (this._setUpdate) {
+      this.eventBus().emit(Component.EVENTS.FLOW_CDU, oldProps, this._props);
+      this._setUpdate = false;
+    }
   };
 
   get element() {
@@ -185,21 +203,24 @@ export default class Component {
   }
 
   _makePropsProxy(props: Props) {
-    const proxyData = new Proxy(props, {
+    let context = this;
+
+    return new Proxy(props, {
       get(target, prop) {
         const value = target[prop];
         return typeof value === 'function' ? (value as CallableFunction).bind(target) : value;
       },
       set(target, prop, value) {
-        target[prop] = value;
+        if (target[prop] !== value) {
+          target[prop] = value;
+          context._setUpdate = true;
+        }
         return true;
       },
       deleteProperty() {
         throw new Error('нет доступа');
       },
     });
-
-    return proxyData;
   }
 
   _createDocumentElement(tag: string): ExtendedHTMLElement {

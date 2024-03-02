@@ -10,8 +10,11 @@ const profileHeader = new ProfileHeader('div', {
   canEditAvatar: true,
 });
 
-const submitButton = new Button('div', {
-  type: 'submit',
+const submitButton = new Button('button', {
+  attr: {
+    type: 'submit',
+    class: 'primaryButton',
+  },
   label: 'Сохранить',
 });
 

@@ -1,6 +1,8 @@
 const tpl = `
 <div class='modalContent'>
-    <span class='closeModal' data-toggle={{modalId}}>&times;</span>
+    <button type="button" class='closeModal'>
+    <span>&times;</span>
+    </button>
     <h3 class="title">{{title}}</h3>
     {{{form}}}
 </div>

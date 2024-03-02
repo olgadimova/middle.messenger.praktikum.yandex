@@ -9,12 +9,23 @@ import {
   ChatLayout,
   MessageItem,
   Modal,
+  ImageButton,
 } from './components';
 import { Input, Page, Button } from 'shared/components';
 import { chats } from 'shared/helpers/demo_data';
 import { renderDOM } from 'shared/helpers/renderDOM';
 
 import './components/index.scss';
+import { handleValidateInput } from 'shared/helpers/input_validation';
+
+const toggleManageChatModal = () => {
+  const manageChatModal = document.getElementById('manageChatModal');
+
+  if (manageChatModal) {
+    let modalStyle = manageChatModal.style;
+    modalStyle.display === 'none' ? (modalStyle.display = 'flex') : (modalStyle.display = 'none');
+  }
+};
 
 const chatsHeader = new ChatsHeader('div', {
   form: new Form('form', {
@@ -46,15 +57,127 @@ const messagesHeader = new MessagesHeader('nav', {
   attr: {
     class: 'chatHeader',
   },
+  manageChatButton: new ImageButton('button', {
+    attr: {
+      class: 'imageButton',
+    },
+    image: '<img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />',
+    events: {
+      click: toggleManageChatModal,
+    },
+  }),
   actions: [
-    new Button('div', { type: 'button', value: 'addChatUser', label: 'Добавить Пользователя', class: 'chatControls' }),
-    new Button('div', {
-      type: 'button',
-      value: 'deleteChatUser',
+    new Button('button', {
+      attr: {
+        type: 'button',
+        value: 'addChatUser',
+        class: 'primaryButton chatControls',
+      },
+      label: 'Добавить Пользователя',
+      events: {
+        click: () => {
+          toggleManageChatModal();
+
+          manageChatModalInput.setProps({
+            formId: 'addChatUser',
+          });
+
+          manageChatModalSubmitButton.setProps({
+            label: 'Добавить',
+          });
+
+          manageChatModalForm.setProps({
+            attr: {
+              id: 'addChatUser',
+            },
+            formId: 'addChatUser',
+          });
+
+          manageChatModal.setProps({
+            attr: {
+              style: 'display: flex',
+            },
+            title: 'Добавить Пользователя',
+            modalId: 'delteChatUser',
+          });
+        },
+      },
+    }),
+    new Button('button', {
+      attr: {
+        class: 'primaryButton chatControls',
+        type: 'button',
+        value: 'deleteChatUser',
+      },
       label: 'Удалить Пользователя',
-      class: 'chatControls',
+      events: {
+        click: () => {
+          toggleManageChatModal();
+
+          manageChatModalInput.setProps({
+            formId: 'deleteChatUser',
+          });
+
+          manageChatModalSubmitButton.setProps({
+            label: 'Удалить',
+          });
+
+          manageChatModalForm.setProps({
+            attr: {
+              id: 'deleteChatUser',
+            },
+            formId: 'deleteChatUser',
+          });
+
+          manageChatModal.setProps({
+            attr: {
+              style: 'display: flex',
+            },
+            title: 'Удалить Пользователя',
+          });
+        },
+      },
     }),
   ],
+});
+
+const manageChatModalSubmitButton = new Button('button', {
+  attr: {
+    type: 'submit',
+    class: 'primaryButton',
+  },
+  label: 'Добавить',
+});
+
+const manageChatModalInput = new Input('div', {
+  attr: {
+    class: 'formField',
+  },
+  id: 'modalInput',
+  formId: 'addChatUser',
+  type: 'text',
+  name: 'login',
+  placeholder: 'Введите имя пользователя',
+  label: 'Логин',
+  class: 'searchInput',
+});
+
+const manageChatModalForm = new Form('form', {
+  attr: {
+    class: 'modalForm',
+  },
+  formId: 'addChatUser',
+  fields: [manageChatModalInput, manageChatModalSubmitButton],
+});
+
+const manageChatModal = new Modal('div', {
+  attr: {
+    class: 'modal',
+    role: 'dialog',
+    style: 'display: none',
+  },
+  title: 'Добавить Пользователя',
+  form: manageChatModalForm,
 });
 
 const messagesFooter = new MessagesFooter('div', {
@@ -74,72 +197,9 @@ const messagesFooter = new MessagesFooter('div', {
         name: 'message',
         placeholder: 'Написать сообщение',
         id: 'inputMessage',
-      }),
-    ],
-  }),
-});
-
-const manageChatModalAdd = new Modal('div', {
-  attr: {
-    class: 'modal',
-    role: 'dialog',
-    style: 'display: none',
-    id: 'addChatUser',
-  },
-  title: 'Добавить пользователя',
-  modalId: 'addChatUser',
-  form: new Form('form', {
-    attr: {
-      class: 'modalForm',
-    },
-    fields: [
-      new Input('div', {
-        attr: {
-          class: 'formField',
+        events: {
+          blur: (event: Event) => handleValidateInput(event.target as HTMLInputElement, 'sendMessageForm'),
         },
-        id: 'modalInput',
-        type: 'text',
-        name: 'login',
-        placeholder: 'Введите имя пользователя',
-        label: 'Логин',
-        class: 'searchInput',
-      }),
-      new Button('div', {
-        type: 'submit',
-        label: 'Добавить',
-      }),
-    ],
-  }),
-});
-
-const manageChatModalDelete = new Modal('div', {
-  attr: {
-    class: 'modal',
-    role: 'dialog',
-    style: 'display: none',
-    id: 'deleteChatUser',
-  },
-  modalId: 'deleteChatUser',
-  title: 'Удалить пользователя',
-  form: new Form('form', {
-    attr: {
-      class: 'modalForm',
-    },
-    fields: [
-      new Input('div', {
-        attr: {
-          class: 'formField',
-        },
-        id: 'modalInput',
-        type: 'text',
-        name: 'login',
-        placeholder: 'Введите имя пользователя',
-        label: 'Логин',
-        class: 'searchInput',
-      }),
-      new Button('div', {
-        type: 'submit',
-        label: 'Удалить',
       }),
     ],
   }),
@@ -174,7 +234,7 @@ const messagesSection = new MessagesSection('section', {
       },
     }),
   ],
-  modals: [manageChatModalAdd, manageChatModalDelete],
+  modal: manageChatModal,
 });
 
 const layout = new ChatLayout('div', {

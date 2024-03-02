@@ -5,4 +5,14 @@ export class Input extends Component {
   render() {
     return this.compile(tpl);
   }
+
+  addEvents() {
+    super.addEvents();
+
+    if (this._props.events && this._props.events['blur']) {
+      const input = this._element?.querySelector('input');
+
+      input?.addEventListener('blur', this._props.events['blur']);
+    }
+  }
 }

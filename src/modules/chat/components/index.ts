@@ -8,3 +8,4 @@ export * from './messages_section';
 export * from './chat_layout';
 export * from './message_item';
 export * from './modal';
+export * from './image_button';

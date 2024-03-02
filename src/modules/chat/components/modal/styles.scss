@@ -15,6 +15,7 @@
     border: 1px solid $border;
     width: 340px;
     border-radius: 8px;
+    position: relative;
   }
 
   .modalForm {
@@ -27,10 +28,14 @@
   }
 
   .closeModal {
+    background-color: transparent;
     color: $textSecondary;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   .closeModal:hover,

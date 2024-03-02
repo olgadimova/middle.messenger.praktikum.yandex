@@ -1,5 +1,5 @@
 const tpl = `
-{{label}}
+{{{image}}}
 `;
 
 export default tpl;
