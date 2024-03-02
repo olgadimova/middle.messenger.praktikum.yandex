@@ -23,11 +23,9 @@ export class AuthLayout extends Component {
     if (inputs) {
       inputs.forEach((input) => {
         input.addEventListener('blur', (event) => {
-          if ((input as HTMLInputElement).name === 'check_password') {
-            handleCheckPasswordValidate('password', 'check_password', authFormId);
-          } else {
-            handleValidateInput(event.target as HTMLInputElement, authFormId);
-          }
+          (input as HTMLInputElement).name === 'check_password'
+            ? handleCheckPasswordValidate('password', 'check_password', authFormId)
+            : handleValidateInput(event.target as HTMLInputElement, authFormId);
         });
       });
     }
@@ -48,11 +46,11 @@ export class AuthLayout extends Component {
 
     if (inputs && this._props.formId) {
       inputs.forEach((input) => {
-        if ((input as HTMLInputElement).name === 'check_password') {
-          validationResults.push(handleCheckPasswordValidate('password', 'check_password', authFormId));
-        } else {
-          validationResults.push(handleValidateInput(input as HTMLInputElement, authFormId));
-        }
+        validationResults.push(
+          (input as HTMLInputElement).name === 'check_password'
+            ? handleCheckPasswordValidate('password', 'check_password', authFormId)
+            : handleValidateInput(input as HTMLInputElement, authFormId),
+        );
       });
     }
 
