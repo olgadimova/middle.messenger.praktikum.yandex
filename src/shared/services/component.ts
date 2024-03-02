@@ -14,7 +14,11 @@ type ExtendedHTMLElement = HTMLElement & {
   getContent?: () => HTMLElement;
 };
 
-type Props = Record<string | symbol, ExtendedHTMLElement>;
+type Props = {
+  events?: Record<string, EventListener>;
+  attr?: Record<string, string>;
+  [key: string | symbol]: unknown;
+};
 
 export default class Component {
   static EVENTS = {
@@ -24,7 +28,7 @@ export default class Component {
     FLOW_CDU: 'flow:component-did-update',
   };
 
-  _element: ExtendedHTMLElement | null = null;
+  _element: HTMLElement | null = null;
 
   _meta: MetaType;
 
@@ -32,7 +36,7 @@ export default class Component {
 
   _children: Props = {};
 
-  _lists: Record<string | symbol, ExtendedHTMLElement[]> = {};
+  _lists: Props = {};
 
   _props: Props = {};
 
@@ -121,14 +125,32 @@ export default class Component {
     const block: unknown = this.render();
 
     if (this._element) {
+      this.removeEvents();
       this._element.innerHTML = '';
       this._element.appendChild(block as Node);
+      this.addEvents();
       this.addAttributes();
     }
   }
 
   // Может переопределять пользователь, необязательно трогать
   render() {}
+
+  addEvents() {
+    const { events = {} } = this._props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  removeEvents() {
+    const { events = {} } = this._props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, events[eventName]);
+    });
+  }
 
   addAttributes() {
     const { attr } = this._props;
@@ -191,7 +213,7 @@ export default class Component {
 
     const propsAndStubs: Record<string, unknown> = { ...props };
 
-    Object.entries(this._children).forEach(([key, child]) => {
+    (Object.entries(this._children) as [key: string, child: ExtendedHTMLElement][]).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
@@ -203,7 +225,7 @@ export default class Component {
 
     fragment.innerHTML = Handlebars.compile(template)(propsAndStubs);
 
-    Object.values(this._children).forEach((child) => {
+    (Object.values(this._children) as ExtendedHTMLElement[]).forEach((child) => {
       const stub = fragment.content?.querySelector(`[data-id="${child.id}"]`);
 
       if (stub && child.getContent) {
@@ -211,7 +233,7 @@ export default class Component {
       }
     });
 
-    Object.entries(this._lists).forEach(([key, child]) => {
+    (Object.entries(this._lists) as [key: string, child: ExtendedHTMLElement[]][]).forEach(([key, child]) => {
       const stub = fragment.content?.querySelector(`[data-id="${key}"]`);
 
       if (!stub) {
