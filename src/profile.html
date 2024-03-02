@@ -5,34 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Профиль - Module 1</title>
-    <link href="modules/profile/styles.scss" rel="stylesheet" />
+    <link href="shared/styles/index.scss" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="app">
-        <main>
-            <div class="profile">
-                {{> profile_header/profile_header userName="Иван"}}
-                <div class="formInfo">
-                    <ul>
-                        {{> labeled_field/labeled_field title="Почта" value=user.email }}
-                        {{> labeled_field/labeled_field title="Логин" value=user.login}}
-                        {{> labeled_field/labeled_field title="Имя" value=user.first_name}}
-                        {{> labeled_field/labeled_field title="Фамилия" value=user.second_name}}
-                        {{> labeled_field/labeled_field title="Имя в чате" value=user.display_name}}
-                        {{> labeled_field/labeled_field title="Телефон" value=user.phone}}
-                    </ul>
-                </div>
-                <a href="/profile-update">Изменить данные</a>
-                <hr />
-                <a href="/password-update">Изменить пароль</a>
-                <hr />
-                <a href="/" class="logoutButton">Выйти</a>
-
-                {{> back_button/back_button to="/chat"}}
-            </div>
-        </main>
-    </div>
+    <div id="app"></div>
+    <script src="modules/profile" type="module"></script>
 </body>
 
 </html>

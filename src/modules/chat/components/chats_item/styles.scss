@@ -1,0 +1,42 @@
+.sidebarChatItem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid $border;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.itemInfo {
+  flex: 1;
+
+  & * {
+    margin: 0;
+  }
+}
+
+.itemDescription {
+  font-size: $fontSm;
+  color: $textSecondary;
+}
+
+.itemStatusTime {
+  font-size: $fontBase;
+  color: $textSecondary;
+}
+
+.itemStatusUnread {
+  width: 20px;
+  height: 20px;
+  background-color: $primary;
+  border-radius: 20px;
+  text-align: center;
+  font-size: $fontSm;
+  margin: auto;
+
+  * {
+    vertical-align: middle;
+  }
+}
