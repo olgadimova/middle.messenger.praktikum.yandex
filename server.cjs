@@ -7,6 +7,7 @@ const PORT = 3000;
 
 app.use(express.static(`${__dirname}/dist`));
 app.use(express.static(`${__dirname}/dist/assets`));
+app.use(express.static(`${__dirname}/public`));
 
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/register.html'));
@@ -25,7 +26,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/profile-update', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/password-update.html'));
+  res.sendFile(path.join(__dirname, 'dist/profile-update.html'));
 });
 
 app.get('/404', (req, res) => {
