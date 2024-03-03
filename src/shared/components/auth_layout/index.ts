@@ -1,6 +1,6 @@
 import Component from 'shared/services/component';
-import tpl from './tpl';
 import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers/input_validation';
+import tpl from './tpl';
 
 export class AuthLayout extends Component {
   render() {
@@ -22,11 +22,11 @@ export class AuthLayout extends Component {
 
     if (inputs) {
       inputs.forEach((input) => {
-        input.addEventListener('blur', (event) => {
+        input.addEventListener('blur', (event) =>
           (input as HTMLInputElement).name === 'check_password'
             ? handleCheckPasswordValidate('password', 'check_password', authFormId)
-            : handleValidateInput(event.target as HTMLInputElement, authFormId);
-        });
+            : handleValidateInput(event.target as HTMLInputElement, authFormId),
+        );
       });
     }
   }
@@ -57,8 +57,9 @@ export class AuthLayout extends Component {
     if (validationResults.every((isValid) => isValid)) {
       let formValues: Record<string, FormDataEntryValue> = {};
 
-      for (var pair of formData.entries()) {
-        formValues[pair[0]] = pair[1];
+      for (let pair of formData.entries()) {
+        const [key = pair[0], value = pair[1]] = [...pair];
+        formValues[key] = value;
       }
 
       console.log(formValues);

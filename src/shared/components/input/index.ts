@@ -9,10 +9,10 @@ export class Input extends Component {
   addEvents() {
     super.addEvents();
 
-    if (this._props.events && this._props.events['blur']) {
+    if (this._props.events && this._props.events.blur) {
       const input = this._element?.querySelector('input');
 
-      input?.addEventListener('blur', this._props.events['blur']);
+      input?.addEventListener('blur', this._props.events.blur);
     }
   }
 }
