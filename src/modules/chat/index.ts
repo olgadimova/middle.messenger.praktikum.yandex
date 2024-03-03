@@ -1,3 +1,7 @@
+import { chats } from 'shared/helpers/demo_data';
+import { renderDOM } from 'shared/helpers/renderDOM';
+import { Input, Page, Button } from 'shared/components';
+import { handleValidateInput } from 'shared/helpers/input_validation';
 import {
   ChatsHeader,
   Form,
@@ -11,19 +15,19 @@ import {
   Modal,
   ImageButton,
 } from './components';
-import { Input, Page, Button } from 'shared/components';
-import { chats } from 'shared/helpers/demo_data';
-import { renderDOM } from 'shared/helpers/renderDOM';
 
 import './components/index.scss';
-import { handleValidateInput } from 'shared/helpers/input_validation';
 
 const toggleManageChatModal = () => {
   const manageChatModal = document.getElementById('manageChatModal');
 
   if (manageChatModal) {
     let modalStyle = manageChatModal.style;
-    modalStyle.display === 'none' ? (modalStyle.display = 'flex') : (modalStyle.display = 'none');
+    if(modalStyle.display === 'none'){
+      modalStyle.display = 'flex';
+    } else {
+      modalStyle.display = 'none';
+    }
   }
 };
 
@@ -43,36 +47,44 @@ const chatsHeader = new ChatsHeader('div', {
   }),
 });
 
-const sidebarSection = new SidebarSection('section', {
+
+const manageChatModalSubmitButton = new Button('button', {
   attr: {
-    class: 'sidebar',
+    type: 'submit',
+    class: 'primaryButton',
   },
-  header: chatsHeader,
-  chats: chats.map((chat, index) => {
-    return new ChatsItem('li', {
-      ...chat,
-      attr: { class: 'sidebarChatItem' },
-      events: {
-        click: () => {
-          messagesSection.setProps({
-            selectedChatId: chats[index].id,
-            messages: chats[index].messages.map((item) => {
-              return new MessageItem('div', {
-                attr: {
-                  class: item.isMine ? 'myMessage' : 'otherMessage',
-                },
-                message: {
-                  isMine: item.isMine,
-                  title: item.title,
-                  createdAt: item.createdAt,
-                },
-              });
-            }),
-          });
-        },
-      },
-    });
-  }),
+  label: 'Добавить',
+});
+
+const manageChatModalInput = new Input('div', {
+  attr: {
+    class: 'formField',
+  },
+  id: 'modalInput',
+  formId: 'addChatUser',
+  type: 'text',
+  name: 'login',
+  placeholder: 'Введите имя пользователя',
+  label: 'Логин',
+  class: 'searchInput',
+});
+
+const manageChatModalForm = new Form('form', {
+  attr: {
+    class: 'modalForm',
+  },
+  formId: 'addChatUser',
+  fields: [manageChatModalInput, manageChatModalSubmitButton],
+});
+
+const manageChatModal = new Modal('div', {
+  attr: {
+    class: 'modal',
+    role: 'dialog',
+    style: 'display: none',
+  },
+  title: 'Добавить Пользователя',
+  form: manageChatModalForm,
 });
 
 const messagesHeader = new MessagesHeader('nav', {
@@ -163,44 +175,6 @@ const messagesHeader = new MessagesHeader('nav', {
   ],
 });
 
-const manageChatModalSubmitButton = new Button('button', {
-  attr: {
-    type: 'submit',
-    class: 'primaryButton',
-  },
-  label: 'Добавить',
-});
-
-const manageChatModalInput = new Input('div', {
-  attr: {
-    class: 'formField',
-  },
-  id: 'modalInput',
-  formId: 'addChatUser',
-  type: 'text',
-  name: 'login',
-  placeholder: 'Введите имя пользователя',
-  label: 'Логин',
-  class: 'searchInput',
-});
-
-const manageChatModalForm = new Form('form', {
-  attr: {
-    class: 'modalForm',
-  },
-  formId: 'addChatUser',
-  fields: [manageChatModalInput, manageChatModalSubmitButton],
-});
-
-const manageChatModal = new Modal('div', {
-  attr: {
-    class: 'modal',
-    role: 'dialog',
-    style: 'display: none',
-  },
-  title: 'Добавить Пользователя',
-  form: manageChatModalForm,
-});
 
 const messagesFooter = new MessagesFooter('div', {
   attr: {
@@ -246,6 +220,34 @@ const messagesSection = new MessagesSection('section', {
   footer: messagesFooter,
   messages: [],
   modal: manageChatModal,
+});
+
+const sidebarSection = new SidebarSection('section', {
+  attr: {
+    class: 'sidebar',
+  },
+  header: chatsHeader,
+  chats: chats.map((chat, index) => new ChatsItem('li', {
+      ...chat,
+      attr: { class: 'sidebarChatItem' },
+      events: {
+        click: () => {
+          messagesSection.setProps({
+            selectedChatId: chats[index].id,
+            messages: chats[index].messages.map((item) => new MessageItem('div', {
+                attr: {
+                  class: item.isMine ? 'myMessage' : 'otherMessage',
+                },
+                message: {
+                  isMine: item.isMine,
+                  title: item.title,
+                  createdAt: item.createdAt,
+                },
+              })),
+          });
+        },
+      },
+    })),
 });
 
 const layout = new ChatLayout('div', {

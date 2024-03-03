@@ -1,6 +1,6 @@
 import Component from 'shared/services/component';
-import tpl from './tpl';
 import { handleValidateInput } from 'shared/helpers/input_validation';
+import tpl from './tpl';
 
 export class Form extends Component {
   render() {
@@ -31,8 +31,10 @@ export class Form extends Component {
         if (validationResults.every((isValid) => isValid)) {
           let formValues: Record<string, FormDataEntryValue> = {};
 
-          for (var pair of formData.entries()) {
-            formValues[pair[0]] = pair[1];
+          for (let pair of formData.entries()) {
+            const [key = pair[0], value = pair[1]] = [...pair];
+
+            formValues[key] = value;
           }
 
           console.log(formValues);

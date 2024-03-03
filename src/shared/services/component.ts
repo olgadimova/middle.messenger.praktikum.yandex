@@ -3,11 +3,6 @@ import Handlebars from 'handlebars';
 
 import EventBus from './event_bus';
 
-type MetaType = {
-  tag: string;
-  props: Object;
-};
-
 type ExtendedHTMLElement = HTMLElement & {
   id?: string;
   content?: HTMLElement;
@@ -18,6 +13,11 @@ type Props = {
   events?: Record<string, EventListener>;
   attr?: Record<string, string>;
   [key: string | symbol]: unknown;
+};
+
+type MetaType = {
+  tag: string;
+  props: Props;
 };
 
 export default class Component {
@@ -231,7 +231,7 @@ export default class Component {
     return document.createElement(tag);
   }
 
-  compile(template: string, props?: Object) {
+  compile(template: string, props?: Props) {
     if (typeof props === 'undefined') {
       props = this._props;
     }
@@ -242,7 +242,7 @@ export default class Component {
       propsAndStubs[key] = `<div data-id="${child.id}"></div>`;
     });
 
-    Object.entries(this._lists).forEach(([key, _child]) => {
+    Object.entries(this._lists).forEach(([key]) => {
       propsAndStubs[key] = `<div data-id="${key}"></div>`;
     });
 
