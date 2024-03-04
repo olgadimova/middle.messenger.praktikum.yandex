@@ -35,13 +35,16 @@ const chatsHeader = new ChatsHeader('div', {
   form: new Form('form', {
     attr: {
       class: 'formSearchChat',
+      id: 'searchForm',
     },
+    formId: 'searchForm',
     fields: [
       new Input('div', {
         type: 'text',
         name: 'search',
         placeholder: 'Найти Чат',
         class: 'searchInput',
+        formId: 'searchForm',
       }),
     ],
   }),
@@ -71,6 +74,7 @@ const manageChatModalInput = new Input('div', {
 const manageChatModalForm = new Form('form', {
   attr: {
     class: 'modalForm',
+    id: 'addChatUser',
   },
   formId: 'addChatUser',
   fields: [manageChatModalInput, manageChatModalSubmitButton],

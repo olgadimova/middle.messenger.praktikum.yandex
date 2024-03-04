@@ -11,7 +11,7 @@ export class Form extends Component {
     super.addEvents();
 
     if (this._element) {
-      this._element.addEventListener('submit', (event) => this.handleSubmit(event));
+      this._element.addEventListener('submit', this.handleSubmit);
     }
   }
 
@@ -19,26 +19,29 @@ export class Form extends Component {
     super.removeEvents();
 
     if (this._element) {
-      this._element.removeEventListener('submit', (event) => this.handleSubmit(event));
+      this._element.removeEventListener('submit', this.handleSubmit);
     }
   }
 
-  handleSubmit = (event: SubmitEvent) => {
+  handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
-    let formId = this._props.formId as string;
+    const form = event.target as HTMLFormElement;
+    const formId = form.id as string;
 
-    const formData = new FormData(event.target as HTMLFormElement);
+    const inputs = document.querySelectorAll(`#${formId} input`);
 
-    const inputs = this._element?.querySelectorAll('input');
+    if (!inputs) {
+      return;
+    }
+
+    const formData = new FormData(form);
 
     let validationResults: boolean[] = [];
 
-    if (inputs) {
-      inputs.forEach((input) => {
-        validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
-      });
-    }
+    inputs.forEach((input) => {
+      validationResults.push(handleValidateInput(input as HTMLInputElement, formId));
+    });
 
     if (validationResults.every((isValid) => isValid)) {
       let formValues: Record<string, FormDataEntryValue> = {};
@@ -51,5 +54,5 @@ export class Form extends Component {
 
       console.log(formValues);
     }
-  };
+  }
 }

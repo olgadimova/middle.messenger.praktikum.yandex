@@ -17,16 +17,12 @@ export class AuthLayout extends Component {
     const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
-      authForm?.addEventListener('submit', (event) => this.handleSubmit(event, inputs));
+      authForm?.addEventListener('submit', this.handleSubmit);
     }
 
     if (inputs) {
       inputs.forEach((input) => {
-        input.addEventListener('blur', (event) =>
-          (input as HTMLInputElement).name === 'check_password'
-            ? handleCheckPasswordValidate('password', 'check_password', authFormId)
-            : handleValidateInput(event.target as HTMLInputElement, authFormId),
-        );
+        input.addEventListener('blur', this.handleOnBlurInput);
       });
     }
   }
@@ -41,34 +37,45 @@ export class AuthLayout extends Component {
     const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
-      authForm?.removeEventListener('submit', (event) => this.handleSubmit(event, inputs));
+      authForm?.removeEventListener('submit', this.handleSubmit);
     }
 
     if (inputs) {
       inputs.forEach((input) => {
-        input.removeEventListener('blur', (event) =>
-          (input as HTMLInputElement).name === 'check_password'
-            ? handleCheckPasswordValidate('password', 'check_password', authFormId)
-            : handleValidateInput(event.target as HTMLInputElement, authFormId),
-        );
+        input.removeEventListener('blur', this.handleOnBlurInput);
       });
     }
   }
 
-  handleSubmit = (event: Event, inputs?: NodeListOf<Element>) => {
+  handleOnBlurInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const formId = input.getAttribute('data-formid');
+
+    if (!formId) return;
+
+    if (input.name === 'check_password') {
+      handleCheckPasswordValidate('password', 'check_password', formId);
+    } else {
+      handleValidateInput(input, formId);
+    }
+  }
+
+  handleSubmit(event: Event) {
     event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const authFormId = form.id;
+    const inputs = document.querySelectorAll(`#${authFormId} input`);
 
     if (!inputs) {
       return;
     }
 
-    const authFormId = this._props.formId as string;
-
-    const formData = new FormData(event.target as HTMLFormElement);
+    const formData = new FormData(form);
 
     let validationResults: boolean[] = [];
 
-    if (inputs && this._props.formId) {
+    if (inputs && authFormId) {
       inputs.forEach((input) => {
         validationResults.push(
           (input as HTMLInputElement).name === 'check_password'
@@ -88,5 +95,5 @@ export class AuthLayout extends Component {
 
       console.log(formValues);
     }
-  };
+  }
 }
