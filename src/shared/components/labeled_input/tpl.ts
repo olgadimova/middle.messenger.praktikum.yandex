@@ -1,7 +1,8 @@
 const tpl = `
 <label class='title' for={{id}}>{{label}}</span></label>
 <div class="inputContainer">
-    <input id={{id}} type={{type}} name={{name}} placeholder='{{placeholder}}' value='{{value}}' class='value' />
+    <input id={{id}} type={{type}} name={{name}} placeholder='{{placeholder}}' value='{{value}}' class='value' 
+    data-formid="{{formId}}" />
     <p id='error-{{formId}}-{{name}}' class='error'>{{error}}</p>
 </div>  
 `;
