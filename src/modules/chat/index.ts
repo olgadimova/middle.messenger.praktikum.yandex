@@ -23,7 +23,7 @@ const toggleManageChatModal = () => {
 
   if (manageChatModal) {
     let modalStyle = manageChatModal.style;
-    if(modalStyle.display === 'none'){
+    if (modalStyle.display === 'none') {
       modalStyle.display = 'flex';
     } else {
       modalStyle.display = 'none';
@@ -46,7 +46,6 @@ const chatsHeader = new ChatsHeader('div', {
     ],
   }),
 });
-
 
 const manageChatModalSubmitButton = new Button('button', {
   attr: {
@@ -175,7 +174,6 @@ const messagesHeader = new MessagesHeader('nav', {
   ],
 });
 
-
 const messagesFooter = new MessagesFooter('div', {
   attr: {
     class: 'chatFooter',
@@ -185,7 +183,7 @@ const messagesFooter = new MessagesFooter('div', {
       class: 'formMessage',
       id: 'sendMessageForm',
     },
-    formId: 'messageForm',
+    formId: 'sendMessageForm',
     fields: [
       new Input('div', {
         attr: {
@@ -227,27 +225,33 @@ const sidebarSection = new SidebarSection('section', {
     class: 'sidebar',
   },
   header: chatsHeader,
-  chats: chats.map((chat, index) => new ChatsItem('li', {
-      ...chat,
-      attr: { class: 'sidebarChatItem' },
-      events: {
-        click: () => {
-          messagesSection.setProps({
-            selectedChatId: chats[index].id,
-            messages: chats[index].messages.map((item) => new MessageItem('div', {
-                attr: {
-                  class: item.isMine ? 'myMessage' : 'otherMessage',
-                },
-                message: {
-                  isMine: item.isMine,
-                  title: item.title,
-                  createdAt: item.createdAt,
-                },
-              })),
-          });
+  chats: chats.map(
+    (chat, index) =>
+      new ChatsItem('li', {
+        ...chat,
+        attr: { class: 'sidebarChatItem' },
+        events: {
+          click: () => {
+            messagesSection.setProps({
+              selectedChatId: chats[index].id,
+              messages: chats[index].messages.map(
+                (item) =>
+                  new MessageItem('div', {
+                    attr: {
+                      class: item.isMine ? 'myMessage' : 'otherMessage',
+                    },
+                    message: {
+                      isMine: item.isMine,
+                      title: item.title,
+                      createdAt: item.createdAt,
+                    },
+                  }),
+              ),
+            });
+          },
         },
-      },
-    })),
+      }),
+  ),
 });
 
 const layout = new ChatLayout('div', {
