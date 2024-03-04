@@ -31,7 +31,31 @@ export class ProfileLayout extends Component {
     }
   }
 
-  handleSubmit(event: Event, inputs?: NodeListOf<Element>) {
+  removeEvents() {
+    super.removeEvents();
+
+    const authFormId = this._props.formId as string;
+
+    const authForm: HTMLElement | null | undefined = this._element?.querySelector(`#${authFormId}`);
+
+    const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
+
+    if (authForm) {
+      authForm?.removeEventListener('submit', (event) => this.handleSubmit(event, inputs));
+    }
+
+    if (inputs) {
+      inputs.forEach((input) => {
+        input.removeEventListener('blur', (event) =>
+          (input as HTMLInputElement).name === 'checkNewPassword'
+            ? handleCheckPasswordValidate('newPassword', 'checkNewPassword', authFormId)
+            : handleValidateInput(event.target as HTMLInputElement, authFormId),
+        );
+      });
+    }
+  }
+
+  handleSubmit = (event: Event, inputs?: NodeListOf<Element>) => {
     event.preventDefault();
 
     if (!inputs) {
@@ -64,5 +88,5 @@ export class ProfileLayout extends Component {
 
       console.log(formValues);
     }
-  }
+  };
 }
