@@ -1,0 +1,28 @@
+.formSearchChat {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid $border;
+
+  .searchInput {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.formMessage {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 10px;
+
+  .formMessageInput {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .fieldError {
+    color: $error;
+    font-size: $fontSm;
+  }
+}

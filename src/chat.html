@@ -5,120 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Чаты - Module 1</title>
-  <link href="modules/chat/styles.scss" rel="stylesheet" />
+  <link href="shared/styles/index.scss" rel="stylesheet" />
 </head>
 
 <body>
-  <div id="app">
-    <main>
-      <section class="sidebar">
-        <div class="sidebarHeader">
-          <a href="/profile">Профиль
-            <img src="/assets/chevron-right.svg" width="14px" height="14px" alt="profile icon" /></a>
-        </div>
-        <form class="formSearchChat">
-          <input type="text" name="search" placeholder="&#128269;  Поиск" class="searchInput" />
-        </form>
-        <ul>
-          {{#each chats}}
-          <li class="sidebarChatItem">
-            <div class="itemAvatar">
-              <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
-            </div>
-            <div class="itemInfo">
-              <p>{{this.title}}</p>
-              <p class="itemDescription">
-                {{this.lastMessage.title}}
-              </p>
-            </div>
-            <div>
-              <p class="itemStatusTime">
-                {{this.lastMessage.createdAt}}
-              </p>
-              {{#if this.unreadMessages }}
-              <div class="itemStatusUnread">
-                <span>{{this.unreadMessages}}</span>
-              </div>
-              {{/if}}
-            </div>
-          </li>
-          {{/each}}
-        </ul>
-      </section>
-      <section class="chat">
-        {{#if selectedChatId}}
-        <nav class="chatHeader">
-          <div class="chatTitle">
-            <div class="chatAvatar">
-              <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
-            </div>
-            <p>Вадим</p>
-          </div>
-          <div class="manageChat">
-            <button type="button" id="toggleManageChatModal" class="manageChatButton">
-              <img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />
-            </button>
-            <div id="manageChatModal" class="manageChatMenu" style="display: none;">
-              {{> button/button type="button" label="Добавить Пользователя" value="addChatUser"
-              class="chatControls"}}
-              {{> button/button type="button" label="Удалить Пользователя" value="deleteChatUser"
-              class="chatControls"}}
-            </div>
-          </div>
-        </nav>
-        <div class="chatBody">
-          <div class="chatNotEmpty">
-            <p class="chatMessageDate">20 июня</p>
-            <div class="myMessage">
-              <p>Мое сообщение</p>
-              <div class="chatMessageTime">
-                <img src="/assets/check.svg" width="10px" height="10px" />
-                <span>12:00</span>
-              </div>
-            </div>
-            <div class="otherMessage">
-              <p>Сообщение собеседника</p>
-              <div class="chatMessageTime">
-                <img src="/assets/check.svg" width="10px" height="10px" />
-                <span>12:00</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="chatFooter">
-          <label for="send-file">
-            <img src="/assets/paperclip.svg" width="25px" height="25px" alt="send file" />
-            <input id="send-file" type="file" hidden />
-          </label>
-          <form class="formMessage">
-            <input name="message" placeholder="Написать сообщение" class="formMessageInput" />
-            <button type="submit" class="messageSubmitButton">
-              <img src="/assets/arrow-right.svg" width="20px" height="20px" alt="send message arrow icon" />
-            </button>
-          </form>
-        </div>
-        {{else}}
-        <div class="chatEmpty">
-          <p>Выберите чат чтобы оправить сообщение</p>
-        </div>
-        {{/if}}
-      </section>
-
-      {{#> modal/modal modalId="addChatUser" title="Добавить пользователя"}}
-      {{> input/input type="text" id="modalInput" name="login" label="Логин"
-      placeholder="Введите имя пользователя"}}
-      {{> button/button type="submit" label="Добавить" }}
-      {{/modal/modal}}
-
-      {{#> modal/modal modalId="deleteChatUser" title="Удалить пользователя"}}
-      {{> input/input type="text" id="modalInput" name="login" label="Логин"
-      placeholder="Введите имя пользователя"}}
-      {{> button/button type="submit" label="Удалить" }}
-      {{/modal/modal}}
-    </main>
-  </div>
-
-  <script src="modules/chat/index.js" type="module" async></script>
+  <div id="app"></div>
+  <script src="modules/chat/index.ts" type="module" async></script>
 </body>
 
 </html>

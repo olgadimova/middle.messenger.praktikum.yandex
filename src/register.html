@@ -5,37 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Регистрация - Module 1</title>
-  <link href="modules/auth/styles.scss" rel="stylesheet" />
+  <link href="shared/styles/index.scss" rel="stylesheet" />
 </head>
 
 <body>
-  <div id="app">
-    <main>
-      <section class="authForm">
-        <h1 class="autTitle">Регистрация</h1>
-        <form>
-          <ul>
-            {{> input/input id="fieldEmail" type="email" name="email" placeholder="Введите почту" label="Почта" }}
-            {{> input/input type="text" id="fieldLogin" name="login" placeholder="Введите логин" label="Логин"}}
-            {{> input/input id="fieldFirstName" type="text" name="first_name" class="fieldInput"
-            placeholder="Введите имя" label="Имя" }}
-            {{> input/input id="fieldSecondName" type="text" name="second_name" class="fieldInput" label="Фамилия"
-            placeholder="Введите фамилию" }}
-            {{> input/input id="fieldPhone" type="text" name="phone" class="fieldInput" placeholder="Введите телефон"
-            label="Телефон" }}
-            {{> input/input type="password" id="fieldPassword" name="password" placeholder="Введите пароль"
-            label="Пароль"}}
-            {{> input/input type="password" id="fieldCheckPassword" name="check_password"
-            placeholder="Введите пароль еще раз" label="Пароль еще раз" error="Пароли не совпадают"}}
-          </ul>
-          <div class="authActionButtons">
-            {{> button/button type="submit" label="Зарегистрироваться"}}
-            <a href="/">Вход</a>
-          </div>
-        </form>
-      </section>
-    </main>
-  </div>
+  <div id="app"></div>
+  <script src="modules/register" type="module"></script>
 </body>
 
 </html>

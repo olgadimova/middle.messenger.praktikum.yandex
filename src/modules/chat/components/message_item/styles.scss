@@ -1,0 +1,33 @@
+.chatMessageDate {
+  text-align: center;
+  color: $textSecondary;
+}
+
+.myMessage {
+  margin-left: auto;
+  width: fit-content;
+  max-width: 50%;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border-bottom-right-radius: 0;
+  text-align: right;
+  background-color: $primary;
+  margin-bottom: 10px;
+}
+
+.otherMessage {
+  width: fit-content;
+  max-width: 50%;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border-bottom-left-radius: 0;
+  text-align: right;
+  background-color: $textSecondary;
+  margin-bottom: 10px;
+}
+
+.chatMessageTime {
+  color: $textPrimary;
+  font-weight: 500;
+  font-size: $fontXs;
+}

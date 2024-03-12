@@ -4,21 +4,36 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "start": "vite build && node server.cjs",
-    "preview": "vite preview"
+    "dev": "npm run lint && vite",
+    "build": "vite build",
+    "start": "npm run lint && npm run build && node server.cjs",
+    "preview": "vite preview",
+    "lint": "node_modules/.bin/eslint . && tsc --noEmit"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
     "sass": "^1.70.0",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-scss": "^6.1.0",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8",
+    "vite": "^5.1.3",
     "vite-plugin-handlebars": "^2.0.0"
   },
   "engines": {
     "node": "18.x"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "handlebars": "^4.7.8",
+    "uuid": "^9.0.1"
   }
 }
