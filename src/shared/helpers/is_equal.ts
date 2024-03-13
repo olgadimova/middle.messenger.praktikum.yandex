@@ -1,0 +1,1 @@
+export const isEqual = (lhs: string, rhs: string): boolean => lhs === rhs;

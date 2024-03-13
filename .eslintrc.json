@@ -18,6 +18,7 @@
     "no-shadow": "off",
     "react/prop-types": "off",
     "react/sort-comp": "off",
+    "no-use-before-define": "warn",
     "react/no-unused-class-component-methods": "off",
     "@typescript-eslint/no-this-alias": "warn"
   },

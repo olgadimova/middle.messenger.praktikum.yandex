@@ -9,7 +9,7 @@ type ExtendedHTMLElement = HTMLElement & {
   getContent?: () => HTMLElement;
 };
 
-type Props = {
+export type ComponentProps = {
   events?: Record<string, EventListener>;
   attr?: Record<string, string>;
   [key: string | symbol]: unknown;
@@ -17,7 +17,7 @@ type Props = {
 
 type MetaType = {
   tag: string;
-  props: Props;
+  props: ComponentProps;
 };
 
 export default class Component {
@@ -34,11 +34,11 @@ export default class Component {
 
   _id: string | null = null;
 
-  _children: Props = {};
+  _children: ComponentProps = {};
 
-  _lists: Props = {};
+  _lists: ComponentProps = {};
 
-  _props: Props = {};
+  _props: ComponentProps = {};
 
   _setUpdate: boolean = false;
 
@@ -46,7 +46,7 @@ export default class Component {
 
   /**
    * @param {string} tag
-   * @param {Object} props
+   * @param {ComponentProps} props
    * @returns {void}
    */
   constructor(tag = 'div', propsAndChildren = {}) {
@@ -97,7 +97,7 @@ export default class Component {
     this.eventBus().emit(Component.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: Props, newProps: Props) {
+  _componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
@@ -106,11 +106,11 @@ export default class Component {
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(_oldProps: Props, _newProps: Props) {
+  componentDidUpdate(_oldProps: ComponentProps, _newProps: ComponentProps) {
     return true;
   }
 
-  setProps = (nextProps: Props) => {
+  setProps = (nextProps: ComponentProps) => {
     if (!nextProps) {
       return;
     }
@@ -188,10 +188,10 @@ export default class Component {
     return this.element;
   }
 
-  getChildren(propsAndChildren: Props) {
-    const children: Props = {};
-    const props: Props = {};
-    const lists: Props = {};
+  getChildren(propsAndChildren: ComponentProps) {
+    const children: ComponentProps = {};
+    const props: ComponentProps = {};
+    const lists: ComponentProps = {};
 
     Object.keys(propsAndChildren).forEach((key) => {
       if (propsAndChildren[key] instanceof Component) {
@@ -206,7 +206,7 @@ export default class Component {
     return { children, props, lists };
   }
 
-  _makePropsProxy(props: Props) {
+  _makePropsProxy(props: ComponentProps) {
     let context = this;
 
     return new Proxy(props, {
@@ -231,7 +231,7 @@ export default class Component {
     return document.createElement(tag);
   }
 
-  compile(template: string, props?: Props) {
+  compile(template: string, props?: ComponentProps) {
     if (typeof props === 'undefined') {
       props = this._props;
     }
@@ -281,5 +281,17 @@ export default class Component {
     });
 
     return fragment.content;
+  }
+
+  show() {
+    if (this.element) {
+      this.element.style.display = 'block';
+    }
+  }
+
+  hide() {
+    if (this.element) {
+      this.element.style.display = 'none';
+    }
   }
 }
