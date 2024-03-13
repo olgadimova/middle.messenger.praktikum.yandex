@@ -1,4 +1,5 @@
-import Component from 'shared/services/component';
+import { Component } from 'shared/services';
+
 import tpl from './tpl';
 
 export class Input extends Component {
@@ -9,20 +10,20 @@ export class Input extends Component {
   addEvents() {
     super.addEvents();
 
-    if (this._props.events && this._props.events.blur) {
-      const input = this._element?.querySelector('input');
+    if (this.props.events && this.props.events.blur) {
+      const input = this.element?.querySelector('input');
 
-      input?.addEventListener('blur', this._props.events.blur);
+      input?.addEventListener('blur', this.props.events.blur);
     }
   }
 
   removeEvents() {
     super.removeEvents();
 
-    if (this._props.events && this._props.events.blur) {
-      const input = this._element?.querySelector('input');
+    if (this.props.events && this.props.events.blur) {
+      const input = this.element?.querySelector('input');
 
-      input?.removeEventListener('blur', this._props.events.blur);
+      input?.removeEventListener('blur', this.props.events.blur);
     }
   }
 }

@@ -1,4 +1,4 @@
-import Component from 'shared/services/component';
+import { Component } from 'shared/services';
 import { isEqual, renderDOM } from 'shared/helpers';
 
 type RouteProps = {

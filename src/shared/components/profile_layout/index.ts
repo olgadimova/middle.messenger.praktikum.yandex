@@ -1,5 +1,6 @@
-import Component from 'shared/services/component';
-import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers/input_validation';
+import { Component } from 'shared/services';
+import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers';
+
 import tpl from './tpl';
 
 export class ProfileLayout extends Component {
@@ -10,11 +11,11 @@ export class ProfileLayout extends Component {
   addEvents() {
     super.addEvents();
 
-    const authFormId = this._props.formId as string;
+    const authFormId = this.props.formId as string;
 
-    const authForm: HTMLElement | null | undefined = this._element?.querySelector(`#${authFormId}`);
+    const authForm: HTMLElement | null | undefined = this.element?.querySelector(`#${authFormId}`);
 
-    const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
+    const inputs = this.element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
       authForm?.addEventListener('submit', this.handleSubmit);
@@ -30,9 +31,9 @@ export class ProfileLayout extends Component {
   removeEvents() {
     super.removeEvents();
 
-    const formId = this._props.formId as string;
-    const profileForm: HTMLElement | null | undefined = this._element?.querySelector(`#${formId}`);
-    const inputs = this._element?.querySelectorAll(`#${formId} input`);
+    const formId = this.props.formId as string;
+    const profileForm: HTMLElement | null | undefined = this.element?.querySelector(`#${formId}`);
+    const inputs = this.element?.querySelectorAll(`#${formId} input`);
 
     if (profileForm) {
       profileForm.removeEventListener('submit', this.handleSubmit);

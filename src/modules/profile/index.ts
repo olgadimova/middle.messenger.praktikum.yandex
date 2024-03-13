@@ -1,6 +1,5 @@
 import { LabeledField, Page, ProfileHeader, ProfileLayout, BackButton } from 'shared/components';
-import { user } from 'shared/helpers/demo_data';
-import { renderDOM } from 'shared/helpers/renderDOM';
+import { renderDOM, user } from 'shared/helpers';
 
 const backButton = new BackButton('div', {
   attr: {

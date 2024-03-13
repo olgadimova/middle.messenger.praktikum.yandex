@@ -26,20 +26,20 @@ export function queryStringify(data: Record<string, string | number>) {
 }
 
 /* Имплементация по типу fetch для отправки api запросов */
-class HTTPTransport {
-  get = (url: RequestUrlType, options: RequestOptionsType) =>
+export class HTTPTransport {
+  public get = (url: RequestUrlType, options: RequestOptionsType) =>
     this.request(url, { ...options, method: FetchMethodsEnum.GET }, options.timeout);
 
-  post = (url: RequestUrlType, options: RequestOptionsType) =>
+  public post = (url: RequestUrlType, options: RequestOptionsType) =>
     this.request(url, { ...options, method: FetchMethodsEnum.POST }, options.timeout);
 
-  put = (url: RequestUrlType, options: RequestOptionsType) =>
+  public put = (url: RequestUrlType, options: RequestOptionsType) =>
     this.request(url, { ...options, method: FetchMethodsEnum.PUT }, options.timeout);
 
-  delete = (url: RequestUrlType, options: RequestOptionsType) =>
+  public delete = (url: RequestUrlType, options: RequestOptionsType) =>
     this.request(url, { ...options, method: FetchMethodsEnum.DELETE }, options.timeout);
 
-  request = (
+  public request = (
     url: RequestUrlType,
     options: RequestOptionsType = { method: FetchMethodsEnum.GET },
     timeout = 5000,

@@ -1,7 +1,5 @@
-import { chats } from 'shared/helpers/demo_data';
-import { renderDOM } from 'shared/helpers/renderDOM';
 import { Input, Page, Button } from 'shared/components';
-import { handleValidateInput } from 'shared/helpers/input_validation';
+import { handleValidateInput, renderDOM, chats } from 'shared/helpers';
 import {
   ChatsHeader,
   Form,

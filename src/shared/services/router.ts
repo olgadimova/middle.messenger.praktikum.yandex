@@ -1,16 +1,15 @@
-import Component from 'shared/services/component';
-import { Route } from 'shared/services';
+import { Route, Component } from 'shared/services';
 
 export class Router {
-  public routes: Route[] = [];
-
-  public history: History | null = null;
-
   private _currentRoute: Route | null | undefined = null;
 
   private _rootQuery: string | null = null;
 
   static __instance: Router;
+
+  public routes: Route[] = [];
+
+  public history: History | null = null;
 
   public constructor(rootQuery: string) {
     if (Router.__instance) {

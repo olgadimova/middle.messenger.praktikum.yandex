@@ -1,7 +1,7 @@
 import { v4 as makeUUID } from 'uuid';
 import Handlebars from 'handlebars';
 
-import EventBus from './event_bus';
+import { EventBus } from 'shared/services';
 
 type ExtendedHTMLElement = HTMLElement & {
   id?: string;
@@ -20,7 +20,7 @@ type MetaType = {
   props: ComponentProps;
 };
 
-export default class Component {
+export class Component {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -28,31 +28,25 @@ export default class Component {
     FLOW_CDU: 'flow:component-did-update',
   };
 
-  _element: HTMLElement | null = null;
+  private _element: HTMLElement | null = null;
 
-  _meta: MetaType;
+  private _meta: MetaType;
 
-  _id: string | null = null;
+  private _id: string | null = null;
 
-  _children: ComponentProps = {};
+  private _children: ComponentProps = {};
 
-  _lists: ComponentProps = {};
+  private _lists: ComponentProps = {};
 
-  _props: ComponentProps = {};
+  private _setUpdate: boolean = false;
 
-  _setUpdate: boolean = false;
+  private _eventBus: () => EventBus;
 
-  eventBus: () => EventBus;
+  public props: ComponentProps = {};
 
-  /**
-   * @param {string} tag
-   * @param {ComponentProps} props
-   * @returns {void}
-   */
-  constructor(tag = 'div', propsAndChildren = {}) {
+  public constructor(tag: string = 'div', propsAndChildren: ComponentProps = {}) {
     const { children, props, lists } = this.getChildren(propsAndChildren);
 
-    const eventBus = new EventBus();
     this._meta = {
       tag,
       props,
@@ -61,63 +55,64 @@ export default class Component {
     this._id = makeUUID();
     this._children = this._makePropsProxy(children);
     this._lists = this._makePropsProxy(lists);
-    this._props = this._makePropsProxy({ ...props, _id: this._id });
+    this.props = this._makePropsProxy({ ...props, _id: this._id });
 
-    this.eventBus = () => eventBus;
+    const eventBus = new EventBus();
+    this._eventBus = () => eventBus;
     this._registerEvents(eventBus);
 
     eventBus.emit(Component.EVENTS.INIT);
   }
 
-  _registerEvents(eventBus: EventBus) {
-    eventBus.on(Component.EVENTS.INIT, this.init.bind(this));
+  private _registerEvents(eventBus: EventBus) {
+    eventBus.on(Component.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Component.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Component.EVENTS.FLOW_RENDER, this._render.bind(this));
     eventBus.on(Component.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
   }
 
-  _createResources() {
+  private _init() {
+    this._createResources();
+    this._eventBus().emit(Component.EVENTS.FLOW_RENDER);
+  }
+
+  private _createResources() {
     const { tag } = this._meta;
     this._element = this._createDocumentElement(tag);
   }
 
-  init() {
-    this._createResources();
-    this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
-  }
-
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidMount() {}
+  public componentDidMount() {}
 
-  dispatchComponentDidMount() {
-    this.eventBus().emit(Component.EVENTS.FLOW_CDM);
+  public dispatchComponentDidMount() {
+    this._eventBus().emit(Component.EVENTS.FLOW_CDM);
   }
 
-  _componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps) {
+  private _componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (response) {
-      this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
+      this._eventBus().emit(Component.EVENTS.FLOW_RENDER);
     }
   }
 
   // Может переопределять пользователь, необязательно трогать
-  componentDidUpdate(_oldProps: ComponentProps, _newProps: ComponentProps) {
+  public componentDidUpdate(_oldProps: ComponentProps, _newProps: ComponentProps) {
     return true;
   }
 
-  setProps = (nextProps: ComponentProps) => {
+  public setProps = (nextProps: ComponentProps) => {
     if (!nextProps) {
       return;
     }
 
     this._setUpdate = false;
 
-    const oldProps = { ...this._props };
+    const oldProps = { ...this.props };
 
     const { children, props, lists } = this.getChildren(nextProps);
 
@@ -126,7 +121,7 @@ export default class Component {
     }
 
     if (Object.values(props).length) {
-      Object.assign(this._props, props);
+      Object.assign(this.props, props);
     }
 
     if (Object.values(lists).length) {
@@ -134,7 +129,7 @@ export default class Component {
     }
 
     if (this._setUpdate) {
-      this.eventBus().emit(Component.EVENTS.FLOW_CDU, oldProps, this._props);
+      this._eventBus().emit(Component.EVENTS.FLOW_CDU, oldProps, this.props);
       this._setUpdate = false;
     }
   };
@@ -143,7 +138,7 @@ export default class Component {
     return this._element;
   }
 
-  _render() {
+  private _render() {
     const block: unknown = this.render();
 
     if (this._element) {
@@ -156,57 +151,9 @@ export default class Component {
   }
 
   // Может переопределять пользователь, необязательно трогать
-  render() {}
+  public render() {}
 
-  addEvents() {
-    const { events = {} } = this._props;
-
-    Object.keys(events).forEach((eventName) => {
-      this._element?.addEventListener(eventName, events[eventName]);
-    });
-  }
-
-  removeEvents() {
-    const { events = {} } = this._props;
-
-    Object.keys(events).forEach((eventName) => {
-      this._element?.removeEventListener(eventName, events[eventName]);
-    });
-  }
-
-  addAttributes() {
-    const { attr } = this._props;
-
-    if (attr && typeof attr === 'object') {
-      Object.entries(attr).forEach(([key, value]) => {
-        this._element?.setAttribute(key, value as string);
-      });
-    }
-  }
-
-  getContent() {
-    return this.element;
-  }
-
-  getChildren(propsAndChildren: ComponentProps) {
-    const children: ComponentProps = {};
-    const props: ComponentProps = {};
-    const lists: ComponentProps = {};
-
-    Object.keys(propsAndChildren).forEach((key) => {
-      if (propsAndChildren[key] instanceof Component) {
-        children[key] = propsAndChildren[key];
-      } else if (Array.isArray(propsAndChildren[key])) {
-        lists[key] = propsAndChildren[key];
-      } else {
-        props[key] = propsAndChildren[key];
-      }
-    });
-
-    return { children, props, lists };
-  }
-
-  _makePropsProxy(props: ComponentProps) {
+  private _makePropsProxy(props: ComponentProps) {
     let context = this;
 
     return new Proxy(props, {
@@ -227,13 +174,61 @@ export default class Component {
     });
   }
 
-  _createDocumentElement(tag: string): ExtendedHTMLElement {
+  private _createDocumentElement(tag: string): ExtendedHTMLElement {
     return document.createElement(tag);
   }
 
-  compile(template: string, props?: ComponentProps) {
+  public addEvents() {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  public removeEvents() {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element?.removeEventListener(eventName, events[eventName]);
+    });
+  }
+
+  public addAttributes() {
+    const { attr } = this.props;
+
+    if (attr && typeof attr === 'object') {
+      Object.entries(attr).forEach(([key, value]) => {
+        this._element?.setAttribute(key, value as string);
+      });
+    }
+  }
+
+  public getContent() {
+    return this.element;
+  }
+
+  public getChildren(propsAndChildren: ComponentProps) {
+    const children: ComponentProps = {};
+    const props: ComponentProps = {};
+    const lists: ComponentProps = {};
+
+    Object.keys(propsAndChildren).forEach((key) => {
+      if (propsAndChildren[key] instanceof Component) {
+        children[key] = propsAndChildren[key];
+      } else if (Array.isArray(propsAndChildren[key])) {
+        lists[key] = propsAndChildren[key];
+      } else {
+        props[key] = propsAndChildren[key];
+      }
+    });
+
+    return { children, props, lists };
+  }
+
+  public compile(template: string, props?: ComponentProps) {
     if (typeof props === 'undefined') {
-      props = this._props;
+      props = this.props;
     }
 
     const propsAndStubs: Record<string, unknown> = { ...props };
@@ -283,13 +278,13 @@ export default class Component {
     return fragment.content;
   }
 
-  show() {
+  public show() {
     if (this.element) {
       this.element.style.display = 'block';
     }
   }
 
-  hide() {
+  public hide() {
     if (this.element) {
       this.element.style.display = 'none';
     }

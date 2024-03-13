@@ -1,4 +1,5 @@
-import Component from 'shared/services/component';
+import { Component } from 'shared/services';
+
 import tpl from './tpl';
 
 export class ChatsHeader extends Component {

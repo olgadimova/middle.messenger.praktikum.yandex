@@ -1,5 +1,6 @@
-import Component from 'shared/services/component';
-import { handleValidateInput } from 'shared/helpers/input_validation';
+import { Component } from 'shared/services';
+import { handleValidateInput } from 'shared/helpers';
+
 import tpl from './tpl';
 
 export class Form extends Component {
@@ -10,16 +11,16 @@ export class Form extends Component {
   addEvents() {
     super.addEvents();
 
-    if (this._element) {
-      this._element.addEventListener('submit', this.handleSubmit);
+    if (this.element) {
+      this.element.addEventListener('submit', this.handleSubmit);
     }
   }
 
   removeEvents() {
     super.removeEvents();
 
-    if (this._element) {
-      this._element.removeEventListener('submit', this.handleSubmit);
+    if (this.element) {
+      this.element.removeEventListener('submit', this.handleSubmit);
     }
   }
 

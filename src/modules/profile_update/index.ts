@@ -1,6 +1,5 @@
 import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
-import { user } from 'shared/helpers/demo_data';
-import { renderDOM } from 'shared/helpers/renderDOM';
+import { renderDOM, user } from 'shared/helpers';
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
