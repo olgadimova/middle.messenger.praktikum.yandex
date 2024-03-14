@@ -1,9 +1,19 @@
-import { Page } from 'shared/components';
-import { renderDOM } from 'shared/helpers/renderDOM';
-import tpl from './tpl';
+import { ErrorPageLayout, Link, Page } from 'shared/components';
 
-const page = new Page('main', {
-  content: tpl,
+const pageContent = new ErrorPageLayout('div', {
+  errorCode: '500',
+  errorDescription: 'Мы уже фиксим',
+  linkToChat: new Link('a', {
+    label: 'Назад к чатам',
+    attr: {
+      href: '/messenger',
+      class: 'link',
+    },
+  }),
 });
 
-renderDOM('#app', page);
+const ErrorPage500 = new Page('main', {
+  content: pageContent,
+});
+
+export default ErrorPage500;

@@ -15,11 +15,10 @@ const tpl = `
         {{{fields}}}
     </ul>
 </div>
-<a href="/profile-update">Изменить данные</a>
-<hr />
-<a href="/password-update">Изменить пароль</a>
-<hr />
-<a href="/" class="logoutButton">Выйти</a>
+
+<div class="profileFooter">
+    {{{profileFooter}}}
+</div>
 {{/if}}
 
 {{{backButton}}}

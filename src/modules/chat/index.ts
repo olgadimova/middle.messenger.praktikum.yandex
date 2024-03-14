@@ -1,5 +1,5 @@
-import { Input, Page, Button } from 'shared/components';
-import { handleValidateInput, renderDOM, chats } from 'shared/helpers';
+import { Input, Page, Button, Link } from 'shared/components';
+import { handleValidateInput, chats } from 'shared/helpers';
 import {
   ChatsHeader,
   Form,
@@ -30,6 +30,13 @@ const toggleManageChatModal = () => {
 };
 
 const chatsHeader = new ChatsHeader('div', {
+  linkToProfile: new Link('a', {
+    label: 'Профиль',
+    attr: {
+      href: '/profile',
+      class: 'link',
+    },
+  }),
   form: new Form('form', {
     attr: {
       class: 'formSearchChat',
@@ -264,8 +271,8 @@ const layout = new ChatLayout('div', {
   },
 });
 
-const page = new Page('main', {
+const MessengerPage = new Page('main', {
   content: layout,
 });
 
-renderDOM('#app', page);
+export default MessengerPage;

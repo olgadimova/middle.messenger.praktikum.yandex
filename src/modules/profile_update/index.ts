@@ -1,5 +1,5 @@
 import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
-import { renderDOM, user } from 'shared/helpers';
+import { user } from 'shared/helpers';
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
@@ -97,8 +97,8 @@ const profileLayout = new ProfileLayout('div', {
   backButton,
 });
 
-const page = new Page('main', {
+const ProfileUpdatePage = new Page('main', {
   content: profileLayout,
 });
 
-renderDOM('#app', page);
+export default ProfileUpdatePage;

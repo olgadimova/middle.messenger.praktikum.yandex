@@ -280,7 +280,7 @@ export class Component {
 
   public show() {
     if (this.element) {
-      this.element.style.display = 'block';
+      this.element.style.display = 'initial';
     }
   }
 

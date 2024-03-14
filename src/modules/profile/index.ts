@@ -1,11 +1,11 @@
-import { LabeledField, Page, ProfileHeader, ProfileLayout, BackButton } from 'shared/components';
-import { renderDOM, user } from 'shared/helpers';
+import { LabeledField, Page, ProfileHeader, ProfileLayout, BackButton, Link } from 'shared/components';
+import { user } from 'shared/helpers';
 
 const backButton = new BackButton('div', {
   attr: {
     class: 'backButtonContainer',
   },
-  to: '/chat',
+  to: '/messenger',
 });
 
 const profileHeader = new ProfileHeader('div', {
@@ -29,10 +29,33 @@ const profileLayout = new ProfileLayout('div', {
     new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Телефон', value: user.phone }),
   ],
   backButton,
+  profileFooter: [
+    new Link('a', {
+      label: 'Изменить данные',
+      attr: {
+        href: '/settings',
+        class: 'link withSeparator',
+      },
+    }),
+    new Link('a', {
+      label: 'Изменить пароль',
+      attr: {
+        href: '/settings-password',
+        class: 'link withSeparator',
+      },
+    }),
+    new Link('a', {
+      label: 'Выйти',
+      attr: {
+        href: '/',
+        class: 'link logoutButton',
+      },
+    }),
+  ],
 });
 
-const page = new Page('main', {
+const ProfilePage = new Page('main', {
   content: profileLayout,
 });
 
-renderDOM('#app', page);
+export default ProfilePage;

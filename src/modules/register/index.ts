@@ -1,5 +1,4 @@
-import { Input, Page, AuthLayout, Button } from 'shared/components';
-import { renderDOM } from 'shared/helpers/renderDOM';
+import { Input, Page, AuthLayout, Button, Link } from 'shared/components';
 
 const submitButton = new Button('button', {
   attr: {
@@ -80,11 +79,17 @@ const authForm = new AuthLayout('div', {
     }),
   ],
   submitButton,
-  backTo: '/',
+  link: new Link('a', {
+    label: 'Войти',
+    attr: {
+      href: '/',
+      class: 'link',
+    },
+  }),
 });
 
-const page = new Page('main', {
+const RegisterPage = new Page('main', {
   content: authForm,
 });
 
-renderDOM('#app', page);
+export default RegisterPage;

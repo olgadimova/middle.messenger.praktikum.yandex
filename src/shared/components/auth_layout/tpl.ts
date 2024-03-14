@@ -5,8 +5,8 @@ const tpl = `
         {{{fields}}}
     </ul>
     <div class="authActionButtons">
-        {{{submitButton}}}
-    <a href="{{backTo}}">Нет аккаунта?</a>
+    {{{submitButton}}}
+    {{{link}}}
     </div>
 </form>
 `;

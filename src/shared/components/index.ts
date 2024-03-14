@@ -7,3 +7,5 @@ export * from './labeled_input';
 export * from './button';
 export * from './auth_layout';
 export * from './input';
+export * from './link';
+export * from './error_page_layout';

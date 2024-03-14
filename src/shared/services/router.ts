@@ -13,7 +13,7 @@ export class Router {
 
   public constructor(rootQuery: string) {
     if (Router.__instance) {
-      throw new Error('Router already exists!');
+      throw new Error('Router already exists, use static getInstance method!');
     }
 
     this._currentRoute = null;
@@ -25,7 +25,11 @@ export class Router {
   }
 
   private _onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
+    let route = this.getRoute(pathname);
+
+    if (!route) {
+      route = this.getRoute('/404');
+    }
 
     if (this._currentRoute) {
       this._currentRoute.leave();
@@ -35,7 +39,11 @@ export class Router {
     route?.render();
   }
 
-  public use(pathname: string, block: typeof Component) {
+  public static getInstance() {
+    return Router.__instance;
+  }
+
+  public use(pathname: string, block: Component) {
     if (this._rootQuery) {
       const route = new Route(pathname, block, { rootQuery: this._rootQuery });
       this.routes.push(route);

@@ -10,13 +10,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
-        register: resolve(__dirname, 'src/register.html'),
-        profile: resolve(__dirname, 'src/profile.html'),
-        profileUpdate: resolve(__dirname, 'src/profile-update.html'),
-        passwordUpdate: resolve(__dirname, 'src/password-update.html'),
-        chat: resolve(__dirname, 'src/chat.html'),
-        404: resolve(__dirname, 'src/404.html'),
-        500: resolve(__dirname, 'src/500.html'),
       },
     },
   },
@@ -33,6 +26,9 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: [{ find: 'shared', replacement: resolve(__dirname, 'src/shared') }],
+    alias: [
+      { find: 'shared', replacement: resolve(__dirname, 'src/shared') },
+      { find: 'modules', replacement: resolve(__dirname, 'src/modules') },
+    ],
   },
 });

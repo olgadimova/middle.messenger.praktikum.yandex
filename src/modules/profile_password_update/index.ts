@@ -1,5 +1,4 @@
 import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
-import { renderDOM } from 'shared/helpers/renderDOM';
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
@@ -66,8 +65,8 @@ const profileLayout = new ProfileLayout('div', {
   backButton,
 });
 
-const page = new Page('main', {
+const ProfilePasswordUpdatePage = new Page('main', {
   content: profileLayout,
 });
 
-renderDOM('#app', page);
+export default ProfilePasswordUpdatePage;
