@@ -1,3 +1,5 @@
+import { queryStringify } from 'shared/helpers';
+
 enum FetchMethodsEnum {
   GET = 'GET',
   POST = 'POST',
@@ -14,16 +16,6 @@ type RequestOptionsType = {
   headers?: Record<string, string>;
   retries?: number;
 };
-
-export function queryStringify(data: Record<string, string | number>) {
-  // Можно делать трансформацию GET-параметров в отдельной функции
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
-}
 
 /* Имплементация по типу fetch для отправки api запросов */
 export class HTTPTransport {
@@ -51,7 +43,7 @@ export class HTTPTransport {
 
       const isGet = method === FetchMethodsEnum.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url);
+      xhr.open(method, isGet && !!data ? `?${url}${queryStringify(data)}` : url);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);

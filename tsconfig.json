@@ -19,7 +19,7 @@
     "strictNullChecks": true,
     "paths": {
       "shared/*": ["./src/shared/*"],
-      "modules/*": ["./src/modules/*"]
+      "pages/*": ["./src/pages/*"]
     }
   },
   "include": ["src"]

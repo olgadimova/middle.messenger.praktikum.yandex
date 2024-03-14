@@ -28,7 +28,7 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: 'shared', replacement: resolve(__dirname, 'src/shared') },
-      { find: 'modules', replacement: resolve(__dirname, 'src/modules') },
+      { find: 'pages', replacement: resolve(__dirname, 'src/pages') },
     ],
   },
 });
