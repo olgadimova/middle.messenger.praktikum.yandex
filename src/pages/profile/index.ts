@@ -1,5 +1,9 @@
+import { AuthController } from 'api/controllers';
 import { LabeledField, Page, ProfileHeader, ProfileLayout, BackButton, Link } from 'shared/components';
 import { user } from 'shared/helpers';
+import { Router } from 'shared/services';
+
+const authController = new AuthController();
 
 const backButton = new BackButton('div', {
   attr: {
@@ -50,6 +54,15 @@ const profileLayout = new ProfileLayout('div', {
         href: '/',
         class: 'link logoutButton',
       },
+      events: {
+        click: async (e: Event) => {
+          e.preventDefault();
+
+          await authController.logout();
+          const router = Router.getInstance();
+          router.go('/');
+        },
+      },
     }),
   ],
 });
@@ -57,5 +70,9 @@ const profileLayout = new ProfileLayout('div', {
 const ProfilePage = new Page('main', {
   content: profileLayout,
 });
+
+ProfilePage.componentDidMount = async () => {
+  await authController.getUser();
+};
 
 export default ProfilePage;

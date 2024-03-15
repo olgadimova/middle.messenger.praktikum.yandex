@@ -19,7 +19,8 @@
     "strictNullChecks": true,
     "paths": {
       "shared/*": ["./src/shared/*"],
-      "pages/*": ["./src/pages/*"]
+      "pages/*": ["./src/pages/*"],
+      "api/*": ["./src/api/*"]
     }
   },
   "include": ["src"]

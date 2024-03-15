@@ -1,6 +1,9 @@
 import { Component } from 'shared/services';
 import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers';
 
+import { AuthFormType } from 'shared/types';
+import { AuthController } from 'api/controllers';
+
 import tpl from './tpl';
 
 export class AuthLayout extends Component {
@@ -61,7 +64,7 @@ export class AuthLayout extends Component {
     }
   }
 
-  handleSubmit(event: Event) {
+  async handleSubmit(event: Event) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -87,14 +90,33 @@ export class AuthLayout extends Component {
     }
 
     if (validationResults.every((isValid) => isValid)) {
-      let formValues: Record<string, FormDataEntryValue> = {};
+      let formValues: Record<string, string> = {};
 
       for (let pair of formData.entries()) {
         const [key = pair[0], value = pair[1]] = [...pair];
-        formValues[key] = value;
+        formValues[key] = value.toString();
       }
 
-      console.log(formValues);
+      const authController = new AuthController();
+      const formError = document.querySelector('#formError');
+
+      if (authFormId === AuthFormType.LOGIN) {
+        try {
+          await authController.login(formValues as LoginParams);
+        } catch (err) {
+          if (formError) {
+            formError.textContent = (err as Error).message;
+          }
+        }
+      } else {
+        try {
+          await authController.register(formValues as RegisterParams);
+        } catch (err) {
+          if (formError) {
+            formError.textContent = (err as Error).message;
+          }
+        }
+      }
     }
   }
 }

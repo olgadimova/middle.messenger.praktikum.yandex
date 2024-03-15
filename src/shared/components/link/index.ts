@@ -19,10 +19,10 @@ export class Link extends Component {
   }
 
   addEvents() {
-    this.element?.addEventListener('click', this.handleRedirect);
+    this.element?.addEventListener('click', this.props.events?.click ?? this.handleRedirect);
   }
 
   removeEvents() {
-    this.element?.removeEventListener('click', this.handleRedirect);
+    this.element?.removeEventListener('click', this.props.events?.click ?? this.handleRedirect);
   }
 }

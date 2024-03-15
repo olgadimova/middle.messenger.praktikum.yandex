@@ -1,4 +1,5 @@
 import { Input, Page, AuthLayout, Button, Link } from 'shared/components';
+import { AuthFormType } from 'shared/types';
 
 const submitButton = new Button('button', {
   attr: {
@@ -12,7 +13,8 @@ const authForm = new AuthLayout('div', {
   attr: {
     class: 'authForm',
   },
-  formId: 'registerForm',
+  formId: AuthFormType.REGISTER,
+  title: 'Регистрация',
   fields: [
     new Input('li', {
       attr: { class: 'formField' },

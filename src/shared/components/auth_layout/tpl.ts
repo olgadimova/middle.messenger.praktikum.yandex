@@ -1,5 +1,5 @@
 const tpl = `
-<h1 class="authTitle">Вход</h1>
+<h1 class="authTitle">{{title}}</h1>
 <form id="{{formId}}">
     <ul>
         {{{fields}}}
@@ -9,6 +9,8 @@ const tpl = `
     {{{link}}}
     </div>
 </form>
+
+<p id="formError" class="error">{{error}}</p>
 `;
 
 export default tpl;
