@@ -1,6 +1,7 @@
 import { Input, Page, Button, Link } from 'shared/components';
 import { handleValidateInput, chats } from 'shared/helpers';
 import { ChatsController } from 'api/controllers';
+import { ChatModalFormType } from 'shared/types';
 
 import {
   ChatsHeader,
@@ -46,7 +47,7 @@ const manageChatModalInput = new Input('div', {
     class: 'formField',
   },
   id: 'modalInput',
-  formId: 'addChatUser',
+  formId: ChatModalFormType.ADD_CHAT_USER,
   type: 'text',
   name: 'login',
   placeholder: 'Введите имя пользователя',
@@ -57,9 +58,9 @@ const manageChatModalInput = new Input('div', {
 const manageChatModalForm = new Form('form', {
   attr: {
     class: 'modalForm',
-    id: 'addChatUser',
+    id: ChatModalFormType.ADD_CHAT_USER,
   },
-  formId: 'addChatUser',
+  formId: ChatModalFormType.ADD_CHAT_USER,
   fields: [manageChatModalInput, manageChatModalSubmitButton],
 });
 
@@ -82,12 +83,12 @@ const chatsHeader = new ChatsHeader('div', {
     events: {
       click: () => {
         manageChatModalInput.setProps({
-          formId: 'createChat',
+          formId: ChatModalFormType.CREATE_CHAT,
         });
 
         manageChatModalInput.setProps({
           id: 'modalInput',
-          formId: 'createChat',
+          formId: ChatModalFormType.CREATE_CHAT,
           type: 'text',
           name: 'title',
           placeholder: 'Введите название чата',
@@ -100,9 +101,9 @@ const chatsHeader = new ChatsHeader('div', {
 
         manageChatModalForm.setProps({
           attr: {
-            id: 'createChat',
+            id: ChatModalFormType.CREATE_CHAT,
           },
-          formId: 'createChat',
+          formId: ChatModalFormType.CREATE_CHAT,
         });
 
         manageChatModal.setProps({
@@ -167,7 +168,7 @@ const messagesHeader = new MessagesHeader('nav', {
     new Button('button', {
       attr: {
         type: 'button',
-        value: 'addChatUser',
+        value: ChatModalFormType.ADD_CHAT_USER,
         class: 'primaryButton chatControls',
       },
       label: 'Добавить Пользователя',
@@ -176,12 +177,12 @@ const messagesHeader = new MessagesHeader('nav', {
           toggleManageChatModal();
 
           manageChatModalInput.setProps({
-            formId: 'addChatUser',
+            formId: ChatModalFormType.ADD_CHAT_USER,
           });
 
           manageChatModalInput.setProps({
             id: 'modalInput',
-            formId: 'addChatUser',
+            formId: ChatModalFormType.ADD_CHAT_USER,
             type: 'text',
             name: 'login',
             placeholder: 'Введите имя пользователя',
@@ -194,9 +195,9 @@ const messagesHeader = new MessagesHeader('nav', {
 
           manageChatModalForm.setProps({
             attr: {
-              id: 'addChatUser',
+              id: ChatModalFormType.ADD_CHAT_USER,
             },
-            formId: 'addChatUser',
+            formId: ChatModalFormType.ADD_CHAT_USER,
           });
 
           manageChatModal.setProps({
@@ -204,7 +205,7 @@ const messagesHeader = new MessagesHeader('nav', {
               style: 'display: flex',
             },
             title: 'Добавить Пользователя',
-            modalId: 'delteChatUser',
+            modalId: ChatModalFormType.DELETE_CHAT_USER,
           });
         },
       },
@@ -213,7 +214,7 @@ const messagesHeader = new MessagesHeader('nav', {
       attr: {
         class: 'primaryButton chatControls',
         type: 'button',
-        value: 'deleteChatUser',
+        value: ChatModalFormType.DELETE_CHAT_USER,
       },
       label: 'Удалить Пользователя',
       events: {
@@ -221,12 +222,12 @@ const messagesHeader = new MessagesHeader('nav', {
           toggleManageChatModal();
 
           manageChatModalInput.setProps({
-            formId: 'deleteChatUser',
+            formId: ChatModalFormType.DELETE_CHAT_USER,
           });
 
           manageChatModalInput.setProps({
             id: 'modalInput',
-            formId: 'deleteChatUser',
+            formId: ChatModalFormType.DELETE_CHAT_USER,
             type: 'text',
             name: 'login',
             placeholder: 'Введите имя пользователя',
@@ -239,9 +240,9 @@ const messagesHeader = new MessagesHeader('nav', {
 
           manageChatModalForm.setProps({
             attr: {
-              id: 'deleteChatUser',
+              id: ChatModalFormType.DELETE_CHAT_USER,
             },
-            formId: 'deleteChatUser',
+            formId: ChatModalFormType.DELETE_CHAT_USER,
           });
 
           manageChatModal.setProps({
