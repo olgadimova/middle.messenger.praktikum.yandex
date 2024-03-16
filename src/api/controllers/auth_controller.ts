@@ -48,7 +48,8 @@ export class AuthController {
 
   public async getUser() {
     try {
-      await authApi.request();
+      const user: UserObject = await authApi.request();
+      console.log(user);
     } catch (err) {
       throw new Error('Не удалось загрузить данные. Попробуйте снова.');
     }

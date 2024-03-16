@@ -7,7 +7,7 @@ export class BaseAPI {
     throw new Error('Not implemented');
   }
 
-  public update() {
+  public update(_data?: Record<string, string | number>) {
     throw new Error('Not implemented');
   }
 

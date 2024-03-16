@@ -8,6 +8,8 @@ const tpl = `
     <div class="submitButton">
         {{{submitButton}}}
     </div>
+
+    <p id="formError" class="formError" />
 </form>
 {{else}}
 <div class="formInfo">

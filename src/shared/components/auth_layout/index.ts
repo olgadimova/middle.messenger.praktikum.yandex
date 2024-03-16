@@ -100,21 +100,25 @@ export class AuthLayout extends Component {
       const authController = new AuthController();
       const formError = document.querySelector('#formError');
 
-      if (authFormId === AuthFormType.LOGIN) {
-        try {
-          await authController.login(formValues as LoginParams);
-        } catch (err) {
-          if (formError) {
-            formError.textContent = (err as Error).message;
+      try {
+        switch (authFormId) {
+          case AuthFormType.LOGIN: {
+            await authController.login(formValues as LoginParams);
+            break;
           }
+          case AuthFormType.REGISTER: {
+            await authController.register(formValues as RegisterParams);
+            break;
+          }
+          default:
+            break;
         }
-      } else {
-        try {
-          await authController.register(formValues as RegisterParams);
-        } catch (err) {
-          if (formError) {
-            formError.textContent = (err as Error).message;
-          }
+        if (formError) {
+          formError.textContent = '';
+        }
+      } catch (err) {
+        if (formError) {
+          formError.textContent = (err as Error).message;
         }
       }
     }

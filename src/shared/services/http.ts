@@ -11,11 +11,12 @@ type RequestUrlType = string;
 
 type RequestOptionsType = {
   method?: string;
-  data?: Record<string, string | number>;
+  data?: Record<string, string | number> | FormData;
   timeout?: number;
   headers?: Record<string, string>;
   retries?: number;
   withCredentials?: boolean;
+  params?: Record<string, string | number>;
 };
 
 /* Имплементация по типу fetch для отправки api запросов */
@@ -42,15 +43,14 @@ export class HTTP {
     url: RequestUrlType,
     options: RequestOptionsType,
     timeout = 5000,
-  ): Promise<XMLHttpRequest | void> => {
-    const { method = FetchMethodsEnum.GET, data, headers = {}, withCredentials = true } = options;
+  ): Promise<XMLHttpRequest['response'] | void> => {
+    const { method = FetchMethodsEnum.GET, data, headers = {}, withCredentials = true, params } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
       const isGet = method === FetchMethodsEnum.GET;
-
-      xhr.open(method, isGet && !!data ? `${this._prefix}?${url}${queryStringify(data)}` : `${this._prefix}${url}`);
+      xhr.open(method, isGet && !!params ? `${this._prefix}?${url}${queryStringify(params)}` : `${this._prefix}${url}`);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);

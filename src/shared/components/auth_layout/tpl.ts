@@ -10,7 +10,7 @@ const tpl = `
     </div>
 </form>
 
-<p id="formError" class="error">{{error}}</p>
+<p id="formError" class="error" />
 `;
 
 export default tpl;

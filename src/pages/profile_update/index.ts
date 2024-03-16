@@ -1,5 +1,6 @@
 import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
 import { user } from 'shared/helpers';
+import { ProfileFormType } from 'shared/types';
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
@@ -30,7 +31,7 @@ const profileLayout = new ProfileLayout('div', {
   },
   profileHeader,
   isForm: true,
-  formId: 'profileUpdateForm',
+  formId: ProfileFormType.INFO,
   fields: [
     new LabeledInput('li', {
       attr: { class: 'labeledInputField' },

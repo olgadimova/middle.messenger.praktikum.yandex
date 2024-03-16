@@ -1,5 +1,7 @@
 import { Component } from 'shared/services';
 import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers';
+import { UserController } from 'api/controllers';
+import { ProfileFormType } from 'shared/types';
 
 import tpl from './tpl';
 
@@ -59,7 +61,7 @@ export class ProfileLayout extends Component {
     }
   }
 
-  handleSubmit(event: Event) {
+  async handleSubmit(event: Event) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -92,7 +94,30 @@ export class ProfileLayout extends Component {
         formValues[key] = value;
       }
 
-      console.log(formValues);
+      const userController = new UserController();
+      const formError = document.querySelector('#formError');
+
+      try {
+        switch (formId) {
+          case ProfileFormType.INFO: {
+            await userController.updateProfile(formValues as UserProfileParams);
+            break;
+          }
+          case ProfileFormType.PASSWORD: {
+            await userController.updatePassword(formValues as UserPasswordParams);
+            break;
+          }
+          default:
+            break;
+        }
+        if (formError) {
+          formError.textContent = 'Данные успешно обновлены!';
+        }
+      } catch (err) {
+        if (formError) {
+          formError.textContent = (err as Error).message;
+        }
+      }
     }
   }
 }
