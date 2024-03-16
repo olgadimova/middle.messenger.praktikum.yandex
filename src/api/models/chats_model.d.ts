@@ -4,6 +4,8 @@ declare type RequestChatsParams = {
   title?: string;
 };
 
+declare type CreateChatParams = { title: string };
+
 declare type UpdateChatUsersParams = {
   users: number[];
   chatId: number;

@@ -1,21 +1,18 @@
 const tpl = `
-{{{header}}}    
-
 {{#if selectedChatId}}
+    {{{header}}} 
     <div class="chatBody">
         <div class="chatNotEmpty">
         <p class="chatMessageDate">20 июня</p>
         {{{messages}}}
         </div>
     </div>
+    {{{footer}}}
 {{else}}
     <div class="chatEmpty">
-        <p>Выберите чат чтобы оправить сообщение</p>
+        <p>Выберите чат для отправки сообщения</p>
     </div>
 {{/if}}
-
-{{{footer}}}
-{{{modal}}}
 `;
 
 export default tpl;

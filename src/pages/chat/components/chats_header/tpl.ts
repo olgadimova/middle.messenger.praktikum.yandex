@@ -1,7 +1,12 @@
 const tpl = `
 <div class="sidebarHeader">
-    {{{linkToProfile}}}
-    <img src="/assets/chevron-right.svg" width="14px" height="14px" alt="profile icon" /></a>
+    <div>
+        {{{createChatButton}}}
+    </div>
+    <div>
+        {{{linkToProfile}}}
+        <img src="/assets/chevron-right.svg" width="14px" height="14px" alt="profile icon" /></a>
+    </div>
 </div>
 {{{form}}}
 `;

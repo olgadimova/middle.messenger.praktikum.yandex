@@ -1,5 +1,7 @@
 import { Input, Page, Button, Link } from 'shared/components';
 import { handleValidateInput, chats } from 'shared/helpers';
+import { ChatsController } from 'api/controllers';
+
 import {
   ChatsHeader,
   Form,
@@ -16,6 +18,8 @@ import {
 
 import './components/index.scss';
 
+const chatsController = new ChatsController();
+
 const toggleManageChatModal = () => {
   const manageChatModal = document.getElementById('manageChatModal');
 
@@ -28,32 +32,6 @@ const toggleManageChatModal = () => {
     }
   }
 };
-
-const chatsHeader = new ChatsHeader('div', {
-  linkToProfile: new Link('a', {
-    label: 'Профиль',
-    attr: {
-      href: '/profile',
-      class: 'link',
-    },
-  }),
-  form: new Form('form', {
-    attr: {
-      class: 'formSearchChat',
-      id: 'searchForm',
-    },
-    formId: 'searchForm',
-    fields: [
-      new Input('div', {
-        type: 'text',
-        name: 'search',
-        placeholder: 'Найти Чат',
-        class: 'searchInput',
-        formId: 'searchForm',
-      }),
-    ],
-  }),
-});
 
 const manageChatModalSubmitButton = new Button('button', {
   attr: {
@@ -95,15 +73,92 @@ const manageChatModal = new Modal('div', {
   form: manageChatModalForm,
 });
 
+const chatsHeader = new ChatsHeader('div', {
+  createChatButton: new ImageButton('button', {
+    attr: {
+      class: 'imageButton',
+    },
+    image: '<img src="/assets/plus.svg" width="20px" height="20px" alt="create chat" />',
+    events: {
+      click: () => {
+        manageChatModalInput.setProps({
+          formId: 'createChat',
+        });
+
+        manageChatModalInput.setProps({
+          id: 'modalInput',
+          formId: 'createChat',
+          type: 'text',
+          name: 'title',
+          placeholder: 'Введите название чата',
+          label: 'Название',
+        });
+
+        manageChatModalSubmitButton.setProps({
+          label: 'Создать',
+        });
+
+        manageChatModalForm.setProps({
+          attr: {
+            id: 'createChat',
+          },
+          formId: 'createChat',
+        });
+
+        manageChatModal.setProps({
+          attr: {
+            style: 'display: flex',
+          },
+          title: 'Создать Чат',
+        });
+      },
+    },
+  }),
+  linkToProfile: new Link('a', {
+    label: 'Профиль',
+    attr: {
+      href: '/profile',
+      class: 'link',
+    },
+  }),
+  form: new Form('form', {
+    attr: {
+      class: 'formSearchChat',
+      id: 'searchForm',
+    },
+    formId: 'searchForm',
+    fields: [
+      new Input('div', {
+        type: 'text',
+        name: 'search',
+        placeholder: 'Найти Чат',
+        class: 'searchInput',
+        formId: 'searchForm',
+      }),
+    ],
+  }),
+});
+
 const messagesHeader = new MessagesHeader('nav', {
   attr: {
     class: 'chatHeader',
   },
+  deleteChatButton: new ImageButton('button', {
+    attr: {
+      class: 'imageButton',
+    },
+    image: '<img src="/assets/trash.svg" width="22px" height="22px" alt="delete chat" />',
+    events: {
+      click: async () => {
+        // await chatsController.deleteChat();
+      },
+    },
+  }),
   manageChatButton: new ImageButton('button', {
     attr: {
       class: 'imageButton',
     },
-    image: '<img src="/assets/more.svg" width="25px" height="25px" alt="user avatar" />',
+    image: '<img src="/assets/more.svg" width="25px" height="25px" alt="manage chat" />',
     events: {
       click: toggleManageChatModal,
     },
@@ -122,6 +177,15 @@ const messagesHeader = new MessagesHeader('nav', {
 
           manageChatModalInput.setProps({
             formId: 'addChatUser',
+          });
+
+          manageChatModalInput.setProps({
+            id: 'modalInput',
+            formId: 'addChatUser',
+            type: 'text',
+            name: 'login',
+            placeholder: 'Введите имя пользователя',
+            label: 'Логин',
           });
 
           manageChatModalSubmitButton.setProps({
@@ -158,6 +222,15 @@ const messagesHeader = new MessagesHeader('nav', {
 
           manageChatModalInput.setProps({
             formId: 'deleteChatUser',
+          });
+
+          manageChatModalInput.setProps({
+            id: 'modalInput',
+            formId: 'deleteChatUser',
+            type: 'text',
+            name: 'login',
+            placeholder: 'Введите имя пользователя',
+            label: 'Логин',
           });
 
           manageChatModalSubmitButton.setProps({
@@ -226,7 +299,6 @@ const messagesSection = new MessagesSection('section', {
   header: messagesHeader,
   footer: messagesFooter,
   messages: [],
-  modal: manageChatModal,
 });
 
 const sidebarSection = new SidebarSection('section', {
@@ -264,15 +336,20 @@ const sidebarSection = new SidebarSection('section', {
 });
 
 const layout = new ChatLayout('div', {
-  sidebar: sidebarSection,
-  messages: messagesSection,
   attr: {
     style: 'height: 100vh',
   },
+  sidebar: sidebarSection,
+  messages: messagesSection,
+  modal: manageChatModal,
 });
 
 const MessengerPage = new Page('main', {
   content: layout,
 });
+
+MessengerPage.componentDidMount = async () => {
+  await chatsController.getAllChats();
+};
 
 export default MessengerPage;

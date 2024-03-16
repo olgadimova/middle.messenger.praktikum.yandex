@@ -52,4 +52,17 @@ export class UserController {
       throw new Error('Не удалось обновить пароль. Проверьте правильность ввода или попробуйте позже.');
     }
   }
+
+  public async searchUserById({ login }: SearchUserParams): Promise<number | null> {
+    const data = {
+      login,
+    };
+
+    try {
+      const users: UserObject[] = await userApi.searchUserById(data);
+      return users[0] ? users[0].id : null;
+    } catch (err) {
+      throw new Error('Не удалось обновить пароль. Проверьте правильность ввода или попробуйте позже.');
+    }
+  }
 }

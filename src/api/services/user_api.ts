@@ -15,4 +15,8 @@ export class UserApi extends BaseAPI {
   public updatePassword(data: Record<string, string | number>) {
     return userApiInstance.put('/password', { data });
   }
+
+  public searchUserById(data: Record<string, string>) {
+    return userApiInstance.post('/search', { data });
+  }
 }

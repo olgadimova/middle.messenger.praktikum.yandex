@@ -44,4 +44,9 @@
     text-decoration: none;
     cursor: pointer;
   }
+
+  .error {
+    color: $error;
+    text-align: center;
+  }
 }

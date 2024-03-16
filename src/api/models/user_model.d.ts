@@ -12,6 +12,10 @@ declare type UserPasswordParams = {
   newPassword: string;
 };
 
+declare type SearchUserParams = {
+  login: string;
+};
+
 declare type UserObject = {
   id: number;
   first_name: string;

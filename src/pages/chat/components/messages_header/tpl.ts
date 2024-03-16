@@ -6,6 +6,7 @@ const tpl = `
 <p>Вадим</p>
 </div>
 <div class="manageChat">
+{{{deleteChatButton}}}
 {{{manageChatButton}}}
 <div id="manageChatModal" class="manageChatMenu" style="display: none;">
     {{{actions}}}

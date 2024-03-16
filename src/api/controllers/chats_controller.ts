@@ -3,7 +3,10 @@ import { ChatsApi } from 'api/services';
 const chatsApi = new ChatsApi();
 
 export class ChatsController {
-  public async getAllChats({ offset, limit }: RequestChatsParams) {
+  public async getAllChats(params?: RequestChatsParams) {
+    const offset = params?.offset ?? 0;
+    const limit = params?.limit ?? 10;
+
     try {
       const data: ChatObject[] = await chatsApi.request({ params: { offset, limit } });
       console.log('chats', data);
@@ -12,7 +15,7 @@ export class ChatsController {
     }
   }
 
-  public async createChat({ title }: { title: string }) {
+  public async createChat({ title }: CreateChatParams) {
     const data = {
       title,
     };

@@ -1,6 +1,9 @@
 import { Component } from 'shared/services';
 import { handleValidateInput } from 'shared/helpers';
 
+import { ChatsController, UserController } from 'api/controllers';
+import { ChatModalFormType } from 'shared/types';
+
 import tpl from './tpl';
 
 export class Form extends Component {
@@ -24,7 +27,15 @@ export class Form extends Component {
     }
   }
 
-  handleSubmit(event: SubmitEvent) {
+  closeFormModal() {
+    const currentModal = document.querySelector('.modal');
+
+    if (currentModal) {
+      (currentModal as HTMLElement).style.display = 'none';
+    }
+  }
+
+  async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -53,7 +64,49 @@ export class Form extends Component {
         formValues[key] = value;
       }
 
-      console.log(formValues);
+      const chatsController = new ChatsController();
+      const userController = new UserController();
+
+      const formError = document.querySelector('p#formError');
+
+      if (formError) {
+        formError.textContent = '';
+      }
+
+      try {
+        switch (formId) {
+          case ChatModalFormType.CREATE_CHAT: {
+            await chatsController.createChat(formValues as CreateChatParams);
+            this.closeFormModal();
+            await chatsController.getAllChats();
+            break;
+          }
+          case ChatModalFormType.ADD_CHAT_USER: {
+            const userId = await userController.searchUserById(formValues as SearchUserParams);
+            if (userId) {
+              // await chatsController.addChatUsers(formValues as UpdateChatUsersParams);
+              break;
+            }
+            formError!.textContent = 'Пользователь не найден';
+            break;
+          }
+          case ChatModalFormType.DELETE_CHAT_USER: {
+            const userId = await userController.searchUserById(formValues as SearchUserParams);
+            if (userId) {
+              // await chatsController.deleteChatUsers(formValues as UpdateChatUsersParams);
+              break;
+            }
+            formError!.textContent = 'Пользователь не найден';
+            break;
+          }
+          default:
+            break;
+        }
+      } catch (err) {
+        if (formError) {
+          formError.textContent = (err as Error).message;
+        }
+      }
     }
   }
 }
