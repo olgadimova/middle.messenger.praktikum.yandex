@@ -1,7 +1,3 @@
-type PlainObject<T = unknown> = {
-  [k in string]: T;
-};
-
 export const isPlainObject = (value: unknown): value is PlainObject =>
   typeof value === 'object' &&
   value !== null &&

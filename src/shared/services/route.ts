@@ -1,5 +1,5 @@
 import { Component } from 'shared/services';
-import { isEqual, renderDOM } from 'shared/helpers';
+import { renderDOM } from 'shared/helpers';
 
 type RouteProps = {
   rootQuery: string;
@@ -35,7 +35,7 @@ export class Route {
   }
 
   public match(pathname: string) {
-    return isEqual(pathname, this._pathname);
+    return pathname === this._pathname;
   }
 
   public render() {
