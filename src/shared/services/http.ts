@@ -11,7 +11,7 @@ type RequestUrlType = string;
 
 type RequestOptionsType = {
   method?: string;
-  data?: Record<string, string | number> | FormData;
+  data?: Record<string, string | number | unknown[]> | FormData;
   timeout?: number;
   headers?: Record<string, string>;
   retries?: number;

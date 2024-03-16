@@ -3,7 +3,7 @@ export class BaseAPI {
     throw new Error('Not implemented');
   }
 
-  public request(_data?: Record<string, string | number>) {
+  public request(_options: { data?: Record<string, string | number>; params?: Record<string, string | number> }) {
     throw new Error('Not implemented');
   }
 
@@ -11,7 +11,7 @@ export class BaseAPI {
     throw new Error('Not implemented');
   }
 
-  public delete() {
+  public delete(_data?: Record<string, string | number>) {
     throw new Error('Not implemented');
   }
 }
