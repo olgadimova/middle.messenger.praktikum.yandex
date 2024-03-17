@@ -61,13 +61,15 @@ const ProfileUpdatePage = new ConnectedPage('main', {
 ProfileUpdatePage.componentDidMount = async () => {
   await authController.getUser();
 
-  const { user } = ProfileUpdatePage.props;
+  if (!ProfileUpdatePage.props.state) {
+    return;
+  }
+
+  const { user } = ProfileUpdatePage.props.state;
 
   if (user) {
-    const userInfo = user as UserObject;
-
-    if (userInfo.avatar) {
-      profileHeader.setProps({ avatarSrc: userInfo.avatar });
+    if (user.avatar) {
+      profileHeader.setProps({ avatarSrc: user.avatar });
     }
 
     profileLayout.setProps({
@@ -79,7 +81,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'email',
           placeholder: 'pochta@smth.com',
-          value: userInfo.email,
+          value: user.email,
           label: 'Почта',
         }),
         new LabeledInput('li', {
@@ -89,7 +91,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'login',
           placeholder: 'ivanchik',
-          value: userInfo.login,
+          value: user.login,
           label: 'Логин',
         }),
         new LabeledInput('li', {
@@ -99,7 +101,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'display_name',
           placeholder: 'Иван',
-          value: userInfo.email,
+          value: user.email,
           label: 'Имя в чате',
         }),
         new LabeledInput('li', {
@@ -109,7 +111,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'first_name',
           placeholder: 'Ваня',
-          value: userInfo.first_name,
+          value: user.first_name,
           label: 'Имя',
         }),
         new LabeledInput('li', {
@@ -119,7 +121,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'second_name',
           placeholder: 'Иванов',
-          value: userInfo.second_name,
+          value: user.second_name,
           label: 'Фамилия',
         }),
         new LabeledInput('li', {
@@ -129,7 +131,7 @@ ProfileUpdatePage.componentDidMount = async () => {
           type: 'text',
           name: 'phone',
           placeholder: '+7 777 77 77 77',
-          value: userInfo.phone,
+          value: user.phone,
           label: 'Телефон',
         }),
       ],

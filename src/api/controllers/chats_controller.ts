@@ -1,4 +1,5 @@
 import { ChatsApi } from 'api/services';
+import { store } from 'shared/services';
 
 const chatsApi = new ChatsApi();
 
@@ -9,7 +10,7 @@ export class ChatsController {
 
     try {
       const data: ChatObject[] = await chatsApi.request({ params: { offset, limit } });
-      console.log('chats', data);
+      store.set('chats', data);
     } catch (err) {
       throw new Error('Не удалось загрузить чаты. Попробуйте снова.');
     }

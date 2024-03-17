@@ -6,13 +6,13 @@ export const connect = (mapStateToProps: (state: State) => State) => (ExtendedCo
     constructor(tag: string, props: ComponentProps) {
       let state = mapStateToProps(store.getState());
 
-      super(tag, { ...props, ...state });
+      super(tag, { ...props, state: { ...state } });
 
       store.on(StoreEvents.Updated, () => {
         const newState = mapStateToProps(store.getState());
 
         if (!isEqual(state, newState)) {
-          this.setProps({ ...newState });
+          this.setProps({ state: { ...newState } });
         }
 
         state = newState;

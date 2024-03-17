@@ -1,20 +1,19 @@
-import { Input, Page, Button, Link } from 'shared/components';
-import { handleValidateInput, chats } from 'shared/helpers';
+import { Input, Button, Link, ConnectedPage } from 'shared/components';
+import { handleValidateInput } from 'shared/helpers';
 import { ChatsController } from 'api/controllers';
 import { ChatModalFormType } from 'shared/types';
 
 import {
   ChatsHeader,
   Form,
-  ChatsItem,
   SidebarSection,
   MessagesHeader,
   MessagesFooter,
   MessagesSection,
   ChatLayout,
-  MessageItem,
   Modal,
   ImageButton,
+  ChatsItem,
 } from './components';
 
 import './components/index.scss';
@@ -307,33 +306,8 @@ const sidebarSection = new SidebarSection('section', {
     class: 'sidebar',
   },
   header: chatsHeader,
-  chats: chats.map(
-    (chat, index) =>
-      new ChatsItem('li', {
-        ...chat,
-        attr: { class: 'sidebarChatItem' },
-        events: {
-          click: () => {
-            messagesSection.setProps({
-              selectedChatId: chats[index].id,
-              messages: chats[index].messages.map(
-                (item) =>
-                  new MessageItem('div', {
-                    attr: {
-                      class: item.isMine ? 'myMessage' : 'otherMessage',
-                    },
-                    message: {
-                      isMine: item.isMine,
-                      title: item.title,
-                      createdAt: item.createdAt,
-                    },
-                  }),
-              ),
-            });
-          },
-        },
-      }),
-  ),
+  chats: [],
+  chatsLength: 0,
 });
 
 const layout = new ChatLayout('div', {
@@ -345,12 +319,38 @@ const layout = new ChatLayout('div', {
   modal: manageChatModal,
 });
 
-const MessengerPage = new Page('main', {
+const MessengerPage = new ConnectedPage('main', {
   content: layout,
 });
 
 MessengerPage.componentDidMount = async () => {
   await chatsController.getAllChats();
+
+  if (!MessengerPage.props.state) {
+    return;
+  }
+
+  const { chats } = MessengerPage.props.state;
+
+  if (chats) {
+    sidebarSection.setProps({
+      chatsLength: chats.length,
+      chats: chats.map(
+        (chat, index) =>
+          new ChatsItem('li', {
+            ...chat,
+            attr: { class: 'sidebarChatItem' },
+            events: {
+              click: () => {
+                messagesSection.setProps({
+                  selectedChatId: chats[index].id,
+                });
+              },
+            },
+          }),
+      ),
+    });
+  }
 };
 
 export default MessengerPage;

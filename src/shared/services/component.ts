@@ -1,7 +1,7 @@
 import { v4 as makeUUID } from 'uuid';
 import Handlebars from 'handlebars';
 
-import { EventBus } from 'shared/services';
+import { EventBus, type State } from 'shared/services';
 
 type ExtendedHTMLElement = HTMLElement & {
   id?: string;
@@ -12,6 +12,7 @@ type ExtendedHTMLElement = HTMLElement & {
 export type ComponentProps = {
   events?: Record<string, EventListener>;
   attr?: Record<string, string>;
+  state?: State;
   [key: string | symbol]: unknown;
 };
 

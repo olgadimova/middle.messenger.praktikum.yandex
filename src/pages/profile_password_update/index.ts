@@ -76,13 +76,15 @@ const ProfilePasswordUpdatePage = new ConnectedPage('main', {
 ProfilePasswordUpdatePage.componentDidMount = async () => {
   await authController.getUser();
 
-  const { user } = ProfilePasswordUpdatePage.props;
+  if (!ProfilePasswordUpdatePage.props.state) {
+    return;
+  }
+
+  const { user } = ProfilePasswordUpdatePage.props.state;
 
   if (user) {
-    const userInfo = user as UserObject;
-
-    if (userInfo.avatar) {
-      profileHeader.setProps({ avatarSrc: userInfo.avatar });
+    if (user.avatar) {
+      profileHeader.setProps({ avatarSrc: user.avatar });
     }
   }
 };
