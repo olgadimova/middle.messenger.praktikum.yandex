@@ -1,5 +1,8 @@
-import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
+import { AuthController } from 'api/controllers';
+import { LabeledInput, ProfileHeader, ProfileLayout, Button, BackButton, ConnectedPage } from 'shared/components';
 import { ProfileFormType } from 'shared/types';
+
+const authController = new AuthController();
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
@@ -66,8 +69,22 @@ const profileLayout = new ProfileLayout('div', {
   backButton,
 });
 
-const ProfilePasswordUpdatePage = new Page('main', {
+const ProfilePasswordUpdatePage = new ConnectedPage('main', {
   content: profileLayout,
 });
+
+ProfilePasswordUpdatePage.componentDidMount = async () => {
+  await authController.getUser();
+
+  const { user } = ProfilePasswordUpdatePage.props;
+
+  if (user) {
+    const userInfo = user as UserObject;
+
+    if (userInfo.avatar) {
+      profileHeader.setProps({ avatarSrc: userInfo.avatar });
+    }
+  }
+};
 
 export default ProfilePasswordUpdatePage;

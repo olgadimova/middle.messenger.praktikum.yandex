@@ -9,3 +9,4 @@ export * from './auth_layout';
 export * from './input';
 export * from './link';
 export * from './error_page_layout';
+export * from './avatar_form';

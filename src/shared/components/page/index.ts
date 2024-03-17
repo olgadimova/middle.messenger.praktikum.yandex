@@ -1,5 +1,5 @@
 import { Component } from 'shared/services';
-
+import { connect } from 'shared/helpers';
 import { tpl } from './tpl';
 
 export class Page extends Component {
@@ -13,3 +13,7 @@ export class Page extends Component {
     }
   }
 }
+
+const withStore = connect((state) => ({ user: state.user, chats: state.chats }));
+
+export const ConnectedPage = withStore(Page);

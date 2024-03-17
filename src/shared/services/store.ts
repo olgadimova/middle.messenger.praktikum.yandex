@@ -23,7 +23,7 @@ class Store extends EventBus {
     return this.state;
   }
 
-  public set(state: Indexed, path: string, value: unknown) {
+  private _set(state: Indexed, path: string, value: unknown) {
     const params = path.split('.').reduceRight((acc: Indexed, val) => {
       if (!Object.entries(acc).length) {
         acc = { [val]: value };
@@ -35,6 +35,11 @@ class Store extends EventBus {
     }, {});
 
     return Object.assign(state, params);
+  }
+
+  public set(path: string, value: unknown) {
+    this._set(this.state, path, value);
+    this.emit(StoreEvents.Updated);
   }
 }
 

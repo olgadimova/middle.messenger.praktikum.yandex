@@ -1,6 +1,18 @@
-import { LabeledInput, Page, ProfileHeader, ProfileLayout, Button, BackButton } from 'shared/components';
-import { user } from 'shared/helpers';
+import { AuthController } from 'api/controllers';
+
+import {
+  LabeledInput,
+  ProfileHeader,
+  ProfileLayout,
+  Button,
+  BackButton,
+  ConnectedPage,
+  AvatarForm,
+} from 'shared/components';
+
 import { ProfileFormType } from 'shared/types';
+
+const authController = new AuthController();
 
 const profileHeader = new ProfileHeader('div', {
   attr: {
@@ -8,6 +20,11 @@ const profileHeader = new ProfileHeader('div', {
   },
   userName: 'Иван',
   canEditAvatar: true,
+  editAvatarForm: new AvatarForm('div', {
+    attr: {
+      id: 'updateAvatarForm',
+    },
+  }),
 });
 
 const submitButton = new Button('button', {
@@ -32,74 +49,92 @@ const profileLayout = new ProfileLayout('div', {
   profileHeader,
   isForm: true,
   formId: ProfileFormType.INFO,
-  fields: [
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputEmail',
-      type: 'text',
-      name: 'email',
-      placeholder: 'pochta@smth.com',
-      value: user.email,
-      label: 'Почта',
-    }),
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputLogin',
-      type: 'text',
-      name: 'login',
-      placeholder: 'ivanchik',
-      value: user.login,
-      label: 'Логин',
-    }),
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputDisplayName',
-      type: 'text',
-      name: 'display_name',
-      placeholder: 'Иван',
-      value: user.email,
-      label: 'Имя в чате',
-    }),
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputFirstName',
-      type: 'text',
-      name: 'first_name',
-      placeholder: 'Ваня',
-      value: user.first_name,
-      label: 'Имя',
-    }),
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputSecondName',
-      type: 'text',
-      name: 'second_name',
-      placeholder: 'Иванов',
-      value: user.second_name,
-      label: 'Фамилия',
-    }),
-    new LabeledInput('li', {
-      attr: { class: 'labeledInputField' },
-      formId: 'profileUpdateForm',
-      id: 'inputPhone',
-      type: 'text',
-      name: 'phone',
-      placeholder: '+7 777 77 77 77',
-      value: user.phone,
-      label: 'Телефон',
-    }),
-  ],
+  fields: [],
   submitButton,
   backButton,
 });
 
-const ProfileUpdatePage = new Page('main', {
+const ProfileUpdatePage = new ConnectedPage('main', {
   content: profileLayout,
 });
+
+ProfileUpdatePage.componentDidMount = async () => {
+  await authController.getUser();
+
+  const { user } = ProfileUpdatePage.props;
+
+  if (user) {
+    const userInfo = user as UserObject;
+
+    if (userInfo.avatar) {
+      profileHeader.setProps({ avatarSrc: userInfo.avatar });
+    }
+
+    profileLayout.setProps({
+      fields: [
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputEmail',
+          type: 'text',
+          name: 'email',
+          placeholder: 'pochta@smth.com',
+          value: userInfo.email,
+          label: 'Почта',
+        }),
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputLogin',
+          type: 'text',
+          name: 'login',
+          placeholder: 'ivanchik',
+          value: userInfo.login,
+          label: 'Логин',
+        }),
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputDisplayName',
+          type: 'text',
+          name: 'display_name',
+          placeholder: 'Иван',
+          value: userInfo.email,
+          label: 'Имя в чате',
+        }),
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputFirstName',
+          type: 'text',
+          name: 'first_name',
+          placeholder: 'Ваня',
+          value: userInfo.first_name,
+          label: 'Имя',
+        }),
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputSecondName',
+          type: 'text',
+          name: 'second_name',
+          placeholder: 'Иванов',
+          value: userInfo.second_name,
+          label: 'Фамилия',
+        }),
+        new LabeledInput('li', {
+          attr: { class: 'labeledInputField' },
+          formId: 'profileUpdateForm',
+          id: 'inputPhone',
+          type: 'text',
+          name: 'phone',
+          placeholder: '+7 777 77 77 77',
+          value: userInfo.phone,
+          label: 'Телефон',
+        }),
+      ],
+    });
+  }
+};
 
 export default ProfileUpdatePage;

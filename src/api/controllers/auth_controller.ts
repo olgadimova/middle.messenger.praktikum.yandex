@@ -1,4 +1,4 @@
-import { Router } from 'shared/services';
+import { Router, store } from 'shared/services';
 import { AuthApi } from 'api/services';
 
 const authApi = new AuthApi();
@@ -49,7 +49,7 @@ export class AuthController {
   public async getUser() {
     try {
       const user: UserObject = await authApi.request();
-      console.log(user);
+      store.set('user', user);
     } catch (err) {
       throw new Error('Не удалось загрузить данные. Попробуйте снова.');
     }

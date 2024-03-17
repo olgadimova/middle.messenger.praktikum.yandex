@@ -1,4 +1,5 @@
 import { UserApi } from 'api/services';
+import { store } from 'shared/services';
 
 const userApi = new UserApi();
 
@@ -22,7 +23,7 @@ export class UserController {
 
     try {
       const updatedUser: UserObject = await userApi.update(data);
-      console.log('updated', updatedUser);
+      store.set('user', updatedUser);
     } catch (err) {
       throw new Error('Не удалось обновить профиль. Попробуйте позже.');
     }
@@ -34,7 +35,7 @@ export class UserController {
 
     try {
       const updatedUser: UserObject = await userApi.updateAvatar(formData);
-      console.log('updated', updatedUser);
+      store.set('user', updatedUser);
     } catch (err) {
       throw new Error('Не удалось обновить аватар. Попробуйте позже.');
     }

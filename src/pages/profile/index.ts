@@ -1,6 +1,6 @@
 import { AuthController } from 'api/controllers';
-import { LabeledField, Page, ProfileHeader, ProfileLayout, BackButton, Link } from 'shared/components';
-import { user } from 'shared/helpers';
+import { LabeledField, ProfileHeader, ProfileLayout, BackButton, Link, ConnectedPage } from 'shared/components';
+
 import { Router } from 'shared/services';
 
 const authController = new AuthController();
@@ -24,14 +24,7 @@ const profileLayout = new ProfileLayout('div', {
     class: 'profile',
   },
   profileHeader,
-  fields: [
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Почта', value: user.email }),
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Логин', value: user.login }),
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Имя', value: user.first_name }),
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Фамилия', value: user.second_name }),
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Имя в чате', value: user.display_name }),
-    new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Телефон', value: user.phone }),
-  ],
+  fields: [],
   backButton,
   profileFooter: [
     new Link('a', {
@@ -67,12 +60,33 @@ const profileLayout = new ProfileLayout('div', {
   ],
 });
 
-const ProfilePage = new Page('main', {
+const ProfilePage = new ConnectedPage('main', {
   content: profileLayout,
 });
 
 ProfilePage.componentDidMount = async () => {
   await authController.getUser();
+
+  const { user } = ProfilePage.props;
+
+  if (user) {
+    const userInfo = user as UserObject;
+
+    if (userInfo.avatar) {
+      profileHeader.setProps({ avatarSrc: userInfo.avatar });
+    }
+
+    profileLayout.setProps({
+      fields: [
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Почта', value: userInfo.email }),
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Логин', value: userInfo.login }),
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Имя', value: userInfo.first_name }),
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Фамилия', value: userInfo.second_name }),
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Имя в чате', value: userInfo.display_name }),
+        new LabeledField('li', { attr: { class: 'labeledField' }, title: 'Телефон', value: userInfo.phone }),
+      ],
+    });
+  }
 };
 
 export default ProfilePage;
