@@ -65,4 +65,18 @@ export class ChatsController {
       throw new Error('Не удалось удалить пользователей. Попробуйте снова.');
     }
   }
+
+  public async getChatUsers({ id }: { id: number }) {
+    const data = {
+      id,
+    };
+
+    try {
+      const users: UserObject[] = await chatsApi.requestChatUsers(data);
+      store.set('chatUsers', users);
+      return users.length;
+    } catch (err) {
+      throw new Error('Не удалось загрузить чаты. Попробуйте снова.');
+    }
+  }
 }

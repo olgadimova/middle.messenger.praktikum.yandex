@@ -8,6 +8,10 @@ export class ChatsApi extends BaseAPI {
     return chatsApiInstance.get('', { params });
   }
 
+  public requestChatUsers({ id }: { id: number }) {
+    return chatsApiInstance.get(`/${id}/users`);
+  }
+
   public create(data: Record<string, string>) {
     return chatsApiInstance.post('', { data });
   }
@@ -21,6 +25,6 @@ export class ChatsApi extends BaseAPI {
   }
 
   public deleteChatUsers(data: UpdateChatUsersParams) {
-    return chatsApiInstance.put('/users', { data });
+    return chatsApiInstance.delete('/users', { data });
   }
 }

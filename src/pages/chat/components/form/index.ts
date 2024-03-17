@@ -27,19 +27,12 @@ export class Form extends Component {
     }
   }
 
-  closeFormModal() {
-    const currentModal = document.querySelector('.modal');
-
-    if (currentModal) {
-      (currentModal as HTMLElement).style.display = 'none';
-    }
-  }
-
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
     const formId = form.id as string;
+    const chatId = form.getAttribute('data-chatid');
 
     const inputs = document.querySelectorAll(`#${formId} input`);
 
@@ -77,30 +70,44 @@ export class Form extends Component {
         switch (formId) {
           case ChatModalFormType.CREATE_CHAT: {
             await chatsController.createChat(formValues as CreateChatParams);
-            this.closeFormModal();
             await chatsController.getAllChats();
             break;
           }
           case ChatModalFormType.ADD_CHAT_USER: {
             const userId = await userController.searchUserById(formValues as SearchUserParams);
-            if (userId) {
-              // await chatsController.addChatUsers(formValues as UpdateChatUsersParams);
+
+            if (userId && !!chatId) {
+              await chatsController.addChatUsers({
+                users: [userId],
+                chatId: Number(chatId),
+              });
               break;
+            } else {
+              formError!.textContent = 'Пользователь не найден';
+              return;
             }
-            formError!.textContent = 'Пользователь не найден';
-            break;
           }
           case ChatModalFormType.DELETE_CHAT_USER: {
             const userId = await userController.searchUserById(formValues as SearchUserParams);
-            if (userId) {
-              // await chatsController.deleteChatUsers(formValues as UpdateChatUsersParams);
+            if (userId && !!chatId) {
+              await chatsController.deleteChatUsers({
+                users: [userId],
+                chatId: Number(chatId),
+              });
               break;
+            } else {
+              formError!.textContent = 'Пользователь не найден';
+              return;
             }
-            formError!.textContent = 'Пользователь не найден';
-            break;
           }
           default:
             break;
+        }
+
+        const currentModal = document.querySelector('.modal');
+
+        if (currentModal) {
+          (currentModal as HTMLElement).style.display = 'none';
         }
       } catch (err) {
         if (formError) {

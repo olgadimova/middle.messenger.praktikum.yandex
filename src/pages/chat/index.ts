@@ -139,6 +139,16 @@ const chatsHeader = new ChatsHeader('div', {
   }),
 });
 
+const sidebarSection = new SidebarSection('section', {
+  attr: {
+    class: 'sidebar',
+  },
+  header: chatsHeader,
+  chats: [],
+  chatsLength: 0,
+  selectedChatId: null,
+});
+
 const messagesHeader = new MessagesHeader('nav', {
   attr: {
     class: 'chatHeader',
@@ -150,7 +160,11 @@ const messagesHeader = new MessagesHeader('nav', {
     image: '<img src="/assets/trash.svg" width="22px" height="22px" alt="delete chat" />',
     events: {
       click: async () => {
-        // await chatsController.deleteChat();
+        // eslint-disable-next-line no-restricted-globals, no-alert
+        if (confirm('Вы уверены, что хотите удалить этот чат?')) {
+          await chatsController.deleteChat({ id: sidebarSection.props.selectedChatId as number });
+          await chatsController.getAllChats();
+        }
       },
     },
   }),
@@ -195,6 +209,7 @@ const messagesHeader = new MessagesHeader('nav', {
           manageChatModalForm.setProps({
             attr: {
               id: ChatModalFormType.ADD_CHAT_USER,
+              'data-chatid': (sidebarSection.props.selectedChatId as number).toString(),
             },
             formId: ChatModalFormType.ADD_CHAT_USER,
           });
@@ -240,6 +255,7 @@ const messagesHeader = new MessagesHeader('nav', {
           manageChatModalForm.setProps({
             attr: {
               id: ChatModalFormType.DELETE_CHAT_USER,
+              'data-chatid': (sidebarSection.props.selectedChatId as number).toString(),
             },
             formId: ChatModalFormType.DELETE_CHAT_USER,
           });
@@ -301,15 +317,6 @@ const messagesSection = new MessagesSection('section', {
   messages: [],
 });
 
-const sidebarSection = new SidebarSection('section', {
-  attr: {
-    class: 'sidebar',
-  },
-  header: chatsHeader,
-  chats: [],
-  chatsLength: 0,
-});
-
 const layout = new ChatLayout('div', {
   attr: {
     style: 'height: 100vh',
@@ -336,14 +343,26 @@ MessengerPage.componentDidMount = async () => {
     sidebarSection.setProps({
       chatsLength: chats.length,
       chats: chats.map(
-        (chat, index) =>
+        (chat) =>
           new ChatsItem('li', {
             ...chat,
-            attr: { class: 'sidebarChatItem' },
+            attr: { class: 'sidebarChatItem', id: chat.id.toString() },
             events: {
-              click: () => {
+              click: async () => {
+                const usersLength = await chatsController.getChatUsers({ id: chat.id });
+
+                sidebarSection.setProps({
+                  selectedChatId: chat.id,
+                });
+
                 messagesSection.setProps({
-                  selectedChatId: chats[index].id,
+                  selectedChatId: chat.id,
+                });
+
+                messagesHeader.setProps({
+                  chatTitle: chat.title,
+                  avatar: chat.avatar,
+                  usersLength,
                 });
               },
             },

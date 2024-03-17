@@ -1,9 +1,13 @@
 const tpl = `
 <div class="chatTitle">
 <div class="chatAvatar">
-    <img src="/assets/avatar.svg" width="40px" height="40px" alt="user avatar" />
+    <img src={{#if avatar}}
+        "https://ya-praktikum.tech/api/v2/resources/{{avatar}}"
+        {{else}}"/assets/avatar.svg"{{/if}} 
+        width='40px' height='40px' alt='chat image'
+    />
 </div>
-<p>Вадим</p>
+<p>{{chatTitle}}(участники: {{usersLength}})</p>
 </div>
 <div class="manageChat">
 {{{deleteChatButton}}}
