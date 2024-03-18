@@ -23,8 +23,9 @@
 }
 
 .itemStatusTime {
-  font-size: $fontBase;
+  font-size: $fontXs;
   color: $textSecondary;
+  max-width: 50px;
 }
 
 .itemStatusUnread {

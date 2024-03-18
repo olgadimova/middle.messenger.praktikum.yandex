@@ -79,4 +79,17 @@ export class ChatsController {
       throw new Error('Не удалось загрузить чаты. Попробуйте снова.');
     }
   }
+
+  public async getChatToken({ chatId }: { chatId: number }): Promise<string> {
+    const params = {
+      chatId,
+    };
+
+    try {
+      const data: Record<'token', string> = await chatsApi.getChatToken(params);
+      return data.token;
+    } catch (err) {
+      throw new Error('Не удалось загрузить чаты. Попробуйте снова.');
+    }
+  }
 }

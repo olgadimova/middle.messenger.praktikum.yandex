@@ -1,5 +1,13 @@
 import { EventBus } from '.';
 
+type Message = {
+  content: string;
+  id: number;
+  time: string;
+  type: string;
+  user_id: number;
+};
+
 enum WSTransportEvents {
   Error = 'error',
   Connected = 'open',
@@ -14,11 +22,11 @@ export class WSTransport extends EventBus {
 
   private readonly pingIntervalTime = 30000;
 
-  private url: string;
+  private url: string = 'wss://ya-praktikum.tech/ws';
 
   constructor(url: string) {
     super();
-    this.url = url;
+    this.url += url;
   }
 
   public send(data: string | number | object) {
@@ -29,12 +37,13 @@ export class WSTransport extends EventBus {
     this.socket.send(JSON.stringify(data));
   }
 
-  public connect(): Promise<void> {
+  public connect(url: string): Promise<void> {
     if (this.socket) {
       throw new Error('socket is already connected');
     }
 
-    this.socket = new WebSocket(this.url);
+    this.socket = new WebSocket(this.url + url);
+
     this.subscribe(this.socket);
     this.setupPing();
 
@@ -43,6 +52,9 @@ export class WSTransport extends EventBus {
       this.on(WSTransportEvents.Connected, () => {
         this.off(WSTransportEvents.Error, reject);
         resolve();
+      });
+      this.on(WSTransportEvents.Message, (message: Message) => {
+        console.log('hi message', message);
       });
     });
   }

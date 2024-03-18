@@ -1,6 +1,6 @@
 import { Input, Button, Link, ConnectedPage } from 'shared/components';
 import { handleValidateInput } from 'shared/helpers';
-import { ChatsController } from 'api/controllers';
+import { AuthController, ChatsController, MessagesController } from 'api/controllers';
 import { ChatModalFormType } from 'shared/types';
 
 import {
@@ -19,6 +19,8 @@ import {
 import './components/index.scss';
 
 const chatsController = new ChatsController();
+const messagesController = new MessagesController();
+const authController = new AuthController();
 
 const toggleManageChatModal = () => {
   const manageChatModal = document.getElementById('manageChatModal');
@@ -343,27 +345,37 @@ MessengerPage.componentDidMount = async () => {
     sidebarSection.setProps({
       chatsLength: chats.length,
       chats: chats.map(
-        (chat) =>
+        (chat: ChatObject) =>
           new ChatsItem('li', {
             ...chat,
+            last_message: {
+              ...chat.last_message,
+              time: chat.last_message ? new Date(chat.last_message.time).toLocaleString() : '',
+            },
             attr: { class: 'sidebarChatItem', id: chat.id.toString() },
             events: {
               click: async () => {
-                const usersLength = await chatsController.getChatUsers({ id: chat.id });
-
                 sidebarSection.setProps({
                   selectedChatId: chat.id,
                 });
 
-                messagesSection.setProps({
-                  selectedChatId: chat.id,
-                });
+                const token = await chatsController.getChatToken({ chatId: chat.id });
+                const user = await authController.getUser();
 
-                messagesHeader.setProps({
-                  chatTitle: chat.title,
-                  avatar: chat.avatar,
-                  usersLength,
-                });
+                if (token && user) {
+                  await messagesController.loadChat({ chatId: chat.id, token, userId: user.id });
+                  const usersLength = await chatsController.getChatUsers({ id: chat.id });
+
+                  messagesSection.setProps({
+                    selectedChatId: chat.id,
+                  });
+
+                  messagesHeader.setProps({
+                    chatTitle: chat.title,
+                    avatar: chat.avatar,
+                    usersLength,
+                  });
+                }
               },
             },
           }),

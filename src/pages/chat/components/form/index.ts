@@ -1,7 +1,7 @@
 import { Component } from 'shared/services';
 import { handleValidateInput } from 'shared/helpers';
 
-import { ChatsController, UserController } from 'api/controllers';
+import { ChatsController, UserController, MessagesController } from 'api/controllers';
 import { ChatModalFormType } from 'shared/types';
 
 import tpl from './tpl';
@@ -32,7 +32,6 @@ export class Form extends Component {
 
     const form = event.target as HTMLFormElement;
     const formId = form.id as string;
-    const chatId = form.getAttribute('data-chatid');
 
     const inputs = document.querySelectorAll(`#${formId} input`);
 
@@ -75,6 +74,7 @@ export class Form extends Component {
           }
           case ChatModalFormType.ADD_CHAT_USER: {
             const userId = await userController.searchUserById(formValues as SearchUserParams);
+            const chatId = form.getAttribute('data-chatid');
 
             if (userId && !!chatId) {
               await chatsController.addChatUsers({
@@ -89,6 +89,8 @@ export class Form extends Component {
           }
           case ChatModalFormType.DELETE_CHAT_USER: {
             const userId = await userController.searchUserById(formValues as SearchUserParams);
+            const chatId = form.getAttribute('data-chatid');
+
             if (userId && !!chatId) {
               await chatsController.deleteChatUsers({
                 users: [userId],
@@ -99,6 +101,11 @@ export class Form extends Component {
               formError!.textContent = 'Пользователь не найден';
               return;
             }
+          }
+          case ChatModalFormType.SEND_MESSAGE: {
+            const messagesController = new MessagesController();
+            messagesController.sendMessage(formValues as SendMessageParams);
+            break;
           }
           default:
             break;

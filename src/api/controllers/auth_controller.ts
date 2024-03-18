@@ -46,10 +46,11 @@ export class AuthController {
     }
   }
 
-  public async getUser() {
+  public async getUser(): Promise<UserObject> {
     try {
       const user: UserObject = await authApi.request();
       store.set('user', user);
+      return user;
     } catch (err) {
       throw new Error('Не удалось загрузить данные. Попробуйте снова.');
     }

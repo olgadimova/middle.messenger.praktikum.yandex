@@ -27,4 +27,8 @@ export class ChatsApi extends BaseAPI {
   public deleteChatUsers(data: UpdateChatUsersParams) {
     return chatsApiInstance.delete('/users', { data });
   }
+
+  public getChatToken({ chatId }: { chatId: number }) {
+    return chatsApiInstance.post(`/token/${chatId}`);
+  }
 }
