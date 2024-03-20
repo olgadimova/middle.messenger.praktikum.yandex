@@ -14,6 +14,6 @@ export class Page extends Component {
   }
 }
 
-const withStore = connect((state) => ({ user: state.user, chats: state.chats }));
+const withStore = connect((state) => ({ user: state.user, chats: state.chats, messages: state.messages }));
 
 export const ConnectedPage = withStore(Page);

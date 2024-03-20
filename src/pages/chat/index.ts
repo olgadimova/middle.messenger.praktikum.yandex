@@ -9,7 +9,7 @@ import {
   SidebarSection,
   MessagesHeader,
   MessagesFooter,
-  MessagesSection,
+  ConnectedMessagesSection,
   ChatLayout,
   Modal,
   ImageButton,
@@ -309,7 +309,7 @@ const messagesFooter = new MessagesFooter('div', {
   }),
 });
 
-const messagesSection = new MessagesSection('section', {
+const messagesSection = new ConnectedMessagesSection('section', {
   attr: {
     class: 'messages',
   },

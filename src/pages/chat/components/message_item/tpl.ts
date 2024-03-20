@@ -1,8 +1,8 @@
 const tpl = `
-<p>{{message.title}}</p>
+<p>{{content}}</p>
 <div class="chatMessageTime">
     <img src="/assets/check.svg" width="10px" height="10px" />
-    <span>{{message.createdAt}}</span>
+    <span>{{createdAt}}</span>
 </div>
 `;
 

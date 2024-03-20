@@ -29,7 +29,6 @@ export class Form extends Component {
 
   async handleSubmit(event: SubmitEvent) {
     event.preventDefault();
-
     const form = event.target as HTMLFormElement;
     const formId = form.id as string;
 

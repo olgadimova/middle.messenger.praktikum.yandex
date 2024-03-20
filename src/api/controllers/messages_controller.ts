@@ -12,6 +12,7 @@ export class MessagesController {
 
     try {
       await messagesApi.request({ params });
+      messagesApi.send({ content: '0', type: 'get old' });
     } catch (err) {
       throw new Error('Не удалось загрузить чат.');
     }

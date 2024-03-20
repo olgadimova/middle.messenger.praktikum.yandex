@@ -1,12 +1,4 @@
-import { EventBus } from '.';
-
-type Message = {
-  content: string;
-  id: number;
-  time: string;
-  type: string;
-  user_id: number;
-};
+import { EventBus, store } from 'shared/services';
 
 enum WSTransportEvents {
   Error = 'error',
@@ -39,7 +31,7 @@ export class WSTransport extends EventBus {
 
   public connect(url: string): Promise<void> {
     if (this.socket) {
-      throw new Error('socket is already connected');
+      this.socket.close();
     }
 
     this.socket = new WebSocket(this.url + url);
@@ -54,7 +46,7 @@ export class WSTransport extends EventBus {
         resolve();
       });
       this.on(WSTransportEvents.Message, (message: Message) => {
-        console.log('hi message', message);
+        store.set('messages', message);
       });
     });
   }
