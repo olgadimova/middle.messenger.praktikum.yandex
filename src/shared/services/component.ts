@@ -279,15 +279,9 @@ export class Component {
     return fragment.content;
   }
 
-  public show() {
-    if (this.element) {
-      this.element.style.display = 'initial';
-    }
-  }
-
   public hide() {
-    if (this.element) {
-      this.element.style.display = 'none';
+    if (this._element) {
+      this._element.remove();
     }
   }
 }

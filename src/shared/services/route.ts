@@ -46,7 +46,7 @@ export class Route {
         renderDOM(this._props.rootQuery, this._block);
       }
     } else {
-      this._block.show();
+      renderDOM(this._props.rootQuery, this._block);
     }
   }
 }
