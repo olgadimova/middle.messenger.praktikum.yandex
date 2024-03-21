@@ -12,6 +12,7 @@ const submitButton = new Button('button', {
 const authForm = new AuthLayout('div', {
   attr: {
     class: 'authForm',
+    id: 'loginForm',
   },
   formId: AuthFormType.LOGIN,
   title: 'Вход',
