@@ -1,32 +1,32 @@
-export default class EventBus {
-  listeners: Record<string, CallableFunction[]>;
+export class EventBus {
+  private _listeners: Record<string, CallableFunction[]>;
 
-  constructor() {
-    this.listeners = {};
+  public constructor() {
+    this._listeners = {};
   }
 
-  on(event: string, callback: CallableFunction) {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
+  public on(event: string, callback: CallableFunction) {
+    if (!this._listeners[event]) {
+      this._listeners[event] = [];
     }
 
-    this.listeners[event].push(callback);
+    this._listeners[event].push(callback);
   }
 
-  off(event: string, callback: CallableFunction) {
-    if (!this.listeners[event]) {
+  public off(event: string, callback: CallableFunction) {
+    if (!this._listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event] = this.listeners[event].filter((listener) => listener !== callback);
+    this._listeners[event] = this._listeners[event].filter((listener) => listener !== callback);
   }
 
-  emit(event: string, ...args: unknown[]) {
-    if (!this.listeners[event]) {
+  public emit(event: string, ...args: unknown[]) {
+    if (!this._listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
 
-    this.listeners[event].forEach((listener) => {
+    this._listeners[event].forEach((listener) => {
       listener(...args);
     });
   }

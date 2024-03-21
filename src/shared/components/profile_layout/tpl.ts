@@ -8,6 +8,8 @@ const tpl = `
     <div class="submitButton">
         {{{submitButton}}}
     </div>
+
+    <p id="formError" class="formError" />
 </form>
 {{else}}
 <div class="formInfo">
@@ -15,11 +17,10 @@ const tpl = `
         {{{fields}}}
     </ul>
 </div>
-<a href="/profile-update">Изменить данные</a>
-<hr />
-<a href="/password-update">Изменить пароль</a>
-<hr />
-<a href="/" class="logoutButton">Выйти</a>
+
+<div class="profileFooter">
+    {{{profileFooter}}}
+</div>
 {{/if}}
 
 {{{backButton}}}

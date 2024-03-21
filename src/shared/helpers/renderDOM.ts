@@ -1,4 +1,4 @@
-import Component from 'shared/services/component';
+import { Component } from 'shared/services';
 
 export const renderDOM = (query: string, block: Component) => {
   const root = document.querySelector(query);

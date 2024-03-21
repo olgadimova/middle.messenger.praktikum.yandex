@@ -1,14 +1,16 @@
 const tpl = `
-<h1 class="authTitle">Вход</h1>
+<h1 class="authTitle">{{title}}</h1>
 <form id="{{formId}}">
     <ul>
         {{{fields}}}
     </ul>
     <div class="authActionButtons">
-        {{{submitButton}}}
-    <a href="{{backTo}}">Нет аккаунта?</a>
+    {{{submitButton}}}
+    {{{link}}}
     </div>
 </form>
+
+<p id="formError" class="error" />
 `;
 
 export default tpl;

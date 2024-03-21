@@ -18,7 +18,9 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "paths": {
-      "shared/*": ["./src/shared/*"]
+      "shared/*": ["./src/shared/*"],
+      "pages/*": ["./src/pages/*"],
+      "api/*": ["./src/api/*"]
     }
   },
   "include": ["src"]

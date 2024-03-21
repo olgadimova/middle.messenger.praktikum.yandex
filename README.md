@@ -13,11 +13,11 @@
 Были реализованы следующие страницы:
 
 - Логин - https://keen-truffle-89ab96.netlify.app/
-- Регистрация - https://keen-truffle-89ab96.netlify.app/register
-- Список чатов - https://keen-truffle-89ab96.netlify.app/chat
+- Регистрация - https://keen-truffle-89ab96.netlify.app/sign-up
+- Список чатов - https://keen-truffle-89ab96.netlify.app/messenger
 - Профиль - https://keen-truffle-89ab96.netlify.app/profile
-- Обновить Профиль - https://keen-truffle-89ab96.netlify.app/profile-update
-- Обновить Пароль - https://keen-truffle-89ab96.netlify.app/password-update
+- Обновить Профиль - https://keen-truffle-89ab96.netlify.app/settings
+- Обновить Пароль - https://keen-truffle-89ab96.netlify.app/settings-password
 - 404 Ошибка - https://keen-truffle-89ab96.netlify.app/404
 - 500 Ошибка - https://keen-truffle-89ab96.netlify.app/500
 
