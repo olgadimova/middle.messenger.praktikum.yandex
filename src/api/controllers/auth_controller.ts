@@ -10,12 +10,17 @@ export class AuthController {
       password: params.password,
     };
 
+    const router = Router.getInstance();
+
     try {
       await authApi.login(data);
 
-      const router = Router.getInstance();
       router.go('/messenger');
     } catch (err) {
+      if((err as Error).message === 'User already in system'){
+        router.go('/messenger');
+      }
+
       throw new Error('Неверный логин или пароль');
     }
   }
