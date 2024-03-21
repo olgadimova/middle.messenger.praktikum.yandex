@@ -10,9 +10,12 @@ export class MessagesSection extends Component {
   }
 
   public componentDidUpdate(oldProps: ComponentProps, newProps: ComponentProps) {
-    if (oldProps.state && newProps.state && !isEqual(oldProps, newProps)) {
+    if (oldProps.selectedChatId !== newProps.selectedChatId) {
+      return true;
+    }
+
+    if (oldProps.state && newProps.state && !isEqual(oldProps.state, newProps.state)) {
       this.setProps({
-        selectedChatId: newProps.selectedChatId,
         messages: newProps.state.messages
           .sort((a: Message, b: Message) => (a.time < b.time ? -1 : 1))
           .map((message: Message) => {

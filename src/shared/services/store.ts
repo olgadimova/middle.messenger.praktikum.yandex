@@ -15,6 +15,8 @@ type Indexed<T = unknown> = {
   [key in string]: T;
 };
 
+type ArrayOfObjects = Array<Record<string, string | number>>;
+
 class Store extends EventBus {
   private state: State = {
     user: null,
@@ -44,7 +46,10 @@ class Store extends EventBus {
       }
 
       if (isPlainObject(value) && isArray(state[val]) && (state[val] as []).length) {
-        acc = { [val]: [...(state[val] as []), value] };
+        const exists = (state[val] as ArrayOfObjects).some((item) => item.id === value.id);
+        if (exists) return acc;
+
+        acc = { [val]: [...(state[val] as ArrayOfObjects), value] };
         return acc;
       }
 

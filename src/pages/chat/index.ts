@@ -1,5 +1,5 @@
 import { Input, Button, Link, ConnectedPage } from 'shared/components';
-import { handleValidateInput } from 'shared/helpers';
+import { handleValidateInput, isEqual } from 'shared/helpers';
 import { AuthController, ChatsController, MessagesController } from 'api/controllers';
 import { ChatModalFormType } from 'shared/types';
 
@@ -166,6 +166,9 @@ const messagesHeader = new MessagesHeader('nav', {
         if (confirm('Вы уверены, что хотите удалить этот чат?')) {
           await chatsController.deleteChat({ id: sidebarSection.props.selectedChatId as number });
           await chatsController.getAllChats();
+          messagesSection.setProps({
+            selectedChatId: null,
+          });
         }
       },
     },
@@ -334,54 +337,58 @@ const MessengerPage = new ConnectedPage('main', {
 
 MessengerPage.componentDidMount = async () => {
   await chatsController.getAllChats();
+};
 
-  if (!MessengerPage.props.state) {
-    return;
-  }
+MessengerPage.componentDidUpdate = (oldProps, newProps) => {
+  if (oldProps.state && newProps.state && !isEqual(oldProps.state.chats, newProps.state.chats)) {
+    const { chats } = newProps.state;
 
-  const { chats } = MessengerPage.props.state;
-
-  if (chats) {
-    sidebarSection.setProps({
-      chatsLength: chats.length,
-      chats: chats.map(
-        (chat: ChatObject) =>
-          new ChatsItem('li', {
-            ...chat,
-            last_message: {
-              ...chat.last_message,
-              time: chat.last_message ? new Date(chat.last_message.time).toLocaleString() : '',
-            },
-            attr: { class: 'sidebarChatItem', id: chat.id.toString() },
-            events: {
-              click: async () => {
-                sidebarSection.setProps({
-                  selectedChatId: chat.id,
-                });
-
-                const token = await chatsController.getChatToken({ chatId: chat.id });
-                const user = await authController.getUser();
-
-                if (token && user) {
-                  await messagesController.loadChat({ chatId: chat.id, token, userId: user.id });
-                  const usersLength = await chatsController.getChatUsers({ id: chat.id });
-
-                  messagesSection.setProps({
+    if (chats) {
+      sidebarSection.setProps({
+        chatsLength: chats.length,
+        chats: chats.map(
+          (chat: ChatObject) =>
+            new ChatsItem('li', {
+              ...chat,
+              last_message: {
+                ...chat.last_message,
+                time: chat.last_message ? new Date(chat.last_message.time).toLocaleString() : '',
+              },
+              attr: { class: 'sidebarChatItem', id: chat.id.toString() },
+              events: {
+                click: async () => {
+                  sidebarSection.setProps({
                     selectedChatId: chat.id,
                   });
 
-                  messagesHeader.setProps({
-                    chatTitle: chat.title,
-                    avatar: chat.avatar,
-                    usersLength,
-                  });
-                }
+                  const token = await chatsController.getChatToken({ chatId: chat.id });
+                  const user = await authController.getUser();
+
+                  if (token && user) {
+                    await messagesController.loadChat({ chatId: chat.id, token, userId: user.id });
+                    const usersLength = await chatsController.getChatUsers({ id: chat.id });
+
+                    messagesSection.setProps({
+                      selectedChatId: chat.id,
+                    });
+
+                    messagesHeader.setProps({
+                      chatTitle: chat.title,
+                      avatar: chat.avatar,
+                      usersLength,
+                    });
+                  }
+                },
               },
-            },
-          }),
-      ),
-    });
+            }),
+        ),
+      });
+    }
+
+    return true;
   }
+
+  return false;
 };
 
 export default MessengerPage;

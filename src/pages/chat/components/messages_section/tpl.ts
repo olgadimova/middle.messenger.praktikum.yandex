@@ -3,7 +3,6 @@ const tpl = `
     {{{header}}} 
     <div class="chatBody">
         <div class="chatNotEmpty">
-        <p class="chatMessageDate">20 июня</p>
         {{{messages}}}
         </div>
     </div>
