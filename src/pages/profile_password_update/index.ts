@@ -1,5 +1,6 @@
 import { AuthController } from 'api/controllers';
 import { LabeledInput, ProfileHeader, ProfileLayout, Button, BackButton, ConnectedPage } from 'shared/components';
+
 import { ProfileFormType } from 'shared/types';
 
 const authController = new AuthController();
@@ -67,6 +68,7 @@ const profileLayout = new ProfileLayout('div', {
   ],
   submitButton,
   backButton,
+  errorText: '',
 });
 
 const ProfilePasswordUpdatePage = new ConnectedPage('main', {
@@ -74,19 +76,28 @@ const ProfilePasswordUpdatePage = new ConnectedPage('main', {
 });
 
 ProfilePasswordUpdatePage.componentDidMount = async () => {
+  const formError = document.getElementById('formError');
+  if (formError) {
+    formError.textContent = '';
+  }
+
   await authController.getUser();
+};
 
-  if (!ProfilePasswordUpdatePage.props.state) {
-    return;
-  }
+ProfilePasswordUpdatePage.componentDidUpdate = (_oldProps, newProps) => {
+  if (newProps.state) {
+    const { user } = newProps.state;
 
-  const { user } = ProfilePasswordUpdatePage.props.state;
-
-  if (user) {
-    if (user.avatar) {
-      profileHeader.setProps({ avatarSrc: user.avatar });
+    if (user) {
+      if (user.avatar) {
+        profileHeader.setProps({ avatarSrc: user.avatar, userName: user.first_name });
+      }
     }
+
+    return true;
   }
+
+  return false;
 };
 
 export default ProfilePasswordUpdatePage;

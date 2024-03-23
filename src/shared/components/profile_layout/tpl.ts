@@ -9,7 +9,7 @@ const tpl = `
         {{{submitButton}}}
     </div>
 
-    <p id="formError" class="formError" />
+    <p id="formError" class="error">{{errorText}}</p>
 </form>
 {{else}}
 <div class="formInfo">
