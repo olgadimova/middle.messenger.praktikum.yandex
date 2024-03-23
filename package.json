@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run lint && vite",
+    "dev": "npm run lint && vite --open",
     "build": "vite build",
     "start": "npm run lint && npm run build && node server.cjs",
     "preview": "vite preview",

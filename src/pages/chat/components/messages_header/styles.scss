@@ -18,6 +18,11 @@
   gap: 20px;
 }
 
+.chatAvatar {
+  border-radius: 50%;
+  overflow: clip;
+}
+
 .manageChat {
   position: relative;
   overflow: visible;

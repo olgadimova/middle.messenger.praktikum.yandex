@@ -354,6 +354,7 @@ MessengerPage.componentDidUpdate = (oldProps, newProps) => {
                 ...chat.last_message,
                 time: chat.last_message ? new Date(chat.last_message.time).toLocaleString() : '',
               },
+              avatarSrc: chat.avatar,
               attr: { class: 'sidebarChatItem', id: chat.id.toString() },
               events: {
                 click: async () => {
