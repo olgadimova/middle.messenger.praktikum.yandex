@@ -105,13 +105,14 @@ export class ProfileLayout extends Component {
           }
           case ProfileFormType.PASSWORD: {
             await userController.updatePassword(formValues as UserPasswordParams);
+            if (formError) {
+              formError.textContent = 'Данные успешно обновлены!';
+            }
+            form.reset();
             break;
           }
           default:
             break;
-        }
-        if (formError) {
-          formError.textContent = 'Данные успешно обновлены!';
         }
       } catch (err) {
         if (formError) {
