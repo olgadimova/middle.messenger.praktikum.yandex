@@ -1,0 +1,52 @@
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba($black, 0.5);
+
+  .modalContent {
+    background-color: $backgroundLight;
+    margin: auto;
+    padding: 10px 20px;
+    border: 1px solid $border;
+    width: 340px;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .modalForm {
+    margin: 20px 0;
+  }
+
+  .title {
+    text-align: center;
+    margin: 30px 10px 10px;
+  }
+
+  .closeModal {
+    background-color: transparent;
+    color: $textSecondary;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .closeModal:hover,
+  .closeModal:focus {
+    color: $primary;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .error {
+    color: $error;
+    text-align: center;
+  }
+}

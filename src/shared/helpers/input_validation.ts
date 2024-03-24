@@ -1,11 +1,4 @@
-import {
-  messagePattern,
-  namePattern,
-  passwordPattern,
-  phonePattern,
-  loginPattern,
-  emailPattern,
-} from './regex_patterns';
+import { messagePattern, namePattern, passwordPattern, phonePattern, loginPattern, emailPattern } from 'shared/helpers';
 
 export const handleValidateInput = (input: HTMLInputElement, formId: string): boolean => {
   let inputErrorText = document.getElementById(`error-${formId}-${input.name}`);

@@ -1,0 +1,11 @@
+.link {
+  padding: 10px 0;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.withSeparator {
+  border-bottom: 1px solid $border;
+}

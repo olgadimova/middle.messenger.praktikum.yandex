@@ -1,0 +1,14 @@
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: right;
+  padding: 15px 10px;
+
+  .chatAvatar {
+    background-color: $border;
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+  }
+}

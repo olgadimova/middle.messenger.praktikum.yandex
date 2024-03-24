@@ -13,6 +13,16 @@
   width: 50%;
 }
 
+.profileFooter {
+  display: flex;
+  flex-direction: column;
+}
+
 .logoutButton {
   color: $error;
+}
+
+.error {
+  color: $error;
+  text-align: center;
 }

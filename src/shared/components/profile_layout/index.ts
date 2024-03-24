@@ -1,5 +1,8 @@
-import Component from 'shared/services/component';
-import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers/input_validation';
+import { Component } from 'shared/services';
+import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers';
+import { UserController } from 'api/controllers';
+import { ProfileFormType } from 'shared/types';
+
 import tpl from './tpl';
 
 export class ProfileLayout extends Component {
@@ -10,11 +13,11 @@ export class ProfileLayout extends Component {
   addEvents() {
     super.addEvents();
 
-    const authFormId = this._props.formId as string;
+    const authFormId = this.props.formId as string;
 
-    const authForm: HTMLElement | null | undefined = this._element?.querySelector(`#${authFormId}`);
+    const authForm: HTMLElement | null | undefined = this.element?.querySelector(`#${authFormId}`);
 
-    const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
+    const inputs = this.element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
       authForm?.addEventListener('submit', this.handleSubmit);
@@ -30,9 +33,9 @@ export class ProfileLayout extends Component {
   removeEvents() {
     super.removeEvents();
 
-    const formId = this._props.formId as string;
-    const profileForm: HTMLElement | null | undefined = this._element?.querySelector(`#${formId}`);
-    const inputs = this._element?.querySelectorAll(`#${formId} input`);
+    const formId = this.props.formId as string;
+    const profileForm: HTMLElement | null | undefined = this.element?.querySelector(`#${formId}`);
+    const inputs = this.element?.querySelectorAll(`#${formId} input`);
 
     if (profileForm) {
       profileForm.removeEventListener('submit', this.handleSubmit);
@@ -58,7 +61,7 @@ export class ProfileLayout extends Component {
     }
   }
 
-  handleSubmit(event: Event) {
+  async handleSubmit(event: Event) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -91,7 +94,31 @@ export class ProfileLayout extends Component {
         formValues[key] = value;
       }
 
-      console.log(formValues);
+      const userController = new UserController();
+      const formError = document.querySelector('#formError');
+
+      try {
+        switch (formId) {
+          case ProfileFormType.INFO: {
+            await userController.updateProfile(formValues as UserProfileParams);
+            break;
+          }
+          case ProfileFormType.PASSWORD: {
+            await userController.updatePassword(formValues as UserPasswordParams);
+            if (formError) {
+              formError.textContent = 'Данные успешно обновлены!';
+            }
+            form.reset();
+            break;
+          }
+          default:
+            break;
+        }
+      } catch (err) {
+        if (formError) {
+          formError.textContent = (err as Error).message;
+        }
+      }
     }
   }
 }

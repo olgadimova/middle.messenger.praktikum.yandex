@@ -1,5 +1,9 @@
-import Component from 'shared/services/component';
-import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers/input_validation';
+import { Component } from 'shared/services';
+import { handleCheckPasswordValidate, handleValidateInput } from 'shared/helpers';
+
+import { AuthFormType } from 'shared/types';
+import { AuthController } from 'api/controllers';
+
 import tpl from './tpl';
 
 export class AuthLayout extends Component {
@@ -10,11 +14,11 @@ export class AuthLayout extends Component {
   addEvents() {
     super.addEvents();
 
-    const authFormId = this._props.formId as string;
+    const authFormId = this.props.formId as string;
 
-    const authForm: HTMLElement | null | undefined = this._element?.querySelector(`#${authFormId}`);
+    const authForm: HTMLElement | null | undefined = this.element?.querySelector(`#${authFormId}`);
 
-    const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
+    const inputs = this.element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
       authForm?.addEventListener('submit', this.handleSubmit);
@@ -30,11 +34,11 @@ export class AuthLayout extends Component {
   removeEvents() {
     super.removeEvents();
 
-    const authFormId = this._props.formId as string;
+    const authFormId = this.props.formId as string;
 
-    const authForm: HTMLElement | null | undefined = this._element?.querySelector(`#${authFormId}`);
+    const authForm: HTMLElement | null | undefined = this.element?.querySelector(`#${authFormId}`);
 
-    const inputs = this._element?.querySelectorAll(`#${authFormId} input`);
+    const inputs = this.element?.querySelectorAll(`#${authFormId} input`);
 
     if (authForm) {
       authForm?.removeEventListener('submit', this.handleSubmit);
@@ -60,7 +64,7 @@ export class AuthLayout extends Component {
     }
   }
 
-  handleSubmit(event: Event) {
+  async handleSubmit(event: Event) {
     event.preventDefault();
 
     const form = event.target as HTMLFormElement;
@@ -86,14 +90,37 @@ export class AuthLayout extends Component {
     }
 
     if (validationResults.every((isValid) => isValid)) {
-      let formValues: Record<string, FormDataEntryValue> = {};
+      let formValues: Record<string, string> = {};
 
       for (let pair of formData.entries()) {
         const [key = pair[0], value = pair[1]] = [...pair];
-        formValues[key] = value;
+        formValues[key] = value.toString();
       }
 
-      console.log(formValues);
+      const authController = new AuthController();
+      const formError = document.querySelector('#formError');
+
+      try {
+        switch (authFormId) {
+          case AuthFormType.LOGIN: {
+            await authController.login(formValues as LoginParams);
+            break;
+          }
+          case AuthFormType.REGISTER: {
+            await authController.register(formValues as RegisterParams);
+            break;
+          }
+          default:
+            break;
+        }
+        if (formError) {
+          formError.textContent = '';
+        }
+      } catch (err) {
+        if (formError) {
+          formError.textContent = (err as Error).message;
+        }
+      }
     }
   }
 }

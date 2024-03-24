@@ -1,0 +1,13 @@
+.chatFooter {
+  width: 100%;
+  height: 70px;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  bottom: 0;
+  padding: 5px 20px;
+  border-top: 1px solid $border;
+  gap: 10px;
+  background-color: $background;
+}
