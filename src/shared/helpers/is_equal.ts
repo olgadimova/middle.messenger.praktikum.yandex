@@ -1,4 +1,6 @@
 import { isArray, isArrayOrObject } from 'shared/helpers';
+import { PlainObject } from 'shared/types/models/plain_object';
+
 
 export const isEqual = (lhs: PlainObject | unknown[], rhs: PlainObject | unknown[]): boolean => {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {

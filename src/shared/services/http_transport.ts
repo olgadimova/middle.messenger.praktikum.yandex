@@ -1,4 +1,4 @@
-import { queryStringify } from 'shared/helpers';
+import { queryStringify } from '../helpers/query_stringify.ts';
 
 enum FetchMethodsEnum {
   GET = 'GET',
@@ -28,7 +28,11 @@ export class HTTP {
   }
 
   public get = (url: RequestUrlType, options?: RequestOptionsType) =>
-    this.request(url, { ...options, method: FetchMethodsEnum.GET }, options?.timeout);
+    this.request(
+      options?.params ? `${url}?${queryStringify(options.params)}` : url,
+      { ...options, method: FetchMethodsEnum.GET },
+      options?.timeout,
+    );
 
   public post = (url: RequestUrlType, options?: RequestOptionsType) =>
     this.request(url, { ...options, method: FetchMethodsEnum.POST }, options?.timeout);
@@ -44,13 +48,12 @@ export class HTTP {
     options: RequestOptionsType,
     timeout = 5000,
   ): Promise<XMLHttpRequest['response'] | void> => {
-    const { method = FetchMethodsEnum.GET, data, headers = {}, withCredentials = true, params } = options;
+    const { method = FetchMethodsEnum.GET, data, headers = {}, withCredentials = true } = options;
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
 
-      const isGet = method === FetchMethodsEnum.GET;
-      xhr.open(method, isGet && !!params ? `${this._prefix}?${url}${queryStringify(params)}` : `${this._prefix}${url}`);
+      xhr.open(method, `${this._prefix}${url}`);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);

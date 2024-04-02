@@ -1,3 +1,5 @@
+import { PlainObject } from 'shared/types/models/plain_object';
+
 export const isPlainObject = (value: unknown): value is PlainObject =>
   typeof value === 'object' &&
   value !== null &&
