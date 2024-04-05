@@ -9,12 +9,9 @@
     "start": "npm run lint && npm run build && node server.cjs",
     "preview": "vite preview",
     "lint": "node_modules/.bin/eslint . && tsc --noEmit",
-    "test": "ts-mocha"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test"
-    }
+    "test": "ts-mocha",
+    "precommit": "npm run lint && npm run test",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/chai": "^4.3.14",
@@ -31,7 +28,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
-    "husky": "^9.0.11",
+    "husky": "^8.0.3",
     "jsdom": "^24.0.0",
     "mocha": "^10.4.0",
     "sass": "^1.70.0",
