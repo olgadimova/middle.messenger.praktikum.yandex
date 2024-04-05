@@ -9,8 +9,12 @@
     "start": "npm run lint && npm run build && node server.cjs",
     "preview": "vite preview",
     "lint": "node_modules/.bin/eslint . && tsc --noEmit",
-    "test": "ts-mocha",
-    "prepare": "husky"
+    "test": "ts-mocha"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test"
+    }
   },
   "devDependencies": {
     "@types/chai": "^4.3.14",
