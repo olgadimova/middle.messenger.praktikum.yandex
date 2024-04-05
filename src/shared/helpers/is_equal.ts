@@ -1,6 +1,5 @@
-import { isArray, isArrayOrObject } from 'shared/helpers';
-import { PlainObject } from 'shared/types/models/plain_object';
-
+import { isArray, isArrayOrObject } from './query_stringify.ts';
+import { PlainObject } from '../types/models/plain_object.ts';
 
 export const isEqual = (lhs: PlainObject | unknown[], rhs: PlainObject | unknown[]): boolean => {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {

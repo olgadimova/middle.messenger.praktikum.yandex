@@ -18,7 +18,7 @@ describe('HTTP Trasport', () => {
 
   afterEach(() => sandbox.restore());
 
-  it('strigifies query object for GET request', () => {
+  it('stringifies query object for GET request', () => {
     http.get('/chat', { params: { a: 1, b: 1 } });
 
     chai.expect(request).calledWithMatch('/chat?a=1&b=1', { params: { a: 1, b: 1 }, method: 'GET' });
