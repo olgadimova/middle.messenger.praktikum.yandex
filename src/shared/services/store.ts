@@ -1,5 +1,5 @@
-import { isArray, isPlainObject } from 'shared/helpers';
-import { EventBus } from 'shared/services';
+import { isArray, isPlainObject } from '../helpers';
+import { EventBus } from './event_bus';
 
 export type State = {
   user: UserObject | null;

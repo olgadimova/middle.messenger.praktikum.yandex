@@ -1,7 +1,8 @@
 import { v4 as makeUUID } from 'uuid';
 import Handlebars from 'handlebars';
 
-import { EventBus, type State } from 'shared/services';
+import { EventBus } from './event_bus.ts';
+import { type State } from './store.ts';
 
 type ExtendedHTMLElement = HTMLElement & {
   id?: string;

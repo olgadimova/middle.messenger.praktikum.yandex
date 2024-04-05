@@ -1,5 +1,5 @@
-import { Component } from 'shared/services';
-import { renderDOM } from 'shared/helpers';
+import { Component } from './component.ts';
+import { renderDOM } from '../helpers/renderDOM.ts';
 
 type RouteProps = {
   rootQuery: string;
