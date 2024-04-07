@@ -1,4 +1,5 @@
-import { Route, Component } from 'shared/services';
+import { Component } from './component.ts';
+import { Route } from './route.ts';
 
 export class Router {
   private _currentRoute: Route | null | undefined = null;
@@ -40,7 +41,11 @@ export class Router {
   }
 
   public static getInstance() {
-    return Router.__instance;
+    if (Router.__instance) {
+      return Router.__instance;
+    }
+
+    return new Router('');
   }
 
   public use(pathname: string, block: Component) {
